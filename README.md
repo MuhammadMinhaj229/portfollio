@@ -7,4 +7,5 @@
 - Media Queries for Responsiveness
 
 ## 💡 How to Run Locally
-1. Clone this repository:
+1. Clone this repository: git clone https://github.com/MuhammadMinhaj229/my-portfolio.git
+
