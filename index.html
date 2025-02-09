@@ -1,0 +1,287 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+    <link rel="stylesheet" href="assets/css/style.css" />
+    <link rel="stylesheet" href="assets/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
+</head>
+
+<body>
+    <header class="header">
+        <h2 style="font-size: 2rem; cursor: default; font-weight: 400;">Muhammad Minhaj</h2><br><br>
+        <ul class="menu">
+            <li><a href="index.html#about" class="a">About</a></li>
+            <li><a href="index.html#experience" class="a">Experience</a> </li>
+            <li><a href="index.html#projects" class="a">Project</a></li>
+            <li><a href="index.html#contact" class="a">Contact</a></li>
+        </ul>
+    </header>
+    <section id="profile">
+        <div class="pic-container">
+            <img src="assets/img/b3.jpg" style="border-radius: 50%;">
+        </div>
+        <div class="content-container">
+            <p class="section__text__p1" style="text-align: center;">Hello, I'm</p>
+            <h1 class="title">Muhammad Minhaj</h1><br>
+            <p class="section__text__p2">Data scientist</p>
+            <div class="btn-container">
+                <button class="btn btn-color-2" onclick="downloadCV()">Download CV</button>
+
+                <script>
+                function downloadCV() {
+                    // Change this to the correct relative path or an online URL
+                    const cvPath = "assets/Muhammad_Minhaj_Resume.pdf"; 
+                    
+                    const link = document.createElement("a");
+                    link.href = cvPath;
+                    link.download = "assets/Muhammad_Minhaj_Resume.pdf"; // Sets the default download filename
+                    document.body.appendChild(link);
+                    link.click();
+                    document.body.removeChild(link);
+                }
+                </script>
+               <button class="btn btn-color-1" onclick="downloadContactInfo()">Contact Info</button>
+
+               <script>
+               function downloadContactInfo() {
+                   const pdfPath = "assets/Muhammad_Minhaj_Contact_Updated.pdf"; // Ensure this path is correct
+                   const link = document.createElement("a");
+                   link.href = pdfPath;
+                   link.download = "assets/Muhammad_Minhaj_Contact_Updated.pdf";
+                   document.body.appendChild(link);
+                   link.click();
+                   document.body.removeChild(link);
+               }
+               </script>
+               
+            <div class="socials-container">
+                <img src="assets/img/linkedin.png">
+                <img src="assets/img/github.png">
+            </div>
+        </div>
+    </section>
+    <section id="about">
+        <p class="section__text__p1">Get To Know More</p>
+        <h1 class="title">About Me</h1><br><br>
+        <div class="section-container">
+            <div class="section__pic-container">
+                <img src="assets/img/b2.jpg" alt="Profile picture" class="about-pic">
+            </div>
+            <div class="about-details-container">
+                <div class="about-containers">
+                    <div class="details-container">
+                        <img src="assets/img/experience.png" alt="Experience icon" class="icon">
+                        <h3>Experience</h3>
+                        <p>Fresher <br></p>
+                    </div>
+                    <div class="details-container">
+                        <img src="assets/img/education.png" alt="Education icon" class="icon">
+                        <h3>Education</h3>
+                        <p>B.tech computer science (Data science)<br></p>
+                    </div>
+                </div>
+                <div class="text-container">
+                    <p>
+                        As a dedicated and curious BTech student specializing in Computer Science with a focus on Data
+                        Science, I am passionate about exploring the digital world. My journey in the tech space is
+                        fueled by a deep interest in data analysis, data engineering, and data science. With a strong
+                        foundation in programming languages like Python and C, I am eager to apply my knowledge to
+                        real-world challenges. My goal is to continuously learn, grow, and contribute to innovative
+                        projects that make a difference."
+                    </p>
+                </div>
+            </div>
+        </div>
+        <img src="assets/img/arrow.png" alt="Arrow icon" class="icon arrow"
+            onclick="location.href='index.html#experience'">
+    </section>
+    <section id="experience"><br><br>
+        <p class="section__text__p1">Explore My</p>
+        <h1 class="title">Experience</h1>
+        <div class="experience-details-container">
+            <div class="about-containers">
+                <div class="details-container">
+                    <h2 class="experience-sub-title">Mern fullstack developer</h2>
+                    <div class="article-container">
+                        <article>
+                            <img src="assets/img/checkmark.png" alt="Experience icon" class="icon" />
+                            <div>
+                                <h3>HTML</h3>
+                                <p>Experienced</p>
+                            </div>
+                        </article>
+                        <article>
+                            <img src="assets/img/checkmark.png" alt="Experience icon" class="icon" />
+                            <div>
+                                <h3>CSS</h3>
+                                <p>Experienced</p>
+                            </div>
+                        </article>
+                        <article>
+                            <img src="assets/img/checkmark.png" alt="Experience icon" class="icon" />
+                            <div>
+                                <h3>SASS</h3>
+                                <p>Intermediate</p>
+                            </div>
+                        </article>
+                        <article>
+                            <img src="assets/img/checkmark.png" alt="Experience icon" class="icon" />
+                            <div>
+                                <h3>JavaScript</h3>
+                                <p>Basic</p>
+                            </div>
+                        </article>
+                        <article>
+                            <img src="assets/img/checkmark.png" alt="Experience icon" class="icon" />
+                            <div>
+                                <h3>TypeScript</h3>
+                                <p>Basic</p>
+                            </div>
+                        </article>
+                        <article>
+                            <img src="assets/img/checkmark.png" alt="Experience icon" class="icon" />
+                            <div>
+                                <h3>Material UI</h3>
+                                <p>Intermediate</p>
+                            </div>
+                        </article>
+                    </div>
+                </div>
+                <div class="details-container">
+                    <h2 class="experience-sub-title">Frontend Development</h2>
+                    <div class="article-container">
+                        <article>
+                            <img src="assets/img/checkmark.png" alt="Experience icon" class="icon" />
+                            <div>
+                                <h3>PostgreSQL</h3>
+                                <p>Basic</p>
+                            </div>
+                        </article>
+                        <article>
+                            <img src="assets/img/checkmark.png" alt="Experience icon" class="icon" />
+                            <div>
+                                <h3>Node JS</h3>
+                                <p>Intermediate</p>
+                            </div>
+                        </article>
+                        <article>
+                            <img src="assets/img/checkmark.png" alt="Experience icon" class="icon" />
+                            <div>
+                                <h3>Express JS</h3>
+                                <p>Intermediate</p>
+                            </div>
+                        </article>
+                        <article>
+                            <img src="assets/img/checkmark.png" alt="Experience icon" class="icon" />
+                            <div>
+                                <h3>Git</h3>
+                                <p>Intermediate</p>
+                            </div>
+                        </article>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <img src="assets/img/arrow.png" alt="Arrow icon" class="icon arrow"
+            onclick="location.href='index.html#projects'" />
+    </section>
+    <section id="projects">
+        <p class="section__text__p1">Browse My Recent</p>
+        <h1 class="title">Projects</h1>
+        <div class="experience-details-container">
+            <div class="about-containers">
+                <div class="details-container color-container">
+                    <div class="article-container">
+                        <img src="assets\img\spotify.png" alt="Project 1" class="project-img" />
+                    </div>S
+                    <h2 class="experience-sub-title project-title">Spotify Clone</h2>
+                    <div class="btn-container">
+                        <button class="btn btn-color-2 project-btn"
+                            onclick="location.href='https://github.com/MuhammadMinhaj229'">
+                            Github
+                        </button>
+                        <button class="btn btn-color-2 project-btn"
+                            onclick="location.href='https://spotify-project-bc53.onrender.com'">
+                            Live Demo
+                        </button>
+                    </div>
+                </div>
+                <div class="details-container color-container">
+                    <div class="article-container">
+                        <img src="assets/img/smartparking.jpg" alt="Project 2" class="project-img" />
+                    </div>
+                    <h2 class="experience-sub-title project-title">Smart parking optimization <br> IN PROGRESS</h2>
+                    <div class="btn-container">
+                        <button class="btn btn-color-2 project-btn"
+                            onclick="location.href='https://github.com/MuhammadMinhaj229'">
+                            Github
+                        </button>
+                        <button class="btn btn-color-2 project-btn"
+                            onclick="location.href='https://github.com/dashboard'">
+                            Live Demo
+                        </button>
+                    </div>
+                </div>
+                <div class="details-container color-container">
+                    <div class="article-container">
+                        <img src="assets/img/project-3.png" alt="Project 3" class="project-img" />
+                    </div>
+                    <h2 class="experience-sub-title project-title">Project Three in progress</h2>
+                    <div class="btn-container">
+                        <button class="btn btn-color-2 project-btn" onclick="location.href='https://github.com/dashboard'">
+                            Github
+                        </button>
+                        <button class="btn btn-color-2 project-btn" onclick="location.href='https://github.com/dashboard'">
+                            Live Demo
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <img src="assets/img/arrow.png" alt="Arrow icon" class="icon arrow"
+            onclick="location.href='index.html#contact'" />
+    </section>
+    <section id="contact">
+        <p class="section__text__p1">Get in Touch</p>
+        <h1 class="title">Contact Me</h1>
+        <div class="contact-info-upper-container">
+            <div class="contact-info-container">
+                <img src="assets/img/email.png" alt="Email icon" class="icon contact-icon email-icon" />
+                <p><a href="mailto:minhajmuhammad229@gmail.com">minhajmuhammad229@gmail.com</a></p>
+            </div>
+            <div class="contact-info-container">
+                <img src="assets/img/linkedin.png" alt="LinkedIn icon" class="icon contact-icon" />
+                <p><a
+                        href="https://www.linkedin.com/in/muhammad-minhaj-37b47a292?utm_source=share&utm_campaign=share_via&utm_content=profile&utm_medium=android_app">LinkedIn</a>
+                </p>
+            </div>
+            <div class="contact-info-container">
+                <img src="assets/img/phone.jpg" alt="phone icon" class="icon contact-icon phone-icon" />
+                <p><a hrfe="9908597337" >9908597337</a></p>
+            </div>
+
+        </div>
+    </section>
+    <footer>
+        <nav>
+            <div class="nav-links-container">
+                <ul class="nav-links">
+                    <li><a href="#about">About</a></li>
+                    <li><a href="#experience">Experience</a></li>
+                    <li><a href="#projects">Projects</a></li>
+                    <li><a href="#contact">Contact</a></li>
+                </ul>
+            </div>
+        </nav>
+        <p>Copyright &#169; 2024 Muhammad Minhaj. All Rights Reserved.</p>
+    </footer>
+
+    <script type="text/javascript" src="assets/js/index.js"></script>
+    <script type="text/javascript" src="assets/js/bootstrap.min.js"></script>
+</body>
+
+</html>
