@@ -1,287 +1,392 @@
 <!DOCTYPE html>
 <html lang="en">
-
-<head>
+  <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Document</title>
+    <title>Mohammed Minhaj Mahmood | Web Developer</title>
+    <meta
+      name="description"
+      content="Entry-level full-stack web developer specializing in responsive, reliable web applications with clean UX and strong backend foundations."
+    />
+    <link rel="canonical" href="https://mohammedminhaj.netlify.app/" />
+    <link rel="manifest" href="site.webmanifest" />
+    <meta name="theme-color" content="#f1e9db" />
+    <meta name="robots" content="index,follow" />
+
+    <meta property="og:type" content="website" />
+    <meta property="og:title" content="Mohammed Minhaj Mahmood | Web Developer" />
+    <meta
+      property="og:description"
+      content="Entry-level full-stack web developer specializing in responsive, reliable web applications with clean UX and strong backend foundations."
+    />
+    <meta property="og:url" content="https://mohammedminhaj.netlify.app/" />
+    <meta property="og:site_name" content="Mohammed Minhaj Mahmood | Web Developer" />
+
+    <meta name="twitter:card" content="summary" />
+    <meta name="twitter:title" content="Mohammed Minhaj Mahmood | Web Developer" />
+    <meta
+      name="twitter:description"
+      content="Entry-level full-stack web developer specializing in responsive, reliable web applications with clean UX and strong backend foundations."
+    />
     <link rel="stylesheet" href="assets/css/style.css" />
-    <link rel="stylesheet" href="assets/css/bootstrap.min.css">
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
-</head>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@600;700&family=Source+Sans+3:wght@400;500;600&display=swap"
+      rel="stylesheet"
+    />
+    <script type="application/ld+json">
+      {
+        "@context": "https://schema.org",
+        "@type": "Person",
+        "name": "Mohammed Minhaj Mahmood",
+        "jobTitle": "Full-Stack Web Developer",
+        "url": "https://mohammedminhaj.netlify.app/",
+        "email": "mailto:minhajmuhammad229@gmail.com",
+        "telephone": "+91-99085-97337",
+        "address": {
+          "@type": "PostalAddress",
+          "addressLocality": "Warangal",
+          "addressRegion": "Telangana",
+          "addressCountry": "IN"
+        },
+        "sameAs": [
+          "https://www.linkedin.com/in/muhammadminhaj229/",
+          "https://github.com/MuhammadMinhaj229",
+          "https://x.com/minhajmuhammads"
+        ]
+      }
+    </script>
+  </head>
+  <body>
+    <aside class="side-nav">
+      <nav class="side-nav__links" aria-label="Primary">
+        <a href="#home" class="side-link is-active">
+          <span class="side-icon" aria-hidden="true">
+            <svg viewBox="0 0 24 24" focusable="false" aria-hidden="true">
+              <path
+                d="M4 11.5 12 5l8 6.5V20a1 1 0 0 1-1 1h-5v-6H10v6H5a1 1 0 0 1-1-1z"
+                fill="none"
+                stroke="currentColor"
+                stroke-width="1.8"
+                stroke-linejoin="round"
+              />
+            </svg>
+          </span>
+          <span class="side-label">Home</span>
+        </a>
+        <a href="#projects" class="side-link">
+          <span class="side-icon" aria-hidden="true">
+            <svg viewBox="0 0 24 24" focusable="false" aria-hidden="true">
+              <path
+                d="M5 12h14M13 6l6 6-6 6"
+                fill="none"
+                stroke="currentColor"
+                stroke-width="1.8"
+                stroke-linecap="round"
+                stroke-linejoin="round"
+              />
+            </svg>
+          </span>
+          <span class="side-label">Projects</span>
+        </a>
+        <a href="#experience" class="side-link">
+          <span class="side-icon" aria-hidden="true">
+            <svg viewBox="0 0 24 24" focusable="false" aria-hidden="true">
+              <path
+                d="M7 7V5a1 1 0 0 1 1-1h8a1 1 0 0 1 1 1v2M4 9h16a1 1 0 0 1 1 1v9a1 1 0 0 1-1 1H4a1 1 0 0 1-1-1v-9a1 1 0 0 1 1-1z"
+                fill="none"
+                stroke="currentColor"
+                stroke-width="1.8"
+                stroke-linejoin="round"
+              />
+            </svg>
+          </span>
+          <span class="side-label">Experience</span>
+        </a>
+        <a href="#contact" class="side-link">
+          <span class="side-icon" aria-hidden="true">
+            <svg viewBox="0 0 24 24" focusable="false" aria-hidden="true">
+              <path
+                d="M4 6h16a1 1 0 0 1 1 1v10a1 1 0 0 1-1 1H4a1 1 0 0 1-1-1V7a1 1 0 0 1 1-1z"
+                fill="none"
+                stroke="currentColor"
+                stroke-width="1.8"
+              />
+              <path
+                d="m4 7 8 6 8-6"
+                fill="none"
+                stroke="currentColor"
+                stroke-width="1.8"
+                stroke-linecap="round"
+                stroke-linejoin="round"
+              />
+            </svg>
+          </span>
+          <span class="side-label">Contact</span>
+        </a>
+      </nav>
+    </aside>
 
-<body>
-    <header class="header">
-        <h2 style="font-size: 2rem; cursor: default; font-weight: 400;">Muhammad Minhaj</h2><br><br>
-        <ul class="menu">
-            <li><a href="index.html#about" class="a">About</a></li>
-            <li><a href="index.html#experience" class="a">Experience</a> </li>
-            <li><a href="index.html#projects" class="a">Project</a></li>
-            <li><a href="index.html#contact" class="a">Contact</a></li>
-        </ul>
-    </header>
-    <section id="profile">
-        <div class="pic-container">
-            <img src="assets/img/b3.jpg" style="border-radius: 50%;">
+    <main class="page">
+      <section id="home" class="section hero">
+        <div class="hero-content">
+          <div class="hero-kicker">Full-Stack Web Developer</div>
+          <h1>Mohammed Minhaj Mahmood</h1>
+          <p class="hero-title">
+            Entry-level developer focused on building clean, responsive web
+            applications with reliable backend architecture.
+          </p>
+          <p class="hero-summary">
+            Computer Science (Data Science) graduate with a strong foundation in
+            building responsive, user-friendly websites using modern web
+            technologies. Experienced in creating clean layouts and deploying
+            static and dynamic websites. Comfortable learning new tools, solving
+            technical issues, and working in structured environments.
+          </p>
+          <div class="hero-meta">
+            <span>Warangal, Telangana</span>
+            <span>Open to Remote</span>
+            <span>Graduation: 2026</span>
+          </div>
+          <div class="hero-links">
+            <a href="mailto:minhajmuhammad229@gmail.com">Email</a>
+            <a
+              href="https://www.linkedin.com/in/muhammadminhaj229/"
+              target="_blank"
+              rel="noreferrer"
+            >
+              LinkedIn
+            </a>
+            <a href="https://x.com/minhajmuhammads" target="_blank" rel="noreferrer">
+              X (Twitter)
+            </a>
+            <a
+              href="https://github.com/MuhammadMinhaj229"
+              target="_blank"
+              rel="noreferrer"
+            >
+              GitHub
+            </a>
+          </div>
+          <div class="hero-actions">
+            <a class="primary-cta" href="#projects">View Projects</a>
+            <a class="secondary-cta" href="#contact">Contact</a>
+            <a
+              class="secondary-cta"
+              href="assets/MOHAMMED%20MINHAJ%20MAHMOOD(web%20dev).pdf"
+              download
+            >
+              Download Resume
+            </a>
+          </div>
         </div>
-        <div class="content-container">
-            <p class="section__text__p1" style="text-align: center;">Hello, I'm</p>
-            <h1 class="title">Muhammad Minhaj</h1><br>
-            <p class="section__text__p2">Data scientist</p>
-            <div class="btn-container">
-                <button class="btn btn-color-2" onclick="downloadCV()">Download CV</button>
+        <div class="hero-card">
+          <h3>Professional Snapshot</h3>
+          <div class="stats">
+            <div>
+              <p class="stat-value">PERN + MERN</p>
+              <p class="stat-label">Full-stack focus</p>
+            </div>
+            <div>
+              <p class="stat-value">3</p>
+              <p class="stat-label">Major projects</p>
+            </div>
+            <div>
+              <p class="stat-value">2026</p>
+              <p class="stat-label">Graduation</p>
+            </div>
+          </div>
+          <div class="hero-badges">
+            <span>Open to internships</span>
+            <span>Entry-level roles</span>
+          </div>
+          <p class="hero-note">
+            Interested in teams building product-quality web experiences.
+          </p>
+        </div>
+      </section>
 
-                <script>
-                function downloadCV() {
-                    // Change this to the correct relative path or an online URL
-                    const cvPath = "assets/Muhammad_Minhaj_Resume.pdf"; 
-                    
-                    const link = document.createElement("a");
-                    link.href = cvPath;
-                    link.download = "assets/Muhammad_Minhaj_Resume.pdf"; // Sets the default download filename
-                    document.body.appendChild(link);
-                    link.click();
-                    document.body.removeChild(link);
-                }
-                </script>
-               <button class="btn btn-color-1" onclick="downloadContactInfo()">Contact Info</button>
+      <section id="projects" class="section">
+        <h2>Projects</h2>
+        <p class="section-subtitle">
+          Selected builds that highlight full-stack development, data pipelines,
+          and product-focused UX.
+        </p>
+        <div class="list">
+          <article class="list-item">
+            <div>
+              <h3>Thaksa - E-Learning Web Application</h3>
+              <p>
+                Designed and built a full-stack e-learning platform using the
+                PERN stack (PostgreSQL, Express, Node, React).
+              </p>
+              <div class="inline-tags">
+                <span>PERN</span>
+                <span>Auth</span>
+                <span>Responsive UI</span>
+              </div>
+              <div class="project-links">
+                <a
+                  href="https://github.com/MuhammadMinhaj229/THAKSA_E-LEARNING"
+                  target="_blank"
+                  rel="noreferrer"
+                >
+                  Repo
+                </a>
+              </div>
+            </div>
+            <span class="arrow" aria-hidden="true">→</span>
+          </article>
+          <article class="list-item">
+            <div>
+              <h3>Vision-Based Terrain Classification</h3>
+              <p>
+                End-to-end ML/DL prototype for terrain classification using
+                image data, OpenCV, and MobileNetV2.
+              </p>
+              <div class="inline-tags">
+                <span>OpenCV</span>
+                <span>MobileNetV2</span>
+                <span>Model Evaluation</span>
+              </div>
+              <div class="project-links">
+                <a
+                  href="https://github.com/MuhammadMinhaj229/Vision-Based-Terrain-Classification"
+                  target="_blank"
+                  rel="noreferrer"
+                >
+                  Repo
+                </a>
+              </div>
+            </div>
+            <span class="arrow" aria-hidden="true">→</span>
+          </article>
+          <article class="list-item">
+            <div>
+              <h3>Spotify-Style Web Application</h3>
+              <p>
+                Full-stack MERN app with authentication, APIs, and database
+                integration. Focused on validation and data consistency.
+              </p>
+              <div class="inline-tags">
+                <span>MERN</span>
+                <span>APIs</span>
+                <span>Testing</span>
+              </div>
+              <div class="project-links">
+                <a
+                  href="https://github.com/MuhammadMinhaj229/SPOTIFY-PROJECT"
+                  target="_blank"
+                  rel="noreferrer"
+                >
+                  Repo
+                </a>
+              </div>
+            </div>
+            <span class="arrow" aria-hidden="true">→</span>
+          </article>
+        </div>
+      </section>
 
-               <script>
-               function downloadContactInfo() {
-                   const pdfPath = "assets/Muhammad_Minhaj_Contact_Updated.pdf"; // Ensure this path is correct
-                   const link = document.createElement("a");
-                   link.href = pdfPath;
-                   link.download = "assets/Muhammad_Minhaj_Contact_Updated.pdf";
-                   document.body.appendChild(link);
-                   link.click();
-                   document.body.removeChild(link);
-               }
-               </script>
-               
-            <div class="socials-container">
-                <img src="assets/img/linkedin.png">
-                <img src="assets/img/github.png">
-            </div>
+      <section id="experience" class="section">
+        <h2>Experience</h2>
+        <p class="section-subtitle">
+          Entry-level web developer with hands-on academic and project
+          experience across MERN and PERN stacks and ML pipelines.
+        </p>
+        <div class="tag-grid">
+          <span>React</span>
+          <span>Node.js</span>
+          <span>Express</span>
+          <span>PostgreSQL</span>
+          <span>MongoDB</span>
+          <span>REST APIs</span>
+          <span>OpenCV</span>
+          <span>MobileNetV2</span>
+          <span>Git</span>
         </div>
-    </section>
-    <section id="about">
-        <p class="section__text__p1">Get To Know More</p>
-        <h1 class="title">About Me</h1><br><br>
-        <div class="section-container">
-            <div class="section__pic-container">
-                <img src="assets/img/b2.jpg" alt="Profile picture" class="about-pic">
+        <div class="timeline">
+          <div class="timeline-row">
+            <span class="timeline-year">2022 - 2026</span>
+            <div>
+              <h3>B.Tech in Computer Science (Data Science)</h3>
+              <p>Vaagdevi College of Engineering, Warangal, Telangana</p>
             </div>
-            <div class="about-details-container">
-                <div class="about-containers">
-                    <div class="details-container">
-                        <img src="assets/img/experience.png" alt="Experience icon" class="icon">
-                        <h3>Experience</h3>
-                        <p>Fresher <br></p>
-                    </div>
-                    <div class="details-container">
-                        <img src="assets/img/education.png" alt="Education icon" class="icon">
-                        <h3>Education</h3>
-                        <p>B.tech computer science (Data science)<br></p>
-                    </div>
-                </div>
-                <div class="text-container">
-                    <p>
-                        As a dedicated and curious BTech student specializing in Computer Science with a focus on Data
-                        Science, I am passionate about exploring the digital world. My journey in the tech space is
-                        fueled by a deep interest in data analysis, data engineering, and data science. With a strong
-                        foundation in programming languages like Python and C, I am eager to apply my knowledge to
-                        real-world challenges. My goal is to continuously learn, grow, and contribute to innovative
-                        projects that make a difference."
-                    </p>
-                </div>
+          </div>
+          <div class="timeline-row">
+            <span class="timeline-year">2020 - 2022</span>
+            <div>
+              <h3>Intermediate Education</h3>
+              <p>Sr Junior College, Warangal</p>
             </div>
+          </div>
+          <div class="timeline-row">
+            <span class="timeline-year">2020</span>
+            <div>
+              <h3>High School</h3>
+              <p>Suffah High School, Warangal</p>
+            </div>
+          </div>
         </div>
-        <img src="assets/img/arrow.png" alt="Arrow icon" class="icon arrow"
-            onclick="location.href='index.html#experience'">
-    </section>
-    <section id="experience"><br><br>
-        <p class="section__text__p1">Explore My</p>
-        <h1 class="title">Experience</h1>
-        <div class="experience-details-container">
-            <div class="about-containers">
-                <div class="details-container">
-                    <h2 class="experience-sub-title">Mern fullstack developer</h2>
-                    <div class="article-container">
-                        <article>
-                            <img src="assets/img/checkmark.png" alt="Experience icon" class="icon" />
-                            <div>
-                                <h3>HTML</h3>
-                                <p>Experienced</p>
-                            </div>
-                        </article>
-                        <article>
-                            <img src="assets/img/checkmark.png" alt="Experience icon" class="icon" />
-                            <div>
-                                <h3>CSS</h3>
-                                <p>Experienced</p>
-                            </div>
-                        </article>
-                        <article>
-                            <img src="assets/img/checkmark.png" alt="Experience icon" class="icon" />
-                            <div>
-                                <h3>SASS</h3>
-                                <p>Intermediate</p>
-                            </div>
-                        </article>
-                        <article>
-                            <img src="assets/img/checkmark.png" alt="Experience icon" class="icon" />
-                            <div>
-                                <h3>JavaScript</h3>
-                                <p>Basic</p>
-                            </div>
-                        </article>
-                        <article>
-                            <img src="assets/img/checkmark.png" alt="Experience icon" class="icon" />
-                            <div>
-                                <h3>TypeScript</h3>
-                                <p>Basic</p>
-                            </div>
-                        </article>
-                        <article>
-                            <img src="assets/img/checkmark.png" alt="Experience icon" class="icon" />
-                            <div>
-                                <h3>Material UI</h3>
-                                <p>Intermediate</p>
-                            </div>
-                        </article>
-                    </div>
-                </div>
-                <div class="details-container">
-                    <h2 class="experience-sub-title">Frontend Development</h2>
-                    <div class="article-container">
-                        <article>
-                            <img src="assets/img/checkmark.png" alt="Experience icon" class="icon" />
-                            <div>
-                                <h3>PostgreSQL</h3>
-                                <p>Basic</p>
-                            </div>
-                        </article>
-                        <article>
-                            <img src="assets/img/checkmark.png" alt="Experience icon" class="icon" />
-                            <div>
-                                <h3>Node JS</h3>
-                                <p>Intermediate</p>
-                            </div>
-                        </article>
-                        <article>
-                            <img src="assets/img/checkmark.png" alt="Experience icon" class="icon" />
-                            <div>
-                                <h3>Express JS</h3>
-                                <p>Intermediate</p>
-                            </div>
-                        </article>
-                        <article>
-                            <img src="assets/img/checkmark.png" alt="Experience icon" class="icon" />
-                            <div>
-                                <h3>Git</h3>
-                                <p>Intermediate</p>
-                            </div>
-                        </article>
-                    </div>
-                </div>
-            </div>
-        </div>
-        <img src="assets/img/arrow.png" alt="Arrow icon" class="icon arrow"
-            onclick="location.href='index.html#projects'" />
-    </section>
-    <section id="projects">
-        <p class="section__text__p1">Browse My Recent</p>
-        <h1 class="title">Projects</h1>
-        <div class="experience-details-container">
-            <div class="about-containers">
-                <div class="details-container color-container">
-                    <div class="article-container">
-                        <img src="assets\img\spotify.png" alt="Project 1" class="project-img" />
-                    </div>S
-                    <h2 class="experience-sub-title project-title">Spotify Clone</h2>
-                    <div class="btn-container">
-                        <button class="btn btn-color-2 project-btn"
-                            onclick="location.href='https://github.com/MuhammadMinhaj229'">
-                            Github
-                        </button>
-                        <button class="btn btn-color-2 project-btn"
-                            onclick="location.href='https://spotify-project-bc53.onrender.com'">
-                            Live Demo
-                        </button>
-                    </div>
-                </div>
-                <div class="details-container color-container">
-                    <div class="article-container">
-                        <img src="assets/img/smartparking.jpg" alt="Project 2" class="project-img" />
-                    </div>
-                    <h2 class="experience-sub-title project-title">Smart parking optimization <br> IN PROGRESS</h2>
-                    <div class="btn-container">
-                        <button class="btn btn-color-2 project-btn"
-                            onclick="location.href='https://github.com/MuhammadMinhaj229'">
-                            Github
-                        </button>
-                        <button class="btn btn-color-2 project-btn"
-                            onclick="location.href='https://github.com/dashboard'">
-                            Live Demo
-                        </button>
-                    </div>
-                </div>
-                <div class="details-container color-container">
-                    <div class="article-container">
-                        <img src="assets/img/project-3.png" alt="Project 3" class="project-img" />
-                    </div>
-                    <h2 class="experience-sub-title project-title">Project Three in progress</h2>
-                    <div class="btn-container">
-                        <button class="btn btn-color-2 project-btn" onclick="location.href='https://github.com/dashboard'">
-                            Github
-                        </button>
-                        <button class="btn btn-color-2 project-btn" onclick="location.href='https://github.com/dashboard'">
-                            Live Demo
-                        </button>
-                    </div>
-                </div>
-            </div>
-        </div>
-        <img src="assets/img/arrow.png" alt="Arrow icon" class="icon arrow"
-            onclick="location.href='index.html#contact'" />
-    </section>
-    <section id="contact">
-        <p class="section__text__p1">Get in Touch</p>
-        <h1 class="title">Contact Me</h1>
-        <div class="contact-info-upper-container">
-            <div class="contact-info-container">
-                <img src="assets/img/email.png" alt="Email icon" class="icon contact-icon email-icon" />
-                <p><a href="mailto:minhajmuhammad229@gmail.com">minhajmuhammad229@gmail.com</a></p>
-            </div>
-            <div class="contact-info-container">
-                <img src="assets/img/linkedin.png" alt="LinkedIn icon" class="icon contact-icon" />
-                <p><a
-                        href="https://www.linkedin.com/in/muhammad-minhaj-37b47a292?utm_source=share&utm_campaign=share_via&utm_content=profile&utm_medium=android_app">LinkedIn</a>
-                </p>
-            </div>
-            <div class="contact-info-container">
-                <img src="assets/img/phone.jpg" alt="phone icon" class="icon contact-icon phone-icon" />
-                <p><a hrfe="9908597337" >9908597337</a></p>
-            </div>
+      </section>
 
+      <section id="contact" class="section">
+        <h2>Get in Touch</h2>
+        <p class="section-subtitle">
+          I am currently available for internships and entry-level roles. Feel
+          free to reach out if you would like to work together.
+        </p>
+        <div class="contact-card">
+          <a class="contact-button" href="mailto:minhajmuhammad229@gmail.com">
+            Email Me
+          </a>
+          <div class="contact-details">
+            <p>
+              Phone:
+              <a href="tel:+919908597337">+91 99085 97337</a>
+            </p>
+            <p>
+              Email:
+              <a href="mailto:minhajmuhammad229@gmail.com">
+                minhajmuhammad229@gmail.com
+              </a>
+            </p>
+            <p>
+              LinkedIn:
+              <a
+                href="https://www.linkedin.com/in/muhammadminhaj229/"
+                target="_blank"
+                rel="noreferrer"
+              >
+                linkedin.com/in/muhammadminhaj229
+              </a>
+            </p>
+            <p>
+              GitHub:
+              <a
+                href="https://github.com/MuhammadMinhaj229"
+                target="_blank"
+                rel="noreferrer"
+              >
+                github.com/MuhammadMinhaj229
+              </a>
+            </p>
+            <p>
+              X (Twitter):
+              <a
+                href="https://x.com/minhajmuhammads"
+                target="_blank"
+                rel="noreferrer"
+              >
+                x.com/minhajmuhammads
+              </a>
+            </p>
+          </div>
         </div>
-    </section>
-    <footer>
-        <nav>
-            <div class="nav-links-container">
-                <ul class="nav-links">
-                    <li><a href="#about">About</a></li>
-                    <li><a href="#experience">Experience</a></li>
-                    <li><a href="#projects">Projects</a></li>
-                    <li><a href="#contact">Contact</a></li>
-                </ul>
-            </div>
-        </nav>
-        <p>Copyright &#169; 2024 Muhammad Minhaj. All Rights Reserved.</p>
-    </footer>
+      </section>
+    </main>
 
-    <script type="text/javascript" src="assets/js/index.js"></script>
-    <script type="text/javascript" src="assets/js/bootstrap.min.js"></script>
-</body>
-
+    <script src="assets/js/scroll.js"></script>
+  </body>
 </html>
