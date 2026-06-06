@@ -18,19 +18,18 @@
     });
   };
 
-  const onScroll = () => {
-    const marker = window.innerHeight * 0.35;
-    let current = sections[0].id;
-    sections.forEach((section) => {
-      const rect = section.getBoundingClientRect();
-      if (rect.top <= marker) {
-        current = section.id;
-      }
-    });
-    setActive(current);
-  };
+  const observer = new IntersectionObserver(
+    (entries) => {
+      entries.forEach((entry) => {
+        if (entry.isIntersecting) {
+          setActive(entry.target.id);
+        }
+      });
+    },
+    {
+      rootMargin: "-35% 0px -65% 0px",
+    }
+  );
 
-  window.addEventListener("scroll", onScroll, { passive: true });
-  window.addEventListener("resize", onScroll);
-  onScroll();
+  sections.forEach((section) => observer.observe(section));
 })();
