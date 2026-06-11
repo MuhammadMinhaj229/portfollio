@@ -1,0 +1,3 @@
+## 2024-06-11 - Optimize intersection observer link updates
+**Learning:** The existing IntersectionObserver callback in `scroll.js` iterated through every single navigation link to update the active state (O(N) operation) on every scroll intersection, even when the active section didn't change. Also, elements should be mapped to an array since multiple links (desktop/mobile) may point to the same section.
+**Action:** Always map elements by their target ID to an array and cache the active state. Use an early return if the active section hasn't changed, and only update the DOM for the previous and next active links (O(1) operation).
