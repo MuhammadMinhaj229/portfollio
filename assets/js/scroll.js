@@ -6,16 +6,35 @@
 
   if (!sections.length) return;
 
-  const setActive = (id) => {
-    links.forEach((link) => {
-      const isMatch = link.getAttribute("href") === `#${id}`;
-      link.classList.toggle("is-active", isMatch);
-      if (isMatch) {
-        link.setAttribute("aria-current", "true");
-      } else {
-        link.removeAttribute("aria-current");
+  // ⚡ Bolt: Cache DOM lookups by section ID mapped to array of matching links
+  // Why: Removes O(N) DOM getAttribute lookups on every single scroll/intersection event
+  // Impact: Reduces CPU main thread blocking on rapid scroll events. Reduces property lookups to an O(1) map lookup.
+  // Note: We use an array of links because there could be multiple navigation menus pointing to the same section
+  const linksById = new Map();
+  links.forEach((link) => {
+    const href = link.getAttribute("href");
+    if (href && href.startsWith("#")) {
+      const id = href.slice(1);
+      if (!linksById.has(id)) {
+        linksById.set(id, []);
       }
+      linksById.get(id).push(link);
+    }
+  });
+
+  const setActive = (activeId) => {
+    links.forEach((link) => {
+      link.classList.remove("is-active");
+      link.removeAttribute("aria-current");
     });
+
+    const activeLinks = linksById.get(activeId);
+    if (activeLinks) {
+      activeLinks.forEach((link) => {
+        link.classList.add("is-active");
+        link.setAttribute("aria-current", "true");
+      });
+    }
   };
 
   const observer = new IntersectionObserver(
