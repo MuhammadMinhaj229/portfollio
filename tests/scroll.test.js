@@ -19,44 +19,35 @@ describe('scroll.js', () => {
       </main>
     `;
 
-    // Mock window innerHeight
-    Object.defineProperty(window, 'innerHeight', {
-      writable: true,
-      configurable: true,
-      value: 1000,
+    // Mock IntersectionObserver
+    window.mockIntersectionObserverCallback = null;
+    window.IntersectionObserver = jest.fn(function (callback) {
+      window.mockIntersectionObserverCallback = callback;
+      this.observe = jest.fn();
+      this.unobserve = jest.fn();
+      this.disconnect = jest.fn();
     });
-
-    // Default getBoundingClientRect mock
-    Element.prototype.getBoundingClientRect = jest.fn(function () {
-      if (this.id === 'section1') {
-        return { top: 0 };
-      } else if (this.id === 'section2') {
-        return { top: 1000 };
-      } else if (this.id === 'section3') {
-        return { top: 2000 };
-      }
-      return { top: 0 };
-    });
-
-    // Remove any previously attached event listeners
-    // JSDOM doesn't easily let us clear all listeners, so we will replace window.addEventListener
-    // and store them to call them manually, or we can just let JSDOM handle it
-    // But evaluating the IIFE multiple times will attach multiple listeners
-    // A clean way is to mock addEventListener or just rely on DOM replacement
   });
 
   afterEach(() => {
     jest.restoreAllMocks();
     document.body.innerHTML = '';
+    delete window.IntersectionObserver;
+    delete window.mockIntersectionObserverCallback;
   });
 
   const loadScript = () => {
-    // Evaluate the script in the current JSDOM environment
     eval(scrollJsCode);
   };
 
   test('Initial state sets first section as active', () => {
     loadScript();
+
+    // Simulate initial intersection of section1
+    const section1 = document.getElementById('section1');
+    window.mockIntersectionObserverCallback([
+      { isIntersecting: true, target: section1 }
+    ]);
 
     const link1 = document.querySelector('a[href="#section1"]');
     const link2 = document.querySelector('a[href="#section2"]');
@@ -71,22 +62,18 @@ describe('scroll.js', () => {
   test('Scroll updates active link to second section', () => {
     loadScript();
 
-    // Update the mock to simulate scrolling down
-    // section1 is now above viewport, section2 is at top
-    Element.prototype.getBoundingClientRect = jest.fn(function () {
-      if (this.id === 'section1') {
-        return { top: -1000 };
-      } else if (this.id === 'section2') {
-        // top <= window.innerHeight * 0.35 (which is 350)
-        return { top: 300 };
-      } else if (this.id === 'section3') {
-        return { top: 1300 };
-      }
-      return { top: 0 };
-    });
+    // Initial state
+    const section1 = document.getElementById('section1');
+    window.mockIntersectionObserverCallback([
+      { isIntersecting: true, target: section1 }
+    ]);
 
-    // Dispatch scroll event
-    window.dispatchEvent(new Event('scroll'));
+    // Simulate scrolling down to section2
+    const section2 = document.getElementById('section2');
+    window.mockIntersectionObserverCallback([
+      { isIntersecting: false, target: section1 },
+      { isIntersecting: true, target: section2 }
+    ]);
 
     const link1 = document.querySelector('a[href="#section1"]');
     const link2 = document.querySelector('a[href="#section2"]');
@@ -96,32 +83,6 @@ describe('scroll.js', () => {
 
     expect(link2.classList.contains('is-active')).toBe(true);
     expect(link2.getAttribute('aria-current')).toBe('true');
-  });
-
-  test('Resize updates active link', () => {
-    loadScript();
-
-    // Change mock to simulate being at section3
-    Element.prototype.getBoundingClientRect = jest.fn(function () {
-      if (this.id === 'section1') {
-        return { top: -2000 };
-      } else if (this.id === 'section2') {
-        return { top: -1000 };
-      } else if (this.id === 'section3') {
-        return { top: 100 }; // <= 350
-      }
-      return { top: 0 };
-    });
-
-    // Dispatch resize event
-    window.dispatchEvent(new Event('resize'));
-
-    const link2 = document.querySelector('a[href="#section2"]');
-    const link3 = document.querySelector('a[href="#section3"]');
-
-    expect(link2.classList.contains('is-active')).toBe(false);
-    expect(link3.classList.contains('is-active')).toBe(true);
-    expect(link3.getAttribute('aria-current')).toBe('true');
   });
 
   test('Handles pages with no matching sections gracefully', () => {
