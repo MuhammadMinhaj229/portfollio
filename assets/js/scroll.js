@@ -1,21 +1,49 @@
 (() => {
   const links = Array.from(document.querySelectorAll(".side-link"));
-  const sections = links
-    .map((link) => document.querySelector(link.getAttribute("href")))
-    .filter(Boolean);
+
+  // ⚡ Bolt Performance Optimization:
+  // Map sections to their corresponding links for O(1) lookup
+  // instead of iterating through all links on every intersection
+  const linkMap = new Map();
+  const sections = [];
+
+  links.forEach((link) => {
+    const href = link.getAttribute("href");
+    if (href && href.startsWith("#")) {
+      const id = href.substring(1);
+      const section = document.getElementById(id);
+      if (section) {
+        if (!sections.includes(section)) sections.push(section);
+        if (!linkMap.has(id)) {
+          linkMap.set(id, []);
+        }
+        linkMap.get(id).push(link);
+      }
+    }
+  });
 
   if (!sections.length) return;
 
+  // Track active links to minimize DOM writes
+  let activeLinks = Array.from(document.querySelectorAll(".side-link.is-active"));
+
   const setActive = (id) => {
-    links.forEach((link) => {
-      const isMatch = link.getAttribute("href") === `#${id}`;
-      link.classList.toggle("is-active", isMatch);
-      if (isMatch) {
-        link.setAttribute("aria-current", "true");
-      } else {
-        link.removeAttribute("aria-current");
-      }
+    const nextActiveLinks = linkMap.get(id) || [];
+
+    // Skip if already active
+    if (activeLinks.length && nextActiveLinks.length && activeLinks[0] === nextActiveLinks[0]) return;
+
+    activeLinks.forEach((link) => {
+      link.classList.remove("is-active");
+      link.removeAttribute("aria-current");
     });
+
+    nextActiveLinks.forEach((link) => {
+      link.classList.add("is-active");
+      link.setAttribute("aria-current", "true");
+    });
+
+    activeLinks = nextActiveLinks;
   };
 
   const observer = new IntersectionObserver(
