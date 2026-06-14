@@ -1,0 +1,3 @@
+## 2024-05-18 - IntersectionObserver State Deduplication
+**Learning:** In static site navigations using IntersectionObserver, blindly updating all links in the callback results in O(N) DOM operations on every scroll threshold crossing. Furthermore, multiple links pointing to the same anchor can cause duplicate element observation.
+**Action:** When implementing scroll spies, always cache target links into a Map grouped by target ID (accounting for arrays of links mapped to a single ID), deduplicate target elements in a Set before observing them, and maintain state (e.g. `activeLinks`) to diff and only mutate DOM nodes that actually change state.
