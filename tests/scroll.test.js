@@ -38,16 +38,61 @@ describe('scroll.js', () => {
       return { top: 0 };
     });
 
-    // Remove any previously attached event listeners
-    // JSDOM doesn't easily let us clear all listeners, so we will replace window.addEventListener
-    // and store them to call them manually, or we can just let JSDOM handle it
-    // But evaluating the IIFE multiple times will attach multiple listeners
-    // A clean way is to mock addEventListener or just rely on DOM replacement
+    // Mock IntersectionObserver
+    class MockIntersectionObserver {
+      constructor(callback, options) {
+        this.callback = callback;
+        this.options = options;
+        this.elements = [];
+
+        this.checkIntersections = () => {
+          const entries = this.elements.map(el => {
+            const rect = el.getBoundingClientRect();
+            // A simple mock of intersection based on the test's getBoundingClientRect tops:
+            // The active section is the one closest to the top but within the "active" zone.
+            // Tests set the active one's top to 0, 300, or 100. Let's just say intersecting is top >= -200 && top <= 400
+            const isIntersecting = rect.top >= -200 && rect.top <= 400;
+            return {
+              target: el,
+              isIntersecting
+            };
+          });
+          this.callback(entries);
+        };
+
+        window.addEventListener('scroll', this.checkIntersections);
+        window.addEventListener('resize', this.checkIntersections);
+
+        // Initial check on next tick
+        setTimeout(this.checkIntersections, 0);
+      }
+
+      observe(element) {
+        this.elements.push(element);
+        // Fire immediately for initial state
+        const rect = element.getBoundingClientRect();
+        const isIntersecting = rect.top >= -200 && rect.top <= 400;
+        this.callback([{ target: element, isIntersecting }]);
+      }
+
+      unobserve(element) {
+        this.elements = this.elements.filter(el => el !== element);
+      }
+
+      disconnect() {
+        window.removeEventListener('scroll', this.checkIntersections);
+        window.removeEventListener('resize', this.checkIntersections);
+        this.elements = [];
+      }
+    }
+
+    window.IntersectionObserver = MockIntersectionObserver;
   });
 
   afterEach(() => {
     jest.restoreAllMocks();
     document.body.innerHTML = '';
+    delete window.IntersectionObserver;
   });
 
   const loadScript = () => {
@@ -72,13 +117,11 @@ describe('scroll.js', () => {
     loadScript();
 
     // Update the mock to simulate scrolling down
-    // section1 is now above viewport, section2 is at top
     Element.prototype.getBoundingClientRect = jest.fn(function () {
       if (this.id === 'section1') {
         return { top: -1000 };
       } else if (this.id === 'section2') {
-        // top <= window.innerHeight * 0.35 (which is 350)
-        return { top: 300 };
+        return { top: 300 }; // intersecting
       } else if (this.id === 'section3') {
         return { top: 1300 };
       }
@@ -108,7 +151,7 @@ describe('scroll.js', () => {
       } else if (this.id === 'section2') {
         return { top: -1000 };
       } else if (this.id === 'section3') {
-        return { top: 100 }; // <= 350
+        return { top: 100 }; // intersecting
       }
       return { top: 0 };
     });
