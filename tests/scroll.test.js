@@ -5,6 +5,31 @@ const scrollJsCode = fs.readFileSync(path.resolve(__dirname, '../assets/js/scrol
 
 describe('scroll.js', () => {
   beforeEach(() => {
+    // Mock IntersectionObserver
+    class IntersectionObserverMock {
+      constructor(callback, options) {
+        this.callback = callback;
+        this.options = options;
+        this.elements = new Set();
+        // Expose instance on window for testing
+        window.activeIntersectionObserver = this;
+      }
+      observe(element) {
+        this.elements.add(element);
+      }
+      unobserve(element) {
+        this.elements.delete(element);
+      }
+      disconnect() {
+        this.elements.clear();
+      }
+      // Helper to trigger intersections in tests
+      triggerIntersection(entries) {
+        this.callback(entries, this);
+      }
+    }
+    window.IntersectionObserver = IntersectionObserverMock;
+
     // Reset document
     document.body.innerHTML = `
       <nav>
@@ -58,6 +83,11 @@ describe('scroll.js', () => {
   test('Initial state sets first section as active', () => {
     loadScript();
 
+    // Simulate IntersectionObserver triggering for first section
+    window.activeIntersectionObserver.triggerIntersection([
+      { isIntersecting: true, target: { id: 'section1' } }
+    ]);
+
     const link1 = document.querySelector('a[href="#section1"]');
     const link2 = document.querySelector('a[href="#section2"]');
 
@@ -85,8 +115,10 @@ describe('scroll.js', () => {
       return { top: 0 };
     });
 
-    // Dispatch scroll event
-    window.dispatchEvent(new Event('scroll'));
+    // Simulate IntersectionObserver triggering for second section
+    window.activeIntersectionObserver.triggerIntersection([
+      { isIntersecting: true, target: { id: 'section2' } }
+    ]);
 
     const link1 = document.querySelector('a[href="#section1"]');
     const link2 = document.querySelector('a[href="#section2"]');
@@ -113,8 +145,10 @@ describe('scroll.js', () => {
       return { top: 0 };
     });
 
-    // Dispatch resize event
-    window.dispatchEvent(new Event('resize'));
+    // Simulate IntersectionObserver triggering for third section
+    window.activeIntersectionObserver.triggerIntersection([
+      { isIntersecting: true, target: { id: 'section3' } }
+    ]);
 
     const link2 = document.querySelector('a[href="#section2"]');
     const link3 = document.querySelector('a[href="#section3"]');

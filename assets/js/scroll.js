@@ -1,21 +1,55 @@
 (() => {
   const links = Array.from(document.querySelectorAll(".side-link"));
-  const sections = links
-    .map((link) => document.querySelector(link.getAttribute("href")))
-    .filter(Boolean);
 
-  if (!sections.length) return;
+  if (!links.length) return;
+
+  // Track the currently active ID to prevent redundant DOM updates
+  let currentActiveId = null;
+
+  // Map each section ID to an array of its corresponding link elements (O(1) lookup vs O(N) loop)
+  const linksById = new Map();
+  // Use a Set to avoid observing the same target section multiple times
+  const uniqueSections = new Set();
+
+  links.forEach((link) => {
+    const href = link.getAttribute("href");
+    if (!href || !href.startsWith("#")) return;
+
+    const id = href.substring(1);
+    const section = document.getElementById(id);
+
+    if (section) {
+      uniqueSections.add(section);
+      if (!linksById.has(id)) {
+        linksById.set(id, []);
+      }
+      linksById.get(id).push(link);
+    }
+  });
+
+  if (uniqueSections.size === 0) return;
 
   const setActive = (id) => {
-    links.forEach((link) => {
-      const isMatch = link.getAttribute("href") === `#${id}`;
-      link.classList.toggle("is-active", isMatch);
-      if (isMatch) {
-        link.setAttribute("aria-current", "true");
-      } else {
+    // Early return if the active section hasn't changed
+    if (currentActiveId === id) return;
+
+    // Deactivate previously active links
+    if (currentActiveId && linksById.has(currentActiveId)) {
+      linksById.get(currentActiveId).forEach((link) => {
+        link.classList.remove("is-active");
         link.removeAttribute("aria-current");
-      }
-    });
+      });
+    }
+
+    // Activate new links
+    if (linksById.has(id)) {
+      linksById.get(id).forEach((link) => {
+        link.classList.add("is-active");
+        link.setAttribute("aria-current", "true");
+      });
+    }
+
+    currentActiveId = id;
   };
 
   const observer = new IntersectionObserver(
@@ -31,5 +65,5 @@
     }
   );
 
-  sections.forEach((section) => observer.observe(section));
+  uniqueSections.forEach((section) => observer.observe(section));
 })();
