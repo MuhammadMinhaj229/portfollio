@@ -1,21 +1,52 @@
 (() => {
   const links = Array.from(document.querySelectorAll(".side-link"));
-  const sections = links
-    .map((link) => document.querySelector(link.getAttribute("href")))
-    .filter(Boolean);
+  if (!links.length) return;
 
-  if (!sections.length) return;
+  // ⚡ Bolt Optimization: Map IDs to link elements to prevent O(N) DOM lookup on every scroll event
+  const linkMap = new Map();
+  const sectionsToObserve = new Set();
+
+  links.forEach((link) => {
+    const href = link.getAttribute("href");
+    if (!href || !href.startsWith("#")) return;
+
+    const id = href.slice(1);
+    const section = document.getElementById(id);
+
+    if (section) {
+      sectionsToObserve.add(section);
+      if (!linkMap.has(id)) {
+        linkMap.set(id, []);
+      }
+      linkMap.get(id).push(link);
+    }
+  });
+
+  if (!sectionsToObserve.size) return;
+
+  // ⚡ Bolt Optimization: Track active ID to diff changes and minimize DOM mutations
+  let activeId = null;
 
   const setActive = (id) => {
-    links.forEach((link) => {
-      const isMatch = link.getAttribute("href") === `#${id}`;
-      link.classList.toggle("is-active", isMatch);
-      if (isMatch) {
-        link.setAttribute("aria-current", "true");
-      } else {
+    if (activeId === id) return;
+
+    // Deactivate previous links
+    if (activeId && linkMap.has(activeId)) {
+      linkMap.get(activeId).forEach((link) => {
+        link.classList.remove("is-active");
         link.removeAttribute("aria-current");
-      }
-    });
+      });
+    }
+
+    // Activate new links
+    if (linkMap.has(id)) {
+      linkMap.get(id).forEach((link) => {
+        link.classList.add("is-active");
+        link.setAttribute("aria-current", "true");
+      });
+    }
+
+    activeId = id;
   };
 
   const observer = new IntersectionObserver(
@@ -31,5 +62,6 @@
     }
   );
 
-  sections.forEach((section) => observer.observe(section));
+  // ⚡ Bolt Optimization: Deduplicate elements to observe using Set
+  sectionsToObserve.forEach((section) => observer.observe(section));
 })();
