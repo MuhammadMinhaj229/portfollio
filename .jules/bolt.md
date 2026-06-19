@@ -1,0 +1,3 @@
+## 2024-06-19 - Duplicate IntersectionObserver bindings due to duplicate nav links
+**Learning:** When using IntersectionObserver to power scroll spies or navigational active states, multiple menus (e.g., mobile + desktop) pointing to the same section IDs will result in redundant element bindings and intersection callbacks if target elements aren't deduplicated first.
+**Action:** When scraping the DOM for `href`s to map to target `section` elements to observe, always pass the resulting elements through a `Set` to filter out duplicates, ensuring each section is observed exactly once. Additionally, mapping section IDs to an array of links (rather than single links) enables performant O(1) active state diffing for multiple links simultaneously.
