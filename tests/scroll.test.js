@@ -19,39 +19,31 @@ describe('scroll.js', () => {
       </main>
     `;
 
-    // Mock window innerHeight
-    Object.defineProperty(window, 'innerHeight', {
-      writable: true,
-      configurable: true,
-      value: 1000,
-    });
-
-    // Default getBoundingClientRect mock
-    Element.prototype.getBoundingClientRect = jest.fn(function () {
-      if (this.id === 'section1') {
-        return { top: 0 };
-      } else if (this.id === 'section2') {
-        return { top: 1000 };
-      } else if (this.id === 'section3') {
-        return { top: 2000 };
+    // Mock IntersectionObserver
+    global.triggerIntersection = null;
+    global.IntersectionObserver = class IntersectionObserver {
+      constructor(callback) {
+        global.triggerIntersection = callback;
       }
-      return { top: 0 };
-    });
-
-    // Remove any previously attached event listeners
-    // JSDOM doesn't easily let us clear all listeners, so we will replace window.addEventListener
-    // and store them to call them manually, or we can just let JSDOM handle it
-    // But evaluating the IIFE multiple times will attach multiple listeners
-    // A clean way is to mock addEventListener or just rely on DOM replacement
+      observe(element) {
+        // Automatically trigger initial intersection for section1 to match test expectations
+        if (element.id === 'section1') {
+          global.triggerIntersection([{ isIntersecting: true, target: element }]);
+        }
+      }
+      unobserve() {}
+      disconnect() {}
+    };
   });
 
   afterEach(() => {
     jest.restoreAllMocks();
     document.body.innerHTML = '';
+    delete global.IntersectionObserver;
+    delete global.triggerIntersection;
   });
 
   const loadScript = () => {
-    // Evaluate the script in the current JSDOM environment
     eval(scrollJsCode);
   };
 
@@ -71,22 +63,10 @@ describe('scroll.js', () => {
   test('Scroll updates active link to second section', () => {
     loadScript();
 
-    // Update the mock to simulate scrolling down
-    // section1 is now above viewport, section2 is at top
-    Element.prototype.getBoundingClientRect = jest.fn(function () {
-      if (this.id === 'section1') {
-        return { top: -1000 };
-      } else if (this.id === 'section2') {
-        // top <= window.innerHeight * 0.35 (which is 350)
-        return { top: 300 };
-      } else if (this.id === 'section3') {
-        return { top: 1300 };
-      }
-      return { top: 0 };
-    });
-
-    // Dispatch scroll event
-    window.dispatchEvent(new Event('scroll'));
+    // Trigger intersection for section2
+    global.triggerIntersection([
+      { isIntersecting: true, target: document.getElementById('section2') }
+    ]);
 
     const link1 = document.querySelector('a[href="#section1"]');
     const link2 = document.querySelector('a[href="#section2"]');
@@ -101,20 +81,10 @@ describe('scroll.js', () => {
   test('Resize updates active link', () => {
     loadScript();
 
-    // Change mock to simulate being at section3
-    Element.prototype.getBoundingClientRect = jest.fn(function () {
-      if (this.id === 'section1') {
-        return { top: -2000 };
-      } else if (this.id === 'section2') {
-        return { top: -1000 };
-      } else if (this.id === 'section3') {
-        return { top: 100 }; // <= 350
-      }
-      return { top: 0 };
-    });
-
-    // Dispatch resize event
-    window.dispatchEvent(new Event('resize'));
+    // Trigger intersection for section3
+    global.triggerIntersection([
+      { isIntersecting: true, target: document.getElementById('section3') }
+    ]);
 
     const link2 = document.querySelector('a[href="#section2"]');
     const link3 = document.querySelector('a[href="#section3"]');
@@ -125,10 +95,8 @@ describe('scroll.js', () => {
   });
 
   test('Handles pages with no matching sections gracefully', () => {
-    // Override body with no elements
     document.body.innerHTML = '<div><a href="#missing" class="side-link">Missing</a></div>';
 
-    // Should not throw an error
     expect(() => {
       loadScript();
     }).not.toThrow();
