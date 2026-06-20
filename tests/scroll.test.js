@@ -38,6 +38,39 @@ describe('scroll.js', () => {
       return { top: 0 };
     });
 
+
+    // Mock IntersectionObserver
+    window.IntersectionObserver = class IntersectionObserver {
+      constructor(callback) {
+        this.callback = callback;
+        this.elements = [];
+
+        const checkIntersections = () => {
+          const entries = this.elements.map(el => {
+            const rect = el.getBoundingClientRect();
+            return {
+              target: el,
+              isIntersecting: rect.top <= 350 && rect.top > -1000
+            };
+          });
+          this.callback(entries, this);
+        };
+
+        window.addEventListener('scroll', checkIntersections);
+        window.addEventListener('resize', checkIntersections);
+      }
+      observe(el) {
+        this.elements.push(el);
+        const rect = el.getBoundingClientRect();
+        this.callback([{
+          target: el,
+          isIntersecting: rect.top <= 350 && rect.top > -1000
+        }], this);
+      }
+      unobserve() {}
+      disconnect() {}
+    };
+
     // Remove any previously attached event listeners
     // JSDOM doesn't easily let us clear all listeners, so we will replace window.addEventListener
     // and store them to call them manually, or we can just let JSDOM handle it
