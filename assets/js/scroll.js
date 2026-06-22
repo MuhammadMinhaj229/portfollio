@@ -47,11 +47,19 @@
 
   const observer = new IntersectionObserver(
     (entries) => {
+      let activeId = null;
+      // Batch active element updates: If multiple intersections occur in a single frame
+      // (e.g. during fast scrolling), only update the DOM for the latest visible section
+      // to avoid unnecessary intermediate DOM class manipulation and layout thrashing.
       entries.forEach((entry) => {
         if (entry.isIntersecting) {
-          setActive(entry.target.id);
+          activeId = entry.target.id;
         }
       });
+
+      if (activeId) {
+        setActive(activeId);
+      }
     },
     {
       rootMargin: "-35% 0px -65% 0px",
