@@ -47,11 +47,19 @@
 
   const observer = new IntersectionObserver(
     (entries) => {
+      // Find the last intersecting entry to batch DOM state updates.
+      // This prevents layout thrashing during fast scrolling where multiple sections
+      // might intersect in the same callback array.
+      let lastIntersecting = null;
       entries.forEach((entry) => {
         if (entry.isIntersecting) {
-          setActive(entry.target.id);
+          lastIntersecting = entry;
         }
       });
+
+      if (lastIntersecting) {
+        setActive(lastIntersecting.target.id);
+      }
     },
     {
       rootMargin: "-35% 0px -65% 0px",
