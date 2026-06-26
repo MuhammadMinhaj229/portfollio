@@ -132,4 +132,30 @@ describe('scroll.js', () => {
       loadScript();
     }).not.toThrow();
   });
+
+  test('Batches DOM updates and only applies active class to the last intersecting target', () => {
+    loadScript();
+
+    // Trigger intersection observer callback with multiple entries
+    const section1 = document.getElementById('section1');
+    const section2 = document.getElementById('section2');
+    const section3 = document.getElementById('section3');
+
+    // Simulate fast scrolling where 1 intersects, then 2, then 3 in the same batch
+    window.__intersectionObserverCallback([
+      { target: section1, isIntersecting: true },
+      { target: section2, isIntersecting: true },
+      { target: section3, isIntersecting: true }
+    ]);
+
+    const link1 = document.querySelector('a[href="#section1"]');
+    const link2 = document.querySelector('a[href="#section2"]');
+    const link3 = document.querySelector('a[href="#section3"]');
+
+    // Only the link for section3 should be active
+    expect(link1.classList.contains('is-active')).toBe(false);
+    expect(link2.classList.contains('is-active')).toBe(false);
+    expect(link3.classList.contains('is-active')).toBe(true);
+    expect(link3.getAttribute('aria-current')).toBe('true');
+  });
 });
