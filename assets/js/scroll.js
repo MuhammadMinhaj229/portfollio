@@ -47,11 +47,14 @@
 
   const observer = new IntersectionObserver(
     (entries) => {
-      entries.forEach((entry) => {
-        if (entry.isIntersecting) {
-          setActive(entry.target.id);
+      // ⚡ Bolt: Batch DOM updates by finding the last intersecting entry in the array
+      // This prevents layout thrashing during fast scrolling by applying the mutation only once
+      for (let i = entries.length - 1; i >= 0; i--) {
+        if (entries[i].isIntersecting) {
+          setActive(entries[i].target.id);
+          break;
         }
-      });
+      }
     },
     {
       rootMargin: "-35% 0px -65% 0px",
