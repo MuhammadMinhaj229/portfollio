@@ -31,15 +31,30 @@ describe('scroll.js', () => {
       </main>
     `;
 
-    // Mock requestAnimationFrame to execute synchronously
-    window.requestAnimationFrame = jest.fn((cb) => cb());
+    // Mock window innerHeight
+    Object.defineProperty(window, 'innerHeight', {
+      writable: true,
+      configurable: true,
+      value: 1000,
+    });
+
+    // Mock IntersectionObserver
+    window.IntersectionObserver = jest.fn(function (callback, options) {
+      this.callback = callback;
+      this.options = options;
+      this.observe = jest.fn();
+      this.unobserve = jest.fn();
+      this.disconnect = jest.fn();
+      // Store instance globally so tests can access it
+      window.__mockIntersectionObserver = this;
+    });
   });
 
   afterEach(() => {
     jest.restoreAllMocks();
     document.body.innerHTML = '';
     delete window.IntersectionObserver;
-    delete window.requestAnimationFrame;
+    delete window.__mockIntersectionObserver;
   });
 
   const loadScript = () => {
@@ -47,11 +62,20 @@ describe('scroll.js', () => {
     eval(scrollJsCode);
   };
 
-  test('Initial state sets first section as active when it intersects', () => {
+  const triggerIntersection = (id, isIntersecting = true) => {
+    if (window.__mockIntersectionObserver) {
+      const entry = {
+        target: { id },
+        isIntersecting
+      };
+      window.__mockIntersectionObserver.callback([entry], window.__mockIntersectionObserver);
+    }
+  };
+
+  test('Initial state sets first section as active (via intersection)', () => {
     loadScript();
 
-    // Trigger observer for section1
-    observerCallback([{ target: { id: 'section1' }, isIntersecting: true }]);
+    triggerIntersection('section1', true);
 
     const link1 = document.querySelector('a[href="#section1"]');
     const link2 = document.querySelector('a[href="#section2"]');
@@ -66,14 +90,8 @@ describe('scroll.js', () => {
   test('Intersection updates active link to second section', () => {
     loadScript();
 
-    // Trigger observer for section1 (initially)
-    observerCallback([{ target: { id: 'section1' }, isIntersecting: true }]);
-
-    // Trigger observer for section2 (scrolling down)
-    observerCallback([
-      { target: { id: 'section1' }, isIntersecting: false },
-      { target: { id: 'section2' }, isIntersecting: true }
-    ]);
+    // Simulate section 2 becoming active
+    triggerIntersection('section2', true);
 
     const link1 = document.querySelector('a[href="#section1"]');
     const link2 = document.querySelector('a[href="#section2"]');
@@ -85,7 +103,7 @@ describe('scroll.js', () => {
     expect(link2.getAttribute('aria-current')).toBe('true');
   });
 
-  test('Resize updates active link', () => {
+  test('Resize updates active link (third section)', () => {
     loadScript();
 
     // Trigger observer for section3
