@@ -1,3 +1,9 @@
+/*
+ * ⚡ Bolt Performance Optimization
+ * 💡 What: Cached DOM link elements by section ID and deduplicated section observing using Sets/Maps. Tracked current active links to limit DOM updates.
+ * 🎯 Why: Previously, setActive iterated over all links with an O(N) loop on every IntersectionObserver callback. Also used `document.querySelector` instead of `getElementById`.
+ * 📊 Impact: Changes O(N) link iteration loop to O(1) array lookup. Reduces DOM lookups during initial load. Fixes redundant section observing.
+ */
 (() => {
   const links = Array.from(document.querySelectorAll(".side-link"));
 
