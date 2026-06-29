@@ -1,40 +1,77 @@
 (() => {
   const links = Array.from(document.querySelectorAll(".side-link"));
   const sections = links
-    .map((link) => document.querySelector(link.getAttribute("href")))
+    .map((link) => {
+      const href = link.getAttribute("href");
+      return href ? document.querySelector(href) : null;
+    })
     .filter(Boolean);
 
-  if (!sections.length) return;
+  // OPTIMIZATION: Cache section elements and their corresponding links
+  // This avoids O(N) traversal on every scroll/intersection event
+  const linkMap = {};
+  const sections = [];
 
-  // ⚡ Bolt: Cache DOM lookups by section ID mapped to array of matching links
-  // Why: Removes O(N) DOM getAttribute lookups on every single scroll/intersection event
-  // Impact: Reduces CPU main thread blocking on rapid scroll events. Reduces property lookups to an O(1) map lookup.
-  // Note: We use an array of links because there could be multiple navigation menus pointing to the same section
-  const linksById = new Map();
   links.forEach((link) => {
     const href = link.getAttribute("href");
-    if (href && href.startsWith("#")) {
-      const id = href.slice(1);
-      if (!linksById.has(id)) {
-        linksById.set(id, []);
-      }
-      linksById.get(id).push(link);
+    if (!href || !href.startsWith("#")) return;
+
+    const id = href.substring(1);
+    const section = document.getElementById(id);
+
+    if (section) {
+      linkMap[id] = link;
+      sections.push(section);
     }
   });
 
-  const setActive = (activeId) => {
-    links.forEach((link) => {
-      link.classList.remove("is-active");
-      link.removeAttribute("aria-current");
-    });
+  // ⚡ Bolt Performance Optimization:
+  // Map sections to their corresponding links for O(1) lookup
+  // instead of iterating through all links on every intersection
+  const linkMap = new Map();
+  const sections = [];
 
-    const activeLinks = linksById.get(activeId);
-    if (activeLinks) {
-      activeLinks.forEach((link) => {
-        link.classList.add("is-active");
-        link.setAttribute("aria-current", "true");
+  let currentActiveId = null;
+
+  // Cache link elements by their target section ID.
+  // We use an array to support multiple links pointing to the same section (e.g. desktop vs mobile nav).
+  const linkMap = new Map();
+  links.forEach(link => {
+    const href = link.getAttribute("href");
+    if (href) {
+      const id = href.replace("#", "");
+      if (!linkMap.has(id)) {
+        linkMap.set(id, []);
+      }
+      linkMap.get(id).push(link);
+    }
+  });
+
+  let currentActiveId = null;
+
+  const setActive = (id) => {
+    // ⚡ Bolt Optimization: Early return if active section hasn't changed
+    if (currentActiveId === id) return;
+
+    // Remove active state from previous links
+    if (currentActiveId && linkMap.has(currentActiveId)) {
+      const prevLinks = linkMap.get(currentActiveId);
+      prevLinks.forEach(prevLink => {
+        prevLink.classList.remove("is-active");
+        prevLink.removeAttribute("aria-current");
       });
     }
+
+    // Add active state to new links
+    if (linkMap.has(id)) {
+      const newLinks = linkMap.get(id);
+      newLinks.forEach(newLink => {
+        newLink.classList.add("is-active");
+        newLink.setAttribute("aria-current", "true");
+      });
+    }
+
+    currentActiveId = id;
   };
 
   const observer = new IntersectionObserver(

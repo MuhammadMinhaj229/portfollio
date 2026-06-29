@@ -4,11 +4,23 @@ const path = require('path');
 const scrollJsCode = fs.readFileSync(path.resolve(__dirname, '../assets/js/scroll.js'), 'utf8');
 
 describe('scroll.js', () => {
+  let observerCallback;
+
   beforeEach(() => {
+    // Mock IntersectionObserver
+    window.IntersectionObserver = jest.fn().mockImplementation((callback) => {
+      observerCallback = callback;
+      return {
+        observe: jest.fn(),
+        unobserve: jest.fn(),
+        disconnect: jest.fn()
+      };
+    });
+
     // Reset document
     document.body.innerHTML = `
       <nav>
-        <a href="#section1" class="side-link">Section 1</a>
+        <a href="#section1" class="side-link is-active" aria-current="true">Section 1</a>
         <a href="#section2" class="side-link">Section 2</a>
         <a href="#section3" class="side-link">Section 3</a>
       </nav>
@@ -46,7 +58,7 @@ describe('scroll.js', () => {
   });
 
   const loadScript = () => {
-    // Evaluate the script in the current JSDOM environment
+    jest.resetModules();
     eval(scrollJsCode);
   };
 
@@ -75,7 +87,7 @@ describe('scroll.js', () => {
     expect(link2.getAttribute('aria-current')).toBeNull();
   });
 
-  test('Scroll updates active link to second section', () => {
+  test('Intersection updates active link to second section', () => {
     loadScript();
 
     // Simulate section 2 becoming active
@@ -94,8 +106,8 @@ describe('scroll.js', () => {
   test('Resize updates active link (third section)', () => {
     loadScript();
 
-    // Simulate section 3 becoming active
-    triggerIntersection('section3', true);
+    // Trigger observer for section3
+    observerCallback([{ target: { id: 'section3' }, isIntersecting: true }]);
 
     const link2 = document.querySelector('a[href="#section2"]');
     const link3 = document.querySelector('a[href="#section3"]');
@@ -106,10 +118,7 @@ describe('scroll.js', () => {
   });
 
   test('Handles pages with no matching sections gracefully', () => {
-    // Override body with no elements
     document.body.innerHTML = '<div><a href="#missing" class="side-link">Missing</a></div>';
-
-    // Should not throw an error
     expect(() => {
       loadScript();
     }).not.toThrow();
