@@ -1,3 +1,3 @@
-## 2024-05-19 - Intersection Observer Thrashing
-**Learning:** Frequent events like scroll or intersection observers easily trigger redundant O(n) DOM operations if not carefully managed. `classList.toggle` and iterating over all DOM nodes repeatedly is a common source of layout thrashing and high CPU usage in simple scroll-spy scripts.
-**Action:** Map DOM elements in initialization so they can be looked up in O(1) time. Cache the currently active element and only modify the DOM nodes that actually need a class/attribute change.
+## 2024-05-18 - IntersectionObserver State Deduplication
+**Learning:** In static site navigations using IntersectionObserver, blindly updating all links in the callback results in O(N) DOM operations on every scroll threshold crossing. Furthermore, multiple links pointing to the same anchor can cause duplicate element observation.
+**Action:** When implementing scroll spies, always cache target links into a Map grouped by target ID (accounting for arrays of links mapped to a single ID), deduplicate target elements in a Set before observing them, and maintain state (e.g. `activeLinks`) to diff and only mutate DOM nodes that actually change state.

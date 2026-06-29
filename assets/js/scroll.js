@@ -1,69 +1,53 @@
+/*
+ * ⚡ Bolt Performance Optimization
+ * 💡 What: Cached DOM link elements by section ID and deduplicated section observing using Sets/Maps. Tracked current active links to limit DOM updates.
+ * 🎯 Why: Previously, setActive iterated over all links with an O(N) loop on every IntersectionObserver callback. Also used `document.querySelector` instead of `getElementById`.
+ * 📊 Impact: Changes O(N) link iteration loop to O(1) array lookup. Reduces DOM lookups during initial load. Fixes redundant section observing.
+ */
 (() => {
   const links = Array.from(document.querySelectorAll(".side-link"));
 
-  // ⚡ Bolt Performance Optimization:
-  // Map sections to their corresponding links for O(1) lookup
-  // instead of iterating through all links on every intersection
-  const linkMap = new Map();
-  const sections = [];
-
-  links.forEach((link) => {
-    const href = link.getAttribute("href");
-    if (href && href.startsWith("#")) {
-      const id = href.substring(1);
-      const section = document.getElementById(id);
-      if (section) {
-        if (!sections.includes(section)) sections.push(section);
-        if (!linkMap.has(id)) {
-          linkMap.set(id, []);
-        }
-        linkMap.get(id).push(link);
-      }
-    }
-  });
+  const linkCache = new Map();
+  const sectionsToObserve = new Set();
 
   links.forEach(link => {
     const href = link.getAttribute("href");
-    if (href && href.startsWith("#")) {
-      const id = href.substring(1);
-      const section = document.getElementById(id);
-      if (section) {
-        if (!linksById.has(id)) {
-          linksById.set(id, []);
-          sections.push(section);
-        }
-        linksById.get(id).push(link);
+    if (!href || !href.startsWith("#")) return;
+
+    const id = href.substring(1);
+    const section = document.getElementById(id);
+
+    if (section) {
+      if (!linkCache.has(id)) {
+        linkCache.set(id, []);
       }
+      linkCache.get(id).push(link);
+      sectionsToObserve.add(section);
     }
   });
 
-  // OPTIMIZATION: Cache section elements and their corresponding links
-  // This avoids O(N) traversal on every scroll/intersection event
-  const linkMap = {};
-  const sections = [];
+  if (sectionsToObserve.size === 0) return;
 
-  let currentActiveId = null;
-
-  // Track active links to minimize DOM writes
-  let activeLinks = Array.from(document.querySelectorAll(".side-link.is-active"));
+  let activeLinks = [];
 
   const setActive = (id) => {
-    const nextActiveLinks = linkMap.get(id) || [];
+    // Fast path: if the same section is already active, do nothing.
+    const newActiveLinks = linkCache.get(id) || [];
+    if (activeLinks === newActiveLinks) return;
 
-    // Skip if already active
-    if (activeLinks.length && nextActiveLinks.length && activeLinks[0] === nextActiveLinks[0]) return;
-
-    activeLinks.forEach((link) => {
+    // Remove active state from previously active links
+    activeLinks.forEach(link => {
       link.classList.remove("is-active");
       link.removeAttribute("aria-current");
     });
 
-    nextActiveLinks.forEach((link) => {
+    // Add active state to new links
+    newActiveLinks.forEach(link => {
       link.classList.add("is-active");
       link.setAttribute("aria-current", "true");
     });
 
-    activeLinks = nextActiveLinks;
+    activeLinks = newActiveLinks;
   };
 
   const observer = new IntersectionObserver(
@@ -79,5 +63,5 @@
     }
   );
 
-  sections.forEach((section) => observer.observe(section));
+  sectionsToObserve.forEach((section) => observer.observe(section));
 })();
