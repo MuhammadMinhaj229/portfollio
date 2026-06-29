@@ -20,7 +20,7 @@ describe('scroll.js', () => {
     // Reset document
     document.body.innerHTML = `
       <nav>
-        <a href="#section1" class="side-link">Section 1</a>
+        <a href="#section1" class="side-link is-active" aria-current="true">Section 1</a>
         <a href="#section2" class="side-link">Section 2</a>
         <a href="#section3" class="side-link">Section 3</a>
       </nav>
@@ -47,7 +47,7 @@ describe('scroll.js', () => {
     eval(scrollJsCode);
   };
 
-  test('Initial state sets first section as active', () => {
+  test('Initial state sets first section as active when it intersects', () => {
     loadScript();
 
     // Trigger observer for section1
@@ -63,7 +63,7 @@ describe('scroll.js', () => {
     expect(link2.getAttribute('aria-current')).toBeNull();
   });
 
-  test('Scroll updates active link to second section', () => {
+  test('Intersection updates active link to second section', () => {
     loadScript();
 
     // Trigger observer for section1 (initially)
@@ -100,10 +100,7 @@ describe('scroll.js', () => {
   });
 
   test('Handles pages with no matching sections gracefully', () => {
-    // Override body with no elements
     document.body.innerHTML = '<div><a href="#missing" class="side-link">Missing</a></div>';
-
-    // Should not throw an error
     expect(() => {
       loadScript();
     }).not.toThrow();

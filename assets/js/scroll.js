@@ -7,7 +7,31 @@
     })
     .filter(Boolean);
 
-  if (!sections.length) return;
+  // OPTIMIZATION: Cache section elements and their corresponding links
+  // This avoids O(N) traversal on every scroll/intersection event
+  const linkMap = {};
+  const sections = [];
+
+  links.forEach((link) => {
+    const href = link.getAttribute("href");
+    if (!href || !href.startsWith("#")) return;
+
+    const id = href.substring(1);
+    const section = document.getElementById(id);
+
+    if (section) {
+      linkMap[id] = link;
+      sections.push(section);
+    }
+  });
+
+  // ⚡ Bolt Performance Optimization:
+  // Map sections to their corresponding links for O(1) lookup
+  // instead of iterating through all links on every intersection
+  const linkMap = new Map();
+  const sections = [];
+
+  let currentActiveId = null;
 
   // Cache link elements by their target section ID.
   // We use an array to support multiple links pointing to the same section (e.g. desktop vs mobile nav).
