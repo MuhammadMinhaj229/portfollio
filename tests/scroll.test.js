@@ -4,9 +4,19 @@ const path = require('path');
 const scrollJsCode = fs.readFileSync(path.resolve(__dirname, '../assets/js/scroll.js'), 'utf8');
 
 describe('scroll.js', () => {
-  let mockObserverInstance = null;
+  let observerCallback;
 
   beforeEach(() => {
+    // Mock IntersectionObserver
+    window.IntersectionObserver = jest.fn().mockImplementation((callback) => {
+      observerCallback = callback;
+      return {
+        observe: jest.fn(),
+        unobserve: jest.fn(),
+        disconnect: jest.fn()
+      };
+    });
+
     // Reset document
     document.body.innerHTML = `
       <nav>

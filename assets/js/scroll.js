@@ -22,7 +22,27 @@
     }
   });
 
-  if (!sections.length) return;
+  links.forEach(link => {
+    const href = link.getAttribute("href");
+    if (href && href.startsWith("#")) {
+      const id = href.substring(1);
+      const section = document.getElementById(id);
+      if (section) {
+        if (!linksById.has(id)) {
+          linksById.set(id, []);
+          sections.push(section);
+        }
+        linksById.get(id).push(link);
+      }
+    }
+  });
+
+  // OPTIMIZATION: Cache section elements and their corresponding links
+  // This avoids O(N) traversal on every scroll/intersection event
+  const linkMap = {};
+  const sections = [];
+
+  let currentActiveId = null;
 
   // Track active links to minimize DOM writes
   let activeLinks = Array.from(document.querySelectorAll(".side-link.is-active"));
