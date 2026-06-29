@@ -7,47 +7,58 @@
 (() => {
   const links = Array.from(document.querySelectorAll(".side-link"));
 
-  const linkCache = new Map();
-  const sectionsToObserve = new Set();
+  // Cache DOM lookups for links by mapping section IDs to arrays of links
+  const linkMap = new Map();
+  // Deduplicate target elements to avoid redundant observer events
+  const sectionSet = new Set();
 
-  links.forEach(link => {
+  links.forEach((link) => {
+    // Clear any pre-existing active classes to prevent multiple active items
+    // (e.g. if the user lands directly on a hashed URL, the initial HTML "active" class
+    // should be removed before IntersectionObserver sets the correct active item)
+    link.classList.remove("is-active");
+    link.removeAttribute("aria-current");
+
     const href = link.getAttribute("href");
     if (!href || !href.startsWith("#")) return;
 
     const id = href.substring(1);
-    const section = document.getElementById(id);
+    if (!id) return;
 
+    if (!linkMap.has(id)) {
+      linkMap.set(id, []);
+    }
+    linkMap.get(id).push(link);
+
+    const section = document.getElementById(id);
     if (section) {
-      if (!linkCache.has(id)) {
-        linkCache.set(id, []);
-      }
-      linkCache.get(id).push(link);
-      sectionsToObserve.add(section);
+      sectionSet.add(section);
     }
   });
 
-  if (sectionsToObserve.size === 0) return;
+  if (sectionSet.size === 0) return;
 
-  let activeLinks = [];
+  // Track the current active id to minimize redundant O(N) DOM mutations
+  let activeId = null;
 
   const setActive = (id) => {
-    // Fast path: if the same section is already active, do nothing.
-    const newActiveLinks = linkCache.get(id) || [];
-    if (activeLinks === newActiveLinks) return;
+    if (activeId === id) return;
 
-    // Remove active state from previously active links
-    activeLinks.forEach(link => {
-      link.classList.remove("is-active");
-      link.removeAttribute("aria-current");
-    });
+    if (activeId && linkMap.has(activeId)) {
+      linkMap.get(activeId).forEach((link) => {
+        link.classList.remove("is-active");
+        link.removeAttribute("aria-current");
+      });
+    }
 
-    // Add active state to new links
-    newActiveLinks.forEach(link => {
-      link.classList.add("is-active");
-      link.setAttribute("aria-current", "true");
-    });
+    if (id && linkMap.has(id)) {
+      linkMap.get(id).forEach((link) => {
+        link.classList.add("is-active");
+        link.setAttribute("aria-current", "true");
+      });
+    }
 
-    activeLinks = newActiveLinks;
+    activeId = id;
   };
 
   const observer = new IntersectionObserver(
@@ -63,5 +74,5 @@
     }
   );
 
-  sectionsToObserve.forEach((section) => observer.observe(section));
+  sectionSet.forEach((section) => observer.observe(section));
 })();
