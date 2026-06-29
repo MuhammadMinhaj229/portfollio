@@ -1,36 +1,62 @@
 (() => {
   const links = Array.from(document.querySelectorAll(".side-link"));
-  const sections = links
-    .map((link) => document.querySelector(link.getAttribute("href")))
-    .filter(Boolean);
 
-  if (!sections.length) return;
+  const linkMap = new Map();
+  const sectionsSet = new Set();
+
+  links.forEach(link => {
+    const href = link.getAttribute("href");
+    if (!href || !href.startsWith('#')) return;
+
+    const id = href.substring(1);
+    if (!linkMap.has(id)) {
+      linkMap.set(id, []);
+    }
+    linkMap.get(id).push(link);
+
+    const section = document.getElementById(id);
+    if (section) {
+      sectionsSet.add(section);
+    }
+  });
+
+  if (sectionsSet.size === 0) return;
+
+  let activeLinks = [];
 
   const setActive = (id) => {
-    links.forEach((link) => {
-      const isMatch = link.getAttribute("href") === `#${id}`;
-      link.classList.toggle("is-active", isMatch);
-      if (isMatch) {
-        link.setAttribute("aria-current", "true");
-      } else {
-        link.removeAttribute("aria-current");
-      }
+    const newActiveLinks = linkMap.get(id) || [];
+
+    // Quick reference check to avoid redundant O(N) DOM mutations
+    if (activeLinks === newActiveLinks) return;
+
+    // Remove active state from previously active links
+    activeLinks.forEach((link) => {
+      link.classList.remove("is-active");
+      link.removeAttribute("aria-current");
     });
+
+    // Add active state to newly active links
+    newActiveLinks.forEach((link) => {
+      link.classList.add("is-active");
+      link.setAttribute("aria-current", "true");
+    });
+
+    activeLinks = newActiveLinks;
   };
 
-  const onScroll = () => {
-    const marker = window.innerHeight * 0.35;
-    let current = sections[0].id;
-    sections.forEach((section) => {
-      const rect = section.getBoundingClientRect();
-      if (rect.top <= marker) {
-        current = section.id;
-      }
-    });
-    setActive(current);
-  };
+  const observer = new IntersectionObserver(
+    (entries) => {
+      entries.forEach((entry) => {
+        if (entry.isIntersecting) {
+          setActive(entry.target.id);
+        }
+      });
+    },
+    {
+      rootMargin: "-35% 0px -65% 0px",
+    }
+  );
 
-  window.addEventListener("scroll", onScroll, { passive: true });
-  window.addEventListener("resize", onScroll);
-  onScroll();
+  sectionsSet.forEach((section) => observer.observe(section));
 })();
