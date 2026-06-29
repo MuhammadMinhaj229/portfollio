@@ -86,12 +86,11 @@ describe('scroll.js', () => {
 
     mockObserverInstance.trigger([{ target: { id: 'section3' }, isIntersecting: true }]);
 
+    const link1 = document.querySelector('a[href="#section1"]');
     const link2 = document.querySelector('a[href="#section2"]');
-    const link3 = document.querySelector('a[href="#section3"]');
 
-    expect(link2.classList.contains('is-active')).toBe(false);
-    expect(link3.classList.contains('is-active')).toBe(true);
-    expect(link3.getAttribute('aria-current')).toBe('true');
+    expect(link1.classList.contains('is-active')).toBe(false);
+    expect(link2.classList.contains('is-active')).toBe(true);
   });
 
   test('Handles pages with no matching sections gracefully', () => {

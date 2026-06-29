@@ -22,7 +22,28 @@
     }
   });
 
-  if (!sections.length) return;
+  const linkMap = new Map();
+  const sectionsSet = new Set();
+
+  links.forEach(link => {
+    const href = link.getAttribute("href");
+    if (!href || !href.startsWith('#')) return;
+
+    const id = href.substring(1);
+    if (!linkMap.has(id)) {
+      linkMap.set(id, []);
+    }
+    linkMap.get(id).push(link);
+
+    const section = document.getElementById(id);
+    if (section) {
+      sectionsSet.add(section);
+    }
+  });
+
+  if (sectionsSet.size === 0) return;
+
+  let activeLinks = [];
 
   // Track active links to minimize DOM writes
   let activeLinks = Array.from(document.querySelectorAll(".side-link.is-active"));
@@ -37,7 +58,6 @@
       link.classList.remove("is-active");
       link.removeAttribute("aria-current");
     });
-
     nextActiveLinks.forEach((link) => {
       link.classList.add("is-active");
       link.setAttribute("aria-current", "true");
@@ -59,5 +79,5 @@
     }
   );
 
-  sections.forEach((section) => observer.observe(section));
+  sectionsSet.forEach((section) => observer.observe(section));
 })();
