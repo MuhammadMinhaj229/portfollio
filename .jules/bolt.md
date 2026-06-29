@@ -1,3 +1,3 @@
-## 2025-02-23 - [Navigation Link Optimization]
-**Learning:** When caching or optimizing DOM lookups for navigation links (e.g., using a Map to link section IDs to DOM elements), mapping an ID to a single link can cause bugs if there are multiple navigation menus pointing to the same sections.
-**Action:** Always map IDs to an array of links rather than a single link element to handle multiple instances and prevent regressions in navigation functionality.
+## 2024-05-19 - Intersection Observer Thrashing
+**Learning:** Frequent events like scroll or intersection observers easily trigger redundant O(n) DOM operations if not carefully managed. `classList.toggle` and iterating over all DOM nodes repeatedly is a common source of layout thrashing and high CPU usage in simple scroll-spy scripts.
+**Action:** Map DOM elements in initialization so they can be looked up in O(1) time. Cache the currently active element and only modify the DOM nodes that actually need a class/attribute change.

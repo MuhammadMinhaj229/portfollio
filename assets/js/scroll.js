@@ -1,7 +1,26 @@
 (() => {
   const links = Array.from(document.querySelectorAll(".side-link"));
-  const linksById = new Map();
+
+  // ⚡ Bolt Performance Optimization:
+  // Map sections to their corresponding links for O(1) lookup
+  // instead of iterating through all links on every intersection
+  const linkMap = new Map();
   const sections = [];
+
+  links.forEach((link) => {
+    const href = link.getAttribute("href");
+    if (href && href.startsWith("#")) {
+      const id = href.substring(1);
+      const section = document.getElementById(id);
+      if (section) {
+        if (!sections.includes(section)) sections.push(section);
+        if (!linkMap.has(id)) {
+          linkMap.set(id, []);
+        }
+        linkMap.get(id).push(link);
+      }
+    }
+  });
 
   links.forEach(link => {
     const href = link.getAttribute("href");
@@ -25,24 +44,26 @@
 
   let currentActiveId = null;
 
+  // Track active links to minimize DOM writes
+  let activeLinks = Array.from(document.querySelectorAll(".side-link.is-active"));
+
   const setActive = (id) => {
-    if (currentActiveId === id) return;
+    const nextActiveLinks = linkMap.get(id) || [];
 
-    if (currentActiveId && linksById.has(currentActiveId)) {
-      linksById.get(currentActiveId).forEach(link => {
-        link.classList.remove("is-active");
-        link.removeAttribute("aria-current");
-      });
-    }
+    // Skip if already active
+    if (activeLinks.length && nextActiveLinks.length && activeLinks[0] === nextActiveLinks[0]) return;
 
-    if (id && linksById.has(id)) {
-      linksById.get(id).forEach(link => {
-        link.classList.add("is-active");
-        link.setAttribute("aria-current", "true");
-      });
-    }
+    activeLinks.forEach((link) => {
+      link.classList.remove("is-active");
+      link.removeAttribute("aria-current");
+    });
 
-    currentActiveId = id;
+    nextActiveLinks.forEach((link) => {
+      link.classList.add("is-active");
+      link.setAttribute("aria-current", "true");
+    });
+
+    activeLinks = nextActiveLinks;
   };
 
   const observer = new IntersectionObserver(
