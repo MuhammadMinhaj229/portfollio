@@ -18,7 +18,10 @@
     }
   });
 
-  if (!sections.length) return;
+  // OPTIMIZATION: Cache section elements and their corresponding links
+  // This avoids O(N) traversal on every scroll/intersection event
+  const linkMap = {};
+  const sections = [];
 
   let currentActiveId = null;
 
