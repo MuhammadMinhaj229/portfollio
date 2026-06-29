@@ -19,7 +19,11 @@
     }
   });
 
-  if (!sections.length) return;
+  // ⚡ Bolt Performance Optimization:
+  // Map sections to their corresponding links for O(1) lookup
+  // instead of iterating through all links on every intersection
+  const linkMap = new Map();
+  const sections = [];
 
   let currentActiveId = null;
 

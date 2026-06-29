@@ -1,0 +1,6 @@
+127.0.0.1 - - [21/Jun/2026 02:00:53] "GET / HTTP/1.1" 200 -
+127.0.0.1 - - [21/Jun/2026 02:00:53] "GET /assets/css/style.css HTTP/1.1" 200 -
+127.0.0.1 - - [21/Jun/2026 02:00:53] "GET /assets/js/scroll.js HTTP/1.1" 200 -
+127.0.0.1 - - [21/Jun/2026 02:01:26] "GET / HTTP/1.1" 200 -
+127.0.0.1 - - [21/Jun/2026 02:01:26] "GET /assets/css/style.css HTTP/1.1" 200 -
+127.0.0.1 - - [21/Jun/2026 02:01:26] "GET /assets/js/scroll.js HTTP/1.1" 200 -
