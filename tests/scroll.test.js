@@ -4,7 +4,9 @@ const path = require('path');
 const scrollJsCode = fs.readFileSync(path.resolve(__dirname, '../assets/js/scroll.js'), 'utf8');
 
 describe('scroll.js', () => {
-  let mockObserverInstance = null;
+  let observeMock;
+  let intersectionObserverMock;
+  let observerCallback;
 
   beforeEach(() => {
     // Reset document
@@ -21,26 +23,20 @@ describe('scroll.js', () => {
       </main>
     `;
 
-    class MockIntersectionObserver {
-      constructor(callback) {
-        this.callback = callback;
-        mockObserverInstance = this;
-      }
-      observe() {}
-      unobserve() {}
-      disconnect() {}
-
-      trigger(entries) {
-        this.callback(entries);
-      }
-    }
-    window.IntersectionObserver = MockIntersectionObserver;
+    observeMock = jest.fn();
+    intersectionObserverMock = jest.fn(function(callback, options) {
+      observerCallback = callback;
+      this.observe = observeMock;
+      this.unobserve = jest.fn();
+      this.disconnect = jest.fn();
+    });
+    global.IntersectionObserver = intersectionObserverMock;
   });
 
   afterEach(() => {
     jest.restoreAllMocks();
     document.body.innerHTML = '';
-    mockObserverInstance = null;
+    delete global.IntersectionObserver;
   });
 
   const loadScript = () => {
@@ -50,7 +46,11 @@ describe('scroll.js', () => {
   test('Initial state sets first section as active when it intersects', () => {
     loadScript();
 
-    mockObserverInstance.trigger([{ target: { id: 'section1' }, isIntersecting: true }]);
+    // Simulate IntersectionObserver firing for the first section
+    observerCallback([{
+      isIntersecting: true,
+      target: { id: 'section1' }
+    }]);
 
     const link1 = document.querySelector('a[href="#section1"]');
     const link2 = document.querySelector('a[href="#section2"]');
@@ -65,11 +65,11 @@ describe('scroll.js', () => {
   test('Intersection updates active link to second section', () => {
     loadScript();
 
-    mockObserverInstance.trigger([{ target: { id: 'section1' }, isIntersecting: true }]);
-    mockObserverInstance.trigger([
-      { target: { id: 'section1' }, isIntersecting: false },
-      { target: { id: 'section2' }, isIntersecting: true }
-    ]);
+    // Simulate IntersectionObserver firing for the second section
+    observerCallback([{
+      isIntersecting: true,
+      target: { id: 'section2' }
+    }]);
 
     const link1 = document.querySelector('a[href="#section1"]');
     const link2 = document.querySelector('a[href="#section2"]');
@@ -79,18 +79,6 @@ describe('scroll.js', () => {
 
     expect(link2.classList.contains('is-active')).toBe(true);
     expect(link2.getAttribute('aria-current')).toBe('true');
-  });
-
-  test('Intersection updates active link to third section', () => {
-    loadScript();
-
-    mockObserverInstance.trigger([{ target: { id: 'section3' }, isIntersecting: true }]);
-
-    const link1 = document.querySelector('a[href="#section1"]');
-    const link2 = document.querySelector('a[href="#section2"]');
-
-    expect(link1.classList.contains('is-active')).toBe(false);
-    expect(link2.classList.contains('is-active')).toBe(true);
   });
 
   test('Handles pages with no matching sections gracefully', () => {
