@@ -1,6 +1,27 @@
 (() => {
   const links = Array.from(document.querySelectorAll(".side-link"));
 
+  // ⚡ Bolt Performance Optimization:
+  // Map sections to their corresponding links for O(1) lookup
+  // instead of iterating through all links on every intersection
+  const linkMap = new Map();
+  const sections = [];
+
+  links.forEach((link) => {
+    const href = link.getAttribute("href");
+    if (href && href.startsWith("#")) {
+      const id = href.substring(1);
+      const section = document.getElementById(id);
+      if (section) {
+        if (!sections.includes(section)) sections.push(section);
+        if (!linkMap.has(id)) {
+          linkMap.set(id, []);
+        }
+        linkMap.get(id).push(link);
+      }
+    }
+  });
+
   const linkMap = new Map();
   const sectionsSet = new Set();
 
@@ -24,25 +45,25 @@
 
   let activeLinks = [];
 
+  // Track active links to minimize DOM writes
+  let activeLinks = Array.from(document.querySelectorAll(".side-link.is-active"));
+
   const setActive = (id) => {
-    const newActiveLinks = linkMap.get(id) || [];
+    const nextActiveLinks = linkMap.get(id) || [];
 
-    // Quick reference check to avoid redundant O(N) DOM mutations
-    if (activeLinks === newActiveLinks) return;
+    // Skip if already active
+    if (activeLinks.length && nextActiveLinks.length && activeLinks[0] === nextActiveLinks[0]) return;
 
-    // Remove active state from previously active links
     activeLinks.forEach((link) => {
       link.classList.remove("is-active");
       link.removeAttribute("aria-current");
     });
-
-    // Add active state to newly active links
-    newActiveLinks.forEach((link) => {
+    nextActiveLinks.forEach((link) => {
       link.classList.add("is-active");
       link.setAttribute("aria-current", "true");
     });
 
-    activeLinks = newActiveLinks;
+    activeLinks = nextActiveLinks;
   };
 
   const observer = new IntersectionObserver(
