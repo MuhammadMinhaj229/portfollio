@@ -5,6 +5,7 @@ const scrollJsCode = fs.readFileSync(path.resolve(__dirname, '../assets/js/scrol
 
 describe('scroll.js', () => {
   let observerCallback;
+  let mockObserverInstance;
 
   beforeEach(() => {
     // Mock IntersectionObserver
@@ -31,21 +32,17 @@ describe('scroll.js', () => {
       </main>
     `;
 
-    class MockIntersectionObserver {
-      constructor(callback) {
-        this.callback = callback;
-        mockObserverInstance = this;
-      }
-      observe() {}
-      unobserve() {}
-      disconnect() {}
-
     // Mock IntersectionObserver
     class MockIntersectionObserver {
       constructor(callback, options) {
+        mockObserverInstance = this;
         this.callback = callback;
         this.options = options;
         this.elements = [];
+
+        this.trigger = (entries) => {
+          this.callback(entries);
+        };
 
         this.checkIntersections = () => {
           const entries = this.elements.map(el => {
