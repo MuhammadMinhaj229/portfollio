@@ -5,6 +5,7 @@ const scrollJsCode = fs.readFileSync(path.resolve(__dirname, '../assets/js/scrol
 
 describe('scroll.js', () => {
   let observerCallback;
+  let mockObserverInstance;
 
   beforeEach(() => {
     // Mock IntersectionObserver
@@ -31,18 +32,10 @@ describe('scroll.js', () => {
       </main>
     `;
 
-    class MockIntersectionObserver {
-      constructor(callback) {
-        this.callback = callback;
-        mockObserverInstance = this;
-      }
-      observe() {}
-      unobserve() {}
-      disconnect() {}
-
     // Mock IntersectionObserver
     class MockIntersectionObserver {
       constructor(callback, options) {
+        mockObserverInstance = this;
         this.callback = callback;
         this.options = options;
         this.elements = [];
@@ -85,6 +78,10 @@ describe('scroll.js', () => {
         window.removeEventListener('scroll', this.checkIntersections);
         window.removeEventListener('resize', this.checkIntersections);
         this.elements = [];
+      }
+
+      trigger(entries) {
+        this.callback(entries);
       }
     }
 
