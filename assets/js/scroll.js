@@ -1,8 +1,8 @@
 /*
  * ⚡ Bolt Performance Optimization
- * 💡 What: Cached DOM link elements by section ID and deduplicated section observing using Sets/Maps. Tracked current active links to limit DOM updates.
- * 🎯 Why: Previously, setActive iterated over all links with an O(N) loop on every IntersectionObserver callback. Also used `document.querySelector` instead of `getElementById`.
- * 📊 Impact: Changes O(N) link iteration loop to O(1) array lookup. Reduces DOM lookups during initial load. Fixes redundant section observing.
+ * 💡 What: Cached DOM link elements by section ID and deduplicated section observing using Sets/Maps. Tracked current active links to limit DOM updates. Batched IntersectionObserver entries processing.
+ * 🎯 Why: Previously, setActive iterated over all links with an O(N) loop on every IntersectionObserver callback. Also used `document.querySelector` instead of `getElementById`. Processing all IntersectionObserver entries sequentially caused intermediate DOM manipulations and layout thrashing during fast scrolling.
+ * 📊 Impact: Changes O(N) link iteration loop to O(1) array lookup. Reduces DOM lookups during initial load. Fixes redundant section observing. Prevents layout thrashing by applying DOM mutations only once per IntersectionObserver callback.
  */
 (() => {
   const links = Array.from(document.querySelectorAll(".side-link"));
@@ -63,11 +63,15 @@
 
   const observer = new IntersectionObserver(
     (entries) => {
-      entries.forEach((entry) => {
-        if (entry.isIntersecting) {
-          setActive(entry.target.id);
+      // Batch DOM state updates by finding the last intersecting entry in the array
+      // and applying the DOM mutation only once. This prevents layout thrashing
+      // and intermediate DOM manipulations during fast scrolling.
+      for (let i = entries.length - 1; i >= 0; i--) {
+        if (entries[i].isIntersecting) {
+          setActive(entries[i].target.id);
+          break;
         }
-      });
+      }
     },
     {
       rootMargin: "-35% 0px -65% 0px",
