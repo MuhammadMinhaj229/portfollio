@@ -5,18 +5,9 @@ const scrollJsCode = fs.readFileSync(path.resolve(__dirname, '../assets/js/scrol
 
 describe('scroll.js', () => {
   let observerCallback;
+  let mockObserverInstance;
 
   beforeEach(() => {
-    // Mock IntersectionObserver
-    window.IntersectionObserver = jest.fn().mockImplementation((callback) => {
-      observerCallback = callback;
-      return {
-        observe: jest.fn(),
-        unobserve: jest.fn(),
-        disconnect: jest.fn()
-      };
-    });
-
     // Reset document
     document.body.innerHTML = `
       <nav>
@@ -31,21 +22,17 @@ describe('scroll.js', () => {
       </main>
     `;
 
-    class MockIntersectionObserver {
-      constructor(callback) {
-        this.callback = callback;
-        mockObserverInstance = this;
-      }
-      observe() {}
-      unobserve() {}
-      disconnect() {}
-
     // Mock IntersectionObserver
     class MockIntersectionObserver {
       constructor(callback, options) {
         this.callback = callback;
         this.options = options;
         this.elements = [];
+        mockObserverInstance = this;
+
+        this.trigger = (entries) => {
+          this.callback(entries);
+        };
 
         this.checkIntersections = () => {
           const entries = this.elements.map(el => {
