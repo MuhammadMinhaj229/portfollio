@@ -31,21 +31,17 @@ describe('scroll.js', () => {
       </main>
     `;
 
-    class MockIntersectionObserver {
-      constructor(callback) {
-        this.callback = callback;
-        mockObserverInstance = this;
-      }
-      observe() {}
-      unobserve() {}
-      disconnect() {}
-
     // Mock IntersectionObserver
     class MockIntersectionObserver {
       constructor(callback, options) {
+        window.mockObserverInstance = this;
         this.callback = callback;
         this.options = options;
         this.elements = [];
+
+        this.trigger = (entries) => {
+          this.callback(entries);
+        };
 
         this.checkIntersections = () => {
           const entries = this.elements.map(el => {
@@ -104,7 +100,7 @@ describe('scroll.js', () => {
   test('Initial state sets first section as active when it intersects', () => {
     loadScript();
 
-    mockObserverInstance.trigger([{ target: { id: 'section1' }, isIntersecting: true }]);
+    window.mockObserverInstance.trigger([{ target: { id: 'section1' }, isIntersecting: true }]);
 
     const link1 = document.querySelector('a[href="#section1"]');
     const link2 = document.querySelector('a[href="#section2"]');
@@ -147,7 +143,7 @@ describe('scroll.js', () => {
   test('Intersection updates active link to third section', () => {
     loadScript();
 
-    mockObserverInstance.trigger([{ target: { id: 'section3' }, isIntersecting: true }]);
+    window.mockObserverInstance.trigger([{ target: { id: 'section3' }, isIntersecting: true }]);
 
     const link2 = document.querySelector('a[href="#section2"]');
     const link3 = document.querySelector('a[href="#section3"]');
