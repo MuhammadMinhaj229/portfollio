@@ -8,44 +8,12 @@ describe('scroll.js', () => {
 
   beforeEach(() => {
     // Mock IntersectionObserver
-    window.IntersectionObserver = jest.fn().mockImplementation((callback) => {
-      observerCallback = callback;
-      return {
-        observe: jest.fn(),
-        unobserve: jest.fn(),
-        disconnect: jest.fn()
-      };
-    });
-
-    // Reset document
-    document.body.innerHTML = `
-      <nav>
-        <a href="#section1" class="side-link is-active" aria-current="true">Section 1</a>
-        <a href="#section2" class="side-link">Section 2</a>
-        <a href="#section3" class="side-link">Section 3</a>
-      </nav>
-      <main>
-        <section id="section1" style="height: 1000px;"></section>
-        <section id="section2" style="height: 1000px;"></section>
-        <section id="section3" style="height: 1000px;"></section>
-      </main>
-    `;
-
-    class MockIntersectionObserver {
-      constructor(callback) {
-        this.callback = callback;
-        mockObserverInstance = this;
-      }
-      observe() {}
-      unobserve() {}
-      disconnect() {}
-
-    // Mock IntersectionObserver
     class MockIntersectionObserver {
       constructor(callback, options) {
         this.callback = callback;
         this.options = options;
         this.elements = [];
+        window.mockObserverInstance = this;
 
         this.checkIntersections = () => {
           const entries = this.elements.map(el => {
@@ -69,6 +37,10 @@ describe('scroll.js', () => {
         setTimeout(this.checkIntersections, 0);
       }
 
+      trigger(entries) {
+        this.callback(entries);
+      }
+
       observe(element) {
         this.elements.push(element);
         // Fire immediately for initial state
@@ -89,12 +61,27 @@ describe('scroll.js', () => {
     }
 
     window.IntersectionObserver = MockIntersectionObserver;
+
+    // Reset document
+    document.body.innerHTML = `
+      <nav>
+        <a href="#section1" class="side-link is-active" aria-current="true">Section 1</a>
+        <a href="#section2" class="side-link">Section 2</a>
+        <a href="#section3" class="side-link">Section 3</a>
+      </nav>
+      <main>
+        <section id="section1" style="height: 1000px;"></section>
+        <section id="section2" style="height: 1000px;"></section>
+        <section id="section3" style="height: 1000px;"></section>
+      </main>
+    `;
   });
 
   afterEach(() => {
     jest.restoreAllMocks();
     document.body.innerHTML = '';
     delete window.IntersectionObserver;
+    delete window.mockObserverInstance;
   });
 
   const loadScript = () => {
@@ -104,7 +91,7 @@ describe('scroll.js', () => {
   test('Initial state sets first section as active when it intersects', () => {
     loadScript();
 
-    mockObserverInstance.trigger([{ target: { id: 'section1' }, isIntersecting: true }]);
+    window.mockObserverInstance.trigger([{ target: { id: 'section1' }, isIntersecting: true }]);
 
     const link1 = document.querySelector('a[href="#section1"]');
     const link2 = document.querySelector('a[href="#section2"]');
@@ -147,7 +134,7 @@ describe('scroll.js', () => {
   test('Intersection updates active link to third section', () => {
     loadScript();
 
-    mockObserverInstance.trigger([{ target: { id: 'section3' }, isIntersecting: true }]);
+    window.mockObserverInstance.trigger([{ target: { id: 'section3' }, isIntersecting: true }]);
 
     const link2 = document.querySelector('a[href="#section2"]');
     const link3 = document.querySelector('a[href="#section3"]');
