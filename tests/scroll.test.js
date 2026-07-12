@@ -31,18 +31,11 @@ describe('scroll.js', () => {
       </main>
     `;
 
-    class MockIntersectionObserver {
-      constructor(callback) {
-        this.callback = callback;
-        mockObserverInstance = this;
-      }
-      observe() {}
-      unobserve() {}
-      disconnect() {}
 
-    // Mock IntersectionObserver
     class MockIntersectionObserver {
       constructor(callback, options) {
+        window.mockObserverInstance = this;
+        this.trigger = callback;
         this.callback = callback;
         this.options = options;
         this.elements = [];
