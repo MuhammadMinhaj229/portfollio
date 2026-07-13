@@ -4,19 +4,7 @@ const path = require('path');
 const scrollJsCode = fs.readFileSync(path.resolve(__dirname, '../assets/js/scroll.js'), 'utf8');
 
 describe('scroll.js', () => {
-  let observerCallback;
-
   beforeEach(() => {
-    // Mock IntersectionObserver
-    window.IntersectionObserver = jest.fn().mockImplementation((callback) => {
-      observerCallback = callback;
-      return {
-        observe: jest.fn(),
-        unobserve: jest.fn(),
-        disconnect: jest.fn()
-      };
-    });
-
     // Reset document
     document.body.innerHTML = `
       <nav>
@@ -34,57 +22,14 @@ describe('scroll.js', () => {
     class MockIntersectionObserver {
       constructor(callback) {
         this.callback = callback;
-        mockObserverInstance = this;
+        window.mockObserverInstance = this;
       }
       observe() {}
       unobserve() {}
       disconnect() {}
 
-    // Mock IntersectionObserver
-    class MockIntersectionObserver {
-      constructor(callback, options) {
-        this.callback = callback;
-        this.options = options;
-        this.elements = [];
-
-        this.checkIntersections = () => {
-          const entries = this.elements.map(el => {
-            const rect = el.getBoundingClientRect();
-            // A simple mock of intersection based on the test's getBoundingClientRect tops:
-            // The active section is the one closest to the top but within the "active" zone.
-            // Tests set the active one's top to 0, 300, or 100. Let's just say intersecting is top >= -200 && top <= 400
-            const isIntersecting = rect.top >= -200 && rect.top <= 400;
-            return {
-              target: el,
-              isIntersecting
-            };
-          });
-          this.callback(entries);
-        };
-
-        window.addEventListener('scroll', this.checkIntersections);
-        window.addEventListener('resize', this.checkIntersections);
-
-        // Initial check on next tick
-        setTimeout(this.checkIntersections, 0);
-      }
-
-      observe(element) {
-        this.elements.push(element);
-        // Fire immediately for initial state
-        const rect = element.getBoundingClientRect();
-        const isIntersecting = rect.top >= -200 && rect.top <= 400;
-        this.callback([{ target: element, isIntersecting }]);
-      }
-
-      unobserve(element) {
-        this.elements = this.elements.filter(el => el !== element);
-      }
-
-      disconnect() {
-        window.removeEventListener('scroll', this.checkIntersections);
-        window.removeEventListener('resize', this.checkIntersections);
-        this.elements = [];
+      trigger(entries) {
+        this.callback(entries);
       }
     }
 
@@ -95,6 +40,7 @@ describe('scroll.js', () => {
     jest.restoreAllMocks();
     document.body.innerHTML = '';
     delete window.IntersectionObserver;
+    delete window.mockObserverInstance;
   });
 
   const loadScript = () => {
@@ -104,7 +50,7 @@ describe('scroll.js', () => {
   test('Initial state sets first section as active when it intersects', () => {
     loadScript();
 
-    mockObserverInstance.trigger([{ target: { id: 'section1' }, isIntersecting: true }]);
+    window.mockObserverInstance.trigger([{ target: { id: 'section1' }, isIntersecting: true }]);
 
     const link1 = document.querySelector('a[href="#section1"]');
     const link2 = document.querySelector('a[href="#section2"]');
@@ -119,20 +65,7 @@ describe('scroll.js', () => {
   test('Intersection updates active link to second section', () => {
     loadScript();
 
-    // Update the mock to simulate scrolling down
-    Element.prototype.getBoundingClientRect = jest.fn(function () {
-      if (this.id === 'section1') {
-        return { top: -1000 };
-      } else if (this.id === 'section2') {
-        return { top: 300 }; // intersecting
-      } else if (this.id === 'section3') {
-        return { top: 1300 };
-      }
-      return { top: 0 };
-    });
-
-    // Dispatch scroll event
-    window.dispatchEvent(new Event('scroll'));
+    window.mockObserverInstance.trigger([{ target: { id: 'section2' }, isIntersecting: true }]);
 
     const link1 = document.querySelector('a[href="#section1"]');
     const link2 = document.querySelector('a[href="#section2"]');
@@ -147,7 +80,7 @@ describe('scroll.js', () => {
   test('Intersection updates active link to third section', () => {
     loadScript();
 
-    mockObserverInstance.trigger([{ target: { id: 'section3' }, isIntersecting: true }]);
+    window.mockObserverInstance.trigger([{ target: { id: 'section3' }, isIntersecting: true }]);
 
     const link2 = document.querySelector('a[href="#section2"]');
     const link3 = document.querySelector('a[href="#section3"]');
@@ -162,5 +95,24 @@ describe('scroll.js', () => {
     expect(() => {
       loadScript();
     }).not.toThrow();
+  });
+
+  test('Batches updates during fast scrolling', () => {
+    loadScript();
+
+    // Trigger multiple intersections at once, simulating fast scrolling
+    window.mockObserverInstance.trigger([
+      { target: { id: 'section1' }, isIntersecting: true },
+      { target: { id: 'section2' }, isIntersecting: true },
+      { target: { id: 'section3' }, isIntersecting: true }
+    ]);
+
+    const link1 = document.querySelector('a[href="#section1"]');
+    const link2 = document.querySelector('a[href="#section2"]');
+    const link3 = document.querySelector('a[href="#section3"]');
+
+    expect(link1.classList.contains('is-active')).toBe(false);
+    expect(link2.classList.contains('is-active')).toBe(false);
+    expect(link3.classList.contains('is-active')).toBe(true);
   });
 });
