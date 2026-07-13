@@ -1,8 +1,8 @@
 /*
  * ⚡ Bolt Performance Optimization
- * 💡 What: Cached DOM link elements by section ID and deduplicated section observing using Sets/Maps. Tracked current active links to limit DOM updates.
- * 🎯 Why: Previously, setActive iterated over all links with an O(N) loop on every IntersectionObserver callback. Also used `document.querySelector` instead of `getElementById`.
- * 📊 Impact: Changes O(N) link iteration loop to O(1) array lookup. Reduces DOM lookups during initial load. Fixes redundant section observing.
+ * 💡 What: Cached DOM link elements by section ID and deduplicated section observing using Sets/Maps. Tracked current active links to limit DOM updates. Batched IntersectionObserver updates.
+ * 🎯 Why: Previously, setActive iterated over all links with an O(N) loop on every IntersectionObserver callback. Also used `document.querySelector` instead of `getElementById`. Furthermore, multiple entries intersecting during fast scrolling caused layout thrashing by calling setActive sequentially.
+ * 📊 Impact: Changes O(N) link iteration loop to O(1) array lookup. Reduces DOM lookups during initial load. Fixes redundant section observing. Prevents layout thrashing by updating the DOM only once per batch of entries.
  */
 (() => {
   const links = Array.from(document.querySelectorAll(".side-link"));
@@ -63,11 +63,18 @@
 
   const observer = new IntersectionObserver(
     (entries) => {
+      // Find the last intersecting entry in the batch to avoid layout thrashing
+      // from intermediate DOM mutations during fast scrolling.
+      let lastIntersectingId = null;
       entries.forEach((entry) => {
         if (entry.isIntersecting) {
-          setActive(entry.target.id);
+          lastIntersectingId = entry.target.id;
         }
       });
+
+      if (lastIntersectingId) {
+        setActive(lastIntersectingId);
+      }
     },
     {
       rootMargin: "-35% 0px -65% 0px",
