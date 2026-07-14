@@ -63,11 +63,19 @@
 
   const observer = new IntersectionObserver(
     (entries) => {
+      // ⚡ Bolt Optimization: Batch DOM state updates by finding the last intersecting entry.
+      // This prevents layout thrashing and intermediate DOM manipulations during fast scrolling
+      // when multiple entries might be intersecting simultaneously.
+      let lastIntersectingId = null;
       entries.forEach((entry) => {
         if (entry.isIntersecting) {
-          setActive(entry.target.id);
+          lastIntersectingId = entry.target.id;
         }
       });
+
+      if (lastIntersectingId) {
+        setActive(lastIntersectingId);
+      }
     },
     {
       rootMargin: "-35% 0px -65% 0px",
