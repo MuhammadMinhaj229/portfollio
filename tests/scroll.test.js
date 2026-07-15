@@ -32,20 +32,15 @@ describe('scroll.js', () => {
     `;
 
     class MockIntersectionObserver {
-      constructor(callback) {
-        this.callback = callback;
-        mockObserverInstance = this;
-      }
-      observe() {}
-      unobserve() {}
-      disconnect() {}
-
-    // Mock IntersectionObserver
-    class MockIntersectionObserver {
       constructor(callback, options) {
         this.callback = callback;
         this.options = options;
         this.elements = [];
+        window.mockObserverInstance = this;
+
+        this.trigger = (entries) => {
+          this.callback(entries);
+        };
 
         this.checkIntersections = () => {
           const entries = this.elements.map(el => {
