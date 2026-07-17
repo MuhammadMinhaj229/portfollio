@@ -1,8 +1,14 @@
 /*
  * ⚡ Bolt Performance Optimization
- * 💡 What: Cached DOM link elements by section ID and deduplicated section observing using Sets/Maps. Tracked current active links to limit DOM updates.
- * 🎯 Why: Previously, setActive iterated over all links with an O(N) loop on every IntersectionObserver callback. Also used `document.querySelector` instead of `getElementById`.
- * 📊 Impact: Changes O(N) link iteration loop to O(1) array lookup. Reduces DOM lookups during initial load. Fixes redundant section observing.
+ * 💡 What:
+ *    1. Cached DOM link elements by section ID and deduplicated section observing using Sets/Maps. Tracked current active links to limit DOM updates.
+ *    2. Batched DOM state updates by finding the last intersecting entry in the IntersectionObserver callback.
+ * 🎯 Why:
+ *    1. Previously, setActive iterated over all links with an O(N) loop on every IntersectionObserver callback. Also used `document.querySelector` instead of `getElementById`.
+ *    2. Prevents layout thrashing and intermediate DOM manipulations during fast scrolling where multiple sections intersect at once.
+ * 📊 Impact:
+ *    1. Changes O(N) link iteration loop to O(1) array lookup. Reduces DOM lookups during initial load. Fixes redundant section observing.
+ *    2. Minimizes redundant setActive calls when fast scrolling.
  */
 (() => {
   const links = Array.from(document.querySelectorAll(".side-link"));
@@ -61,13 +67,19 @@
     activeId = id;
   };
 
+  // ⚡ Bolt Performance Optimization
+  // 💡 What: Batched DOM state updates by finding the last intersecting entry.
+  // 🎯 Why: Prevents layout thrashing and intermediate DOM manipulations during fast scrolling.
+  // 📊 Impact: Minimizes redundant setActive calls when multiple sections intersect at once.
   const observer = new IntersectionObserver(
     (entries) => {
-      entries.forEach((entry) => {
-        if (entry.isIntersecting) {
-          setActive(entry.target.id);
-        }
-      });
+      // Find the last intersecting entry in the batch
+      const intersectingEntries = entries.filter((entry) => entry.isIntersecting);
+      if (intersectingEntries.length > 0) {
+        // Only apply the DOM mutation for the final active section
+        const lastEntry = intersectingEntries[intersectingEntries.length - 1];
+        setActive(lastEntry.target.id);
+      }
     },
     {
       rootMargin: "-35% 0px -65% 0px",
