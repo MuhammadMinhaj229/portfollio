@@ -32,27 +32,15 @@ describe('scroll.js', () => {
     `;
 
     class MockIntersectionObserver {
-      constructor(callback) {
-        this.callback = callback;
-        mockObserverInstance = this;
-      }
-      observe() {}
-      unobserve() {}
-      disconnect() {}
-
-    // Mock IntersectionObserver
-    class MockIntersectionObserver {
       constructor(callback, options) {
         this.callback = callback;
         this.options = options;
         this.elements = [];
+        window.mockObserverInstance = this;
 
         this.checkIntersections = () => {
           const entries = this.elements.map(el => {
             const rect = el.getBoundingClientRect();
-            // A simple mock of intersection based on the test's getBoundingClientRect tops:
-            // The active section is the one closest to the top but within the "active" zone.
-            // Tests set the active one's top to 0, 300, or 100. Let's just say intersecting is top >= -200 && top <= 400
             const isIntersecting = rect.top >= -200 && rect.top <= 400;
             return {
               target: el,
@@ -67,6 +55,10 @@ describe('scroll.js', () => {
 
         // Initial check on next tick
         setTimeout(this.checkIntersections, 0);
+      }
+
+      trigger(entries) {
+        this.callback(entries);
       }
 
       observe(element) {
