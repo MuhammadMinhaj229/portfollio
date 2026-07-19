@@ -63,11 +63,15 @@
 
   const observer = new IntersectionObserver(
     (entries) => {
+      let lastIntersectingId = null;
       entries.forEach((entry) => {
         if (entry.isIntersecting) {
-          setActive(entry.target.id);
+          lastIntersectingId = entry.target.id;
         }
       });
+      if (lastIntersectingId) {
+        setActive(lastIntersectingId);
+      }
     },
     {
       rootMargin: "-35% 0px -65% 0px",
