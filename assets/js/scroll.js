@@ -1,8 +1,8 @@
 /*
  * ⚡ Bolt Performance Optimization
- * 💡 What: Cached DOM link elements by section ID and deduplicated section observing using Sets/Maps. Tracked current active links to limit DOM updates.
- * 🎯 Why: Previously, setActive iterated over all links with an O(N) loop on every IntersectionObserver callback. Also used `document.querySelector` instead of `getElementById`.
- * 📊 Impact: Changes O(N) link iteration loop to O(1) array lookup. Reduces DOM lookups during initial load. Fixes redundant section observing.
+ * 💡 What: Cached DOM link elements by section ID, deduplicated section observing using Sets/Maps, and batched DOM state updates on scroll. Tracked current active links to limit DOM updates.
+ * 🎯 Why: Previously, setActive iterated over all links with an O(N) loop on every IntersectionObserver callback. Also used `document.querySelector` instead of `getElementById`. Additionally, multiple intersecting entries during fast scrolling caused intermediate layout thrashing.
+ * 📊 Impact: Changes O(N) link iteration loop to O(1) array lookup. Reduces DOM lookups during initial load. Fixes redundant section observing. Batching IntersectionObserver callbacks prevents layout thrashing by only applying the final DOM mutation once per callback sequence.
  */
 (() => {
   const links = Array.from(document.querySelectorAll(".side-link"));
@@ -63,11 +63,13 @@
 
   const observer = new IntersectionObserver(
     (entries) => {
-      entries.forEach((entry) => {
-        if (entry.isIntersecting) {
-          setActive(entry.target.id);
-        }
-      });
+      // Batch DOM state updates by finding the last intersecting entry in the array
+      // This prevents layout thrashing and intermediate DOM manipulations during fast scrolling
+      const intersectingEntries = entries.filter((entry) => entry.isIntersecting);
+      if (intersectingEntries.length > 0) {
+        const lastIntersectingEntry = intersectingEntries[intersectingEntries.length - 1];
+        setActive(lastIntersectingEntry.target.id);
+      }
     },
     {
       rootMargin: "-35% 0px -65% 0px",
