@@ -4,3 +4,6 @@
 ## 2023-10-27 - Batching DOM Updates in IntersectionObserver
 **Learning:** When multiple sections intersect rapidly during a fast scroll event, iterating over `entries` and directly calling a DOM-mutating function (like `setActive`) causes unnecessary layout thrashing, as multiple classes are added and removed in the same frame.
 **Action:** When processing `IntersectionObserver` entries, always iterate over the entries first to determine the final state (e.g., the last intersecting element), and apply the DOM mutation exactly once per callback invocation to prevent layout thrashing.
+## 2025-02-13 - Optimizing Favicon File Size
+**Learning:** Using a large, high-resolution original image (e.g., 800x800) as the `<link rel="icon">` forces the browser to download a massive file just to render a tiny browser tab icon, increasing the initial payload significantly without any visual benefit.
+**Action:** Always resize favicons to appropriate dimensions (e.g., 32x32 for standard icons) to minimize bundle/download size.
