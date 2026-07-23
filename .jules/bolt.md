@@ -4,3 +4,6 @@
 ## 2023-10-27 - Batching DOM Updates in IntersectionObserver
 **Learning:** When multiple sections intersect rapidly during a fast scroll event, iterating over `entries` and directly calling a DOM-mutating function (like `setActive`) causes unnecessary layout thrashing, as multiple classes are added and removed in the same frame.
 **Action:** When processing `IntersectionObserver` entries, always iterate over the entries first to determine the final state (e.g., the last intersecting element), and apply the DOM mutation exactly once per callback invocation to prevent layout thrashing.
+## 2025-02-13 - Lazy-Loading Third-Party Widget Scripts
+**Learning:** Third-party widget scripts (like the LinkedIn badge `profile.js`) can block the main thread and delay Time to Interactive (TTI) if loaded synchronously on initial page load, especially when the widget is positioned far below the fold (e.g., in a Contact section).
+**Action:** Use `IntersectionObserver` to defer the loading of non-critical, below-the-fold third-party widget scripts until they are about to enter the viewport, freeing up the main thread during initial load.
