@@ -37,7 +37,16 @@ describe('scroll.js', () => {
         this.callback = callback;
         this.options = options;
         this.elements = [];
-        window.mockObserverInstance = this;
+
+        if (!window.mockObserverInstances) {
+            window.mockObserverInstances = [];
+        }
+        window.mockObserverInstances.push(this);
+        // Only set the main scroll spy observer as the active single instance for the tests
+        if (options && options.rootMargin === "-35% 0px -65% 0px") {
+            window.mockObserverInstance = this;
+        }
+
         this.trigger = (entries) => { this.callback(entries); };
 
         this.checkIntersections = () => {
@@ -97,7 +106,9 @@ describe('scroll.js', () => {
   test('Initial state sets first section as active when it intersects', () => {
     loadScript();
 
-    window.mockObserverInstance.trigger([{ target: { id: 'section1' }, isIntersecting: true }]);
+    window.mockObserverInstances.forEach(instance => {
+      instance.trigger([{ target: { id: 'section1' }, isIntersecting: true }]);
+    });
 
     const link1 = document.querySelector('a[href="#section1"]');
     const link2 = document.querySelector('a[href="#section2"]');
@@ -140,7 +151,9 @@ describe('scroll.js', () => {
   test('Intersection updates active link to third section', () => {
     loadScript();
 
-    window.mockObserverInstance.trigger([{ target: { id: 'section3' }, isIntersecting: true }]);
+    window.mockObserverInstances.forEach(instance => {
+      instance.trigger([{ target: { id: 'section3' }, isIntersecting: true }]);
+    });
 
     const link2 = document.querySelector('a[href="#section2"]');
     const link3 = document.querySelector('a[href="#section3"]');

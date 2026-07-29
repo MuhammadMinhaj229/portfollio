@@ -81,4 +81,26 @@
   );
 
   sectionSet.forEach((section) => observer.observe(section));
+
+
+  // Animation Observer for Fade-In-Up effects
+  const animationObserver = new IntersectionObserver(
+    (entries, observer) => {
+      entries.forEach((entry) => {
+        if (entry.isIntersecting && entry.target && entry.target.classList) {
+          entry.target.classList.add("visible");
+          // Optionally unobserve if you only want it to animate once
+          // observer.unobserve(entry.target);
+        }
+      });
+    },
+    {
+      rootMargin: "0px 0px -50px 0px",
+      threshold: 0.1
+    }
+  );
+
+  document.querySelectorAll(".animate-on-scroll").forEach((el) => {
+    animationObserver.observe(el);
+  });
 })();
