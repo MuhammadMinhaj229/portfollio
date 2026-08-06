@@ -8,7 +8,6 @@ import {
   CardMedia,
   Chip,
   Container,
-  Divider,
   Grid,
   IconButton,
   InputAdornment,
