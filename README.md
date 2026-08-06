@@ -2,7 +2,7 @@
 
 [![Live Portfolio](https://img.shields.io/badge/Live_Portfolio-mohammed--minhaj.netlify.app-06B6D4?style=for-the-badge&logo=netlify&logoColor=white)](https://mohammed-minhaj.netlify.app/)
 [![LinkedIn](https://img.shields.io/badge/LinkedIn-muhammadminhaj229-0A66C2?style=for-the-badge&logo=linkedin&logoColor=white)](https://www.linkedin.com/in/muhammadminhaj229/)
-[![WhatsApp](https://img.shields.io/badge/WhatsApp-Connect_Instant_Chat-25D366?style=for-the-badge&logo=whatsapp&logoColor=white)](https://api.whatsapp.com/send/?phone=917997576508&text=Hi%20Minhaj!%20I%20saw%20your%20portfolio%20and%20would%20like%20to%20connect.)
+[![WhatsApp](https://img.shields.io/badge/WhatsApp-Connect_Instant_Chat-25D366?style=for-the-badge&logo=whatsapp&logoColor=white)](https://api.whatsapp.com/send/?phone=919908597337&text=Hi%20Minhaj!%20I%20saw%20your%20portfolio%20and%20would%20like%20to%20connect.)
 [![React 18 & MUI 6](https://img.shields.io/badge/Built_With-React_18_%7C_MUI_v6-61DAFB?style=for-the-badge&logo=react&logoColor=black)](https://react.dev/)
 
 > **Data & ML Specialist | Founder & Business Automation Engineer @ Alif Growth Media | Applied AI Researcher**  
@@ -87,7 +87,7 @@ The application design adheres to modern production web design aesthetics and ac
 ## 📬 Professional Contact & Network
 
 * **Direct Email**: [mohammadminhaj229@gmail.com](mailto:mohammadminhaj229@gmail.com)
-* **WhatsApp Instant Chat**: [+91 7997576508](https://api.whatsapp.com/send/?phone=917997576508&text=Hi%20Minhaj!%20I%20saw%20your%20portfolio%20and%20would%20like%20to%20connect.)
+* **WhatsApp Instant Chat**: [+91 9908597337](https://api.whatsapp.com/send/?phone=919908597337&text=Hi%20Minhaj!%20I%20saw%20your%20portfolio%20and%20would%20like%20to%20connect.)
 * **LinkedIn Professional Profile**: [https://www.linkedin.com/in/muhammadminhaj229/](https://www.linkedin.com/in/muhammadminhaj229/)
 * **GitHub Open-Source Repository**: [https://github.com/MuhammadMinhaj229](https://github.com/MuhammadMinhaj229)
 

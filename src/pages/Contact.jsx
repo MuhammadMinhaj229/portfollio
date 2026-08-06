@@ -40,9 +40,9 @@ export default function Contact() {
     {
       id: 'whatsapp',
       title: 'WhatsApp Instant Chat',
-      value: '+91 7997576508',
+      value: '+91 9908597337',
       actionText: 'Message on WhatsApp ↗',
-      url: 'https://api.whatsapp.com/send/?phone=917997576508&text=Hi%20Minhaj!%20I%20saw%20your%20portfolio%20and%20would%20like%20to%20connect.',
+      url: 'https://api.whatsapp.com/send/?phone=919908597337&text=Hi%20Minhaj!%20I%20saw%20your%20portfolio%20and%20would%20like%20to%20connect.',
       icon: <FaWhatsapp size={26} color="#25D366" />,
       color: '#25D366'
     },
