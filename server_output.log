@@ -1,5 +1,0 @@
-127.0.0.1 - - [29/Jul/2026 04:11:18] "GET /index.html HTTP/1.1" 200 -
-127.0.0.1 - - [29/Jul/2026 04:11:18] "GET /assets/css/style.css HTTP/1.1" 200 -
-127.0.0.1 - - [29/Jul/2026 04:11:18] "GET /assets/js/scroll.js HTTP/1.1" 200 -
-127.0.0.1 - - [29/Jul/2026 04:11:18] "GET /assets/js/lazy-badge.js HTTP/1.1" 200 -
-127.0.0.1 - - [29/Jul/2026 04:11:19] "GET /assets/js/theme.js HTTP/1.1" 200 -

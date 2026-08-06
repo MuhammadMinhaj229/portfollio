@@ -1,19 +1,55 @@
 {
-  "name": "portfolio-scroll-test",
+  "name": "mohammedminhaj-portfolio",
   "version": "1.0.0",
-  "description": "",
-  "main": "index.js",
+  "private": true,
+  "homepage": ".",
+  "dependencies": {
+    "@emotion/react": "11.14.0",
+    "@emotion/styled": "11.14.1",
+    "@fontsource-variable/inter": "^5.2.6",
+    "@fontsource/jetbrains-mono": "^5.2.6",
+    "@mui/icons-material": "6.5.0",
+    "@mui/lab": "6.0.0-beta.8",
+    "@mui/material": "6.5.0",
+    "@testing-library/jest-dom": "^5.17.0",
+    "@testing-library/react": "^13.4.0",
+    "@testing-library/user-event": "^13.5.0",
+    "react": "^18.3.1",
+    "react-dom": "^18.3.1",
+    "react-ga": "^3.3.1",
+    "react-icons": "^5.5.0",
+    "react-router-dom": "^6.26.0",
+    "react-scripts": "5.0.1",
+    "react-syntax-highlighter": "^15.5.0",
+    "typewriter-effect": "^2.21.0",
+    "web-vitals": "^2.1.4"
+  },
   "scripts": {
-    "test": "jest"
+    "predeploy": "npm run build",
+    "deploy": "gh-pages -d build",
+    "start": "react-scripts start",
+    "build": "react-scripts build",
+    "test": "react-scripts test",
+    "eject": "react-scripts eject"
   },
-  "jest": {
-    "testEnvironment": "jsdom"
+  "eslintConfig": {
+    "extends": [
+      "react-app"
+    ]
   },
-  "keywords": [],
-  "author": "",
-  "license": "ISC",
+  "browserslist": {
+    "production": [
+      ">0.2%",
+      "not dead",
+      "not op_mini all"
+    ],
+    "development": [
+      "last 1 chrome version",
+      "last 1 firefox version",
+      "last 1 safari version"
+    ]
+  },
   "devDependencies": {
-    "jest": "^29.7.0",
-    "jest-environment-jsdom": "^29.7.0"
+    "gh-pages": "^6.1.1"
   }
 }
