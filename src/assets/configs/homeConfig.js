@@ -3,18 +3,19 @@ import { BsClipboardData } from "react-icons/bs";
 import { DiCodeigniter } from "react-icons/di";
 import { GiCommercialAirplane } from "react-icons/gi";
 import { BiRocket } from "react-icons/bi";
+import { Typography, Box } from "@mui/material";
 
 const homeConfig = {
   greeting_i18n: {
     en: (
-      <h1 className="heading">
-        Hi! I'm <strong className="main-name"> Mohammed Minhaj Mahmood</strong>
-      </h1>
+      <Typography variant="h1" component="h1" sx={{ fontWeight: 900, letterSpacing: '-0.03em', mb: 1.5, wordBreak: 'break-word' }}>
+        Hi! I'm <Box component="span" sx={{ color: 'secondary.main', display: 'inline' }}>Mohammed Minhaj Mahmood</Box>
+      </Typography>
     ),
     es: (
-      <h1 className="heading">
-        ¡Hola! Soy <strong className="main-name"> Mohammed Minhaj Mahmood</strong>
-      </h1>
+      <Typography variant="h1" component="h1" sx={{ fontWeight: 900, letterSpacing: '-0.03em', mb: 1.5, wordBreak: 'break-word' }}>
+        ¡Hola! Soy <Box component="span" sx={{ color: 'secondary.main', display: 'inline' }}>Mohammed Minhaj Mahmood</Box>
+      </Typography>
     ),
   },
 

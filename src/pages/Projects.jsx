@@ -239,9 +239,9 @@ export default function Projects() {
                       </InputAdornment>
                     ),
                   }}
-                  sx={{ minWidth: { sm: 220 } }}
+                  sx={{ width: { xs: '100%', sm: 'auto' }, minWidth: { sm: 220 } }}
                 />
-                <Select size="small" value={sort} onChange={(e) => setSort(e.target.value)} sx={{ minWidth: 140 }}>
+                <Select size="small" value={sort} onChange={(e) => setSort(e.target.value)} sx={{ width: { xs: '100%', sm: 'auto' }, minWidth: 140 }}>
                   <MenuItem value="recent">{t.sortRecent}</MenuItem>
                   <MenuItem value="az">{t.sortAZ}</MenuItem>
                 </Select>

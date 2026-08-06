@@ -19,14 +19,16 @@ const Section = ({ title, children }) => (
   <Box
     sx={(theme) => ({
       textAlign: 'center',
-      py: 4,
+      py: { xs: 3, md: 4 },
+      px: { xs: 1.5, sm: 3 },
       backgroundColor: theme.palette.background.paper,
-      borderRadius: 3,
+      borderRadius: { xs: 3, md: 4 },
       boxShadow: '0 6px 20px rgba(15,18,32,0.08), 0 1px 2px rgba(15,18,32,0.04)',
       border: `1px solid ${theme.palette.divider}`,
+      overflow: 'hidden',
     })}
   >
-    <Typography variant="h3" component="h1" sx={{ color: 'text.primary', py: 2, fontWeight: 900, letterSpacing: -0.4 }}>
+    <Typography variant="h3" component="h1" sx={{ color: 'text.primary', py: { xs: 1, md: 2 }, px: { xs: 1, sm: 2 }, fontWeight: 900, letterSpacing: -0.4, wordBreak: 'break-word' }}>
       <strong>{title}</strong>
     </Typography>
     {children}

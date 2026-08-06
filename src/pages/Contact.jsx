@@ -73,23 +73,23 @@ export default function Contact() {
         title="Contact Mohammed Minhaj Mahmood | Data & ML Specialist"
         description="Get in touch with Mohammed Minhaj Mahmood for AI applied consulting, SME business automation, web systems, or research engineering."
       />
-      <Container maxWidth="lg" sx={{ py: 8 }}>
-        <Box sx={{ textAlign: 'center', mb: 7 }}>
+      <Container maxWidth="lg" sx={{ py: { xs: 4, sm: 6, md: 8 }, px: { xs: 2, sm: 3 } }}>
+        <Box sx={{ textAlign: 'center', mb: { xs: 4, md: 7 } }}>
           <Typography component="h1" variant="h3" sx={{ fontWeight: 800, mb: 2 }}>
             Get In Touch
           </Typography>
-          <Typography variant="h6" sx={{ color: 'text.secondary', maxWidth: 680, mx: 'auto', fontWeight: 400 }}>
+          <Typography variant="h6" sx={{ color: 'text.secondary', maxWidth: 680, mx: 'auto', fontWeight: 400, fontSize: { xs: 16, sm: 18, md: 20 } }}>
             Interested in AI consulting, custom business automation, modern web architecture, or machine learning engineering? Reach out directly below.
           </Typography>
         </Box>
 
-        <Grid2 container spacing={4} sx={{ mb: 8 }}>
+        <Grid2 container spacing={{ xs: 2.5, sm: 3, md: 4 }} sx={{ mb: { xs: 5, md: 8 } }}>
           {contactChannels.map((ch) => (
             <Grid2 xs={12} sm={6} md={3} key={ch.id} sx={{ display: 'flex' }}>
               <Paper
                 elevation={0}
                 sx={(th) => ({
-                  p: 3.5,
+                  p: { xs: 2.5, sm: 3, md: 3.5 },
                   borderRadius: 4,
                   width: '100%',
                   display: 'flex',

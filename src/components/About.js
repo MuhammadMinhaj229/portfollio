@@ -6,9 +6,10 @@ const About = (props) => {
   const { start, exit } = about || {};
 
   return (
-    <Box id="about" sx={{ my: 4 }}>
-      <Card sx={{ backgroundColor: '#263238', color: '#f5f5f5' }}>
+    <Box id="about" sx={{ my: { xs: 2, md: 4 }, width: '100%' }}>
+      <Card sx={{ backgroundColor: '#263238', color: '#f5f5f5', borderRadius: { xs: 3, md: 4 }, overflow: 'hidden' }}>
         <CardHeader
+          sx={{ py: { xs: 1.5, sm: 2 }, px: { xs: 2, sm: 2.5 }, borderBottom: '1px solid rgba(255,255,255,0.08)' }}
           avatar={
             <Box sx={{ display: 'flex', alignItems: 'center' }}>
               <Box component="span" className="iconify" data-icon="emojione:red-circle" sx={{ mr: 1 }} />
@@ -17,11 +18,11 @@ const About = (props) => {
             </Box>
           }
         />
-        <CardContent sx={{ fontSize: '132%', lineHeight: '150%', backgroundColor: '#F6F6F6', color: '#8e8d8a', p: '2rem' }}>
-          <Typography variant="body1" paragraph>
+        <CardContent sx={{ fontSize: { xs: '105%', sm: '118%', md: '130%' }, lineHeight: '160%', backgroundColor: '#F6F6F6', color: '#4A5568', p: { xs: '1.25rem', sm: '1.75rem', md: '2.25rem' } }}>
+          <Typography variant="body1" sx={{ mb: 2, fontWeight: 500, color: 'text.primary', lineHeight: 1.6 }}>
             {start}
           </Typography>
-          <Typography variant="body1">{exit}</Typography>
+          <Typography variant="body1" sx={{ fontWeight: 500, color: 'text.primary', lineHeight: 1.6 }}>{exit}</Typography>
         </CardContent>
       </Card>
     </Box>

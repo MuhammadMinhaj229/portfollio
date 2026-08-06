@@ -8,7 +8,6 @@ import {
   CardMedia,
   Chip,
   Container,
-  Divider,
   Grid,
   IconButton,
   InputAdornment,
@@ -129,7 +128,7 @@ const BlogCard = ({ item, lang = 'en', ui = UI.en }) => {
         <Typography variant="body2" color="text.secondary">{desc}</Typography>
       </CardContent>
 
-      <CardActions sx={{ px: 2, pb: 2, pt: 0, justifyContent: 'space-between' }}>
+      <CardActions sx={{ px: { xs: 2, md: 2.5 }, pb: 2, pt: 0, justifyContent: 'space-between', flexWrap: 'wrap', gap: 1 }}>
         <Stack direction="row" spacing={1}>
           {item.links?.map((l) => (
             <LinkButton key={l.name} link={l} />
@@ -137,12 +136,12 @@ const BlogCard = ({ item, lang = 'en', ui = UI.en }) => {
         </Stack>
         {item.links?.[0]?.url && (
           <Button
-            size="small"
             variant="contained"
             color="secondary"
             href={withUtm(item.links?.[0]?.url, 'blogs_page')}
             target="_blank"
             rel="noopener noreferrer"
+            sx={{ fontWeight: 800, px: 2.5, py: 1, minHeight: 44, minWidth: 44 }}
           >
             {ui.ctaRead}
           </Button>
@@ -236,9 +235,9 @@ export default function Blogs() {
             </Typography>
 
             {/* Controls */}
-            <Stack direction={{ xs: 'column', md: 'row' }} spacing={2} alignItems={{ xs: 'stretch', md: 'center' }}>
+            <Stack direction={{ xs: 'column', lg: 'row' }} spacing={2.5} alignItems={{ xs: 'stretch', lg: 'center' }}>
               {/* Category chips */}
-              <Stack direction="row" spacing={1} flexWrap="wrap">
+              <Stack direction="row" spacing={1} useFlexGap flexWrap="wrap">
                 {categories.map((c) => (
                   <Chip
                     key={c}
@@ -246,7 +245,7 @@ export default function Blogs() {
                     color={c === category ? 'secondary' : 'default'}
                     variant={c === category ? 'filled' : 'outlined'}
                     onClick={() => setCategory(c)}
-                    sx={{ borderRadius: 10 }}
+                    sx={{ borderRadius: 10, mb: 0.5, fontWeight: 700, minHeight: 38 }}
                   />
                 ))}
               </Stack>
@@ -254,12 +253,14 @@ export default function Blogs() {
               <Box sx={{ flexGrow: 1 }} />
 
               {/* Search + sort */}
-              <Stack direction="row" spacing={1} alignItems="center">
+              <Stack direction={{ xs: 'column', sm: 'row' }} spacing={1.5} alignItems={{ xs: 'stretch', sm: 'center' }}>
                 <TextField
                   size="small"
+                  fullWidth={false}
                   placeholder={t.searchPlaceholder}
                   value={query}
                   onChange={(e) => setQuery(e.target.value)}
+                  sx={{ width: { xs: '100%', sm: 'auto' }, minWidth: { sm: 200 } }}
                   InputProps={{
                     startAdornment: (
                       <InputAdornment position="start">
@@ -268,8 +269,7 @@ export default function Blogs() {
                     ),
                   }}
                 />
-                <Divider flexItem orientation="vertical" />
-                <Select size="small" value={sort} onChange={(e) => setSort(e.target.value)}>
+                <Select size="small" value={sort} onChange={(e) => setSort(e.target.value)} sx={{ width: { xs: '100%', sm: 'auto' }, minWidth: { sm: 140 } }}>
                   <MenuItem value="recent">{t.sortRecent}</MenuItem>
                   <MenuItem value="az">{t.sortAZ}</MenuItem>
                 </Select>

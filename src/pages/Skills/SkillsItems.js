@@ -3,19 +3,19 @@ import { Box, Typography } from '@mui/material';
 
 const SkillsItems = (props) => {
   return (
-    <Box sx={{ display: 'flex', flexWrap: 'wrap', justifyContent: 'center', gap: { xs: 1.5, sm: 2.5 }, width: '100%' }}>
+    <Box sx={{ display: 'flex', flexWrap: 'wrap', justifyContent: 'center', gap: { xs: 1.25, sm: 2, md: 2.5 }, width: '100%', px: { xs: 0.5, sm: 1 } }}>
       {props.config.map((item) => (
         <Box
           key={item.id}
           sx={{
             color: '#263238',
             textAlign: 'center',
-            p: { xs: '1.25rem 1rem', sm: '1.5rem' },
+            p: { xs: '1rem 0.75rem', sm: '1.25rem 1rem', md: '1.5rem' },
             bgcolor: '#ffffff',
             borderRadius: '16px',
-            minWidth: { xs: '140px', sm: '160px', md: '170px' },
-            flex: { xs: '1 1 calc(50% - 24px)', sm: '0 1 auto' },
-            maxWidth: { xs: '180px', md: '200px' },
+            minWidth: { xs: '128px', sm: '150px', md: '170px' },
+            flex: { xs: '1 1 calc(50% - 12px)', sm: '0 1 auto' },
+            maxWidth: { xs: '165px', sm: '185px', md: '200px' },
             boxShadow: '0px 4px 18px rgba(0, 0, 0, 0.07)',
             border: '1px solid rgba(15, 18, 32, 0.08)',
             willChange: 'transform, box-shadow, border-color',
