@@ -92,10 +92,11 @@ const Timeline = ({ items = [], position = 'alternate' }) => {
                   border: `1px solid ${th.palette.divider}`,
                   backgroundColor: th.palette.background.paper,
                   boxShadow: '0 6px 20px rgba(15,18,32,0.06), 0 1px 2px rgba(15,18,32,0.03)',
-                  transition: 'transform .2s ease, box-shadow .2s ease',
+                  transition: 'transform 0.25s cubic-bezier(0.16, 1, 0.3, 1), box-shadow 0.25s cubic-bezier(0.16, 1, 0.3, 1)',
+                  willChange: 'transform, box-shadow',
                   '&:hover': {
-                    transform: 'translateY(-2px)',
-                    boxShadow: '0 10px 28px rgba(15,18,32,0.10), 0 3px 10px rgba(15,18,32,0.06)',
+                    transform: 'translate3d(0, -4px, 0)',
+                    boxShadow: '0 12px 32px rgba(15,18,32,0.12), 0 4px 12px rgba(15,18,32,0.08)',
                   },
                 })}
               >
@@ -151,25 +152,26 @@ const Timeline = ({ items = [], position = 'alternate' }) => {
                   )}
 
                   {link && (
-                    <Box sx={{ pt: 1.5, textAlign: 'left' }}>
+                    <Box sx={{ pt: 2, textAlign: 'left' }}>
                       <Button
                         component="a"
                         href={link}
                         target="_blank"
                         rel="noopener noreferrer"
                         variant="outlined"
-                        size="small"
                         color="secondary"
                         sx={{
                           fontWeight: 800,
-                          borderRadius: '8px',
+                          borderRadius: '10px',
                           borderWidth: '1.5px',
-                          px: 2.5,
-                          py: 0.5,
+                          minHeight: 44,
+                          minWidth: 44,
+                          px: 3,
+                          py: 1,
                           borderColor: 'secondary.main',
                           color: 'text.primary',
                           '&:hover': {
-                            bgcolor: 'rgba(6, 182, 212, 0.12)',
+                            bgcolor: 'rgba(6, 182, 212, 0.15)',
                             borderColor: 'secondary.main',
                             borderWidth: '1.5px'
                           }

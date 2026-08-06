@@ -18,14 +18,15 @@ const SkillsItems = (props) => {
             maxWidth: { xs: '180px', md: '200px' },
             boxShadow: '0px 4px 18px rgba(0, 0, 0, 0.07)',
             border: '1px solid rgba(15, 18, 32, 0.08)',
-            transition: 'transform 0.25s ease, box-shadow 0.25s ease',
+            willChange: 'transform, box-shadow, border-color',
+            transition: 'transform 0.25s cubic-bezier(0.16, 1, 0.3, 1), box-shadow 0.25s cubic-bezier(0.16, 1, 0.3, 1), border-color 0.25s ease',
             display: 'flex',
             flexDirection: 'column',
             alignItems: 'center',
             justifyContent: 'center',
             '&:hover': {
-              transform: 'translateY(-4px)',
-              boxShadow: '0px 8px 26px rgba(6, 182, 212, 0.18)',
+              transform: 'translate3d(0, -5px, 0)',
+              boxShadow: '0px 10px 30px rgba(6, 182, 212, 0.22)',
               borderColor: '#06B6D4',
               cursor: 'pointer'
             }

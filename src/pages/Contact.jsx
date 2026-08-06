@@ -97,10 +97,11 @@ export default function Contact() {
                   alignItems: 'flex-start',
                   border: `1px solid ${th.palette.divider}`,
                   bgcolor: th.palette.background.paper,
-                  transition: 'transform 0.25s ease, box-shadow 0.25s ease',
+                  transition: 'transform 0.25s cubic-bezier(0.16, 1, 0.3, 1), box-shadow 0.25s cubic-bezier(0.16, 1, 0.3, 1), border-color 0.25s ease',
+                  willChange: 'transform, box-shadow, border-color',
                   '&:hover': {
-                    transform: 'translateY(-4px)',
-                    boxShadow: '0 12px 30px rgba(0,0,0,0.15)',
+                    transform: 'translate3d(0, -5px, 0)',
+                    boxShadow: '0 14px 36px rgba(0,0,0,0.14)',
                     borderColor: ch.color,
                   }
                 })}
@@ -120,13 +121,13 @@ export default function Contact() {
                   target="_blank"
                   rel="noopener noreferrer"
                   variant="outlined"
-                  size="small"
                   sx={{
                     fontWeight: 700,
                     borderRadius: 2,
                     borderWidth: '1.5px',
                     width: '100%',
-                    py: 0.8,
+                    minHeight: 44,
+                    py: 1,
                     borderColor: 'divider',
                     color: 'text.primary',
                     '&:hover': {

@@ -24,16 +24,16 @@ const NavBar = () => {
           position="sticky"
           color="default"
           elevation={0}
-          sx={{ bgcolor: 'background.paper', borderBottom: '1px solid', borderColor: 'divider', zIndex: 1400, backdropFilter: 'blur(8px)' }}
+          sx={{ bgcolor: 'background.paper', borderBottom: '1px solid', borderColor: 'divider', zIndex: 1400, backdropFilter: 'blur(10px)', WebkitBackdropFilter: 'blur(10px)' }}
         >
-        <Toolbar sx={{ justifyContent: 'space-between', gap: 2, width: '100%', px: { xs: 2, md: 3 } }}>
+        <Toolbar sx={{ justifyContent: 'space-between', gap: 2, width: '100%', px: { xs: 2, md: 3 }, minHeight: { xs: 64, md: 72 } }}>
           {/* Mobile Hamburger Button */}
           <Box sx={{ display: { xs: 'flex', md: 'none' }, alignItems: 'center' }}>
             <IconButton
               aria-label="open mobile navigation menu"
               onClick={toggleDrawer(true)}
               edge="start"
-              sx={{ color: 'text.primary' }}
+              sx={{ color: 'text.primary', minWidth: 44, minHeight: 44 }}
             >
               <MenuIcon sx={{ fontSize: 28 }} />
             </IconButton>
@@ -49,14 +49,16 @@ const NavBar = () => {
             href="/Mohammed_Minhaj_Mahmood_Resume.pdf"
             download="Mohammed_Minhaj_Mahmood_Resume.pdf"
             variant="outlined"
-            size="small"
             startIcon={<DownloadIcon />}
+            aria-label="Download Mohammed Minhaj Mahmood Resume PDF"
             sx={{
               fontWeight: 800,
               borderRadius: '10px',
               borderWidth: '1.5px',
-              px: { xs: 1.5, md: 2 },
-              py: 0.75,
+              px: { xs: 2, md: 2.5 },
+              py: 1,
+              minHeight: 44,
+              minWidth: 44,
               borderColor: 'secondary.main',
               color: 'text.primary',
               fontSize: { xs: 13, md: 14 },
@@ -78,14 +80,14 @@ const NavBar = () => {
         open={drawerOpen}
         onClose={toggleDrawer(false)}
         PaperProps={{
-          sx: { width: 280, p: 3, bgcolor: 'background.paper', display: 'flex', flexDirection: 'column' }
+          sx: { width: { xs: 300, sm: 320 }, p: 3, bgcolor: 'background.paper', display: 'flex', flexDirection: 'column' }
         }}
       >
         <Stack direction="row" justifyContent="space-between" alignItems="center" sx={{ mb: 3, pb: 2, borderBottom: '1px solid', borderColor: 'divider' }}>
           <Typography variant="h6" sx={{ fontWeight: 900, letterSpacing: -0.5 }}>
             Navigation
           </Typography>
-          <IconButton onClick={toggleDrawer(false)} size="small" sx={{ color: 'text.secondary' }}>
+          <IconButton onClick={toggleDrawer(false)} aria-label="close mobile navigation menu" sx={{ color: 'text.secondary', minWidth: 44, minHeight: 44 }}>
             <CloseIcon />
           </IconButton>
         </Stack>

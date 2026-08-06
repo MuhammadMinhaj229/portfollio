@@ -54,15 +54,15 @@ const UI = {
 const LinkButton = ({ link }) => (
   <Tooltip title={link.name} placement="top">
     <IconButton
-      size="small"
       component="a"
       href={withUtm(link.url, 'projects_page')}
       target="_blank"
       rel="noopener noreferrer"
-      sx={{ border: '1px solid', borderColor: 'divider', borderRadius: 2 }}
+      aria-label={`Open ${link.name}`}
+      sx={{ border: '1px solid', borderColor: 'divider', borderRadius: 2, minWidth: 44, minHeight: 44 }}
     >
       {link.icon ? (
-        <Box sx={{ display: 'flex', alignItems: 'center', '& svg': { fontSize: 18 } }}>
+        <Box sx={{ display: 'flex', alignItems: 'center', '& svg': { fontSize: 20 } }}>
           {link.icon}
         </Box>
       ) : (
@@ -87,6 +87,8 @@ const ProjectCard = ({ project, lang = 'en' }) => {
           component="img"
           image={project.image}
           alt={project.title}
+          loading="lazy"
+          decoding="async"
           sx={{
             position: 'absolute',
             inset: 0,
@@ -117,13 +119,12 @@ const ProjectCard = ({ project, lang = 'en' }) => {
           ))}
         </Stack>
         <Button
-          size="small"
           variant="contained"
           color="secondary"
           href={withUtm(project.links?.[0]?.url || '#', 'projects_page')}
           target="_blank"
           rel="noopener noreferrer"
-          sx={{ fontWeight: 800, px: 2.5 }}
+          sx={{ fontWeight: 800, px: 3, py: 1, minHeight: 44, minWidth: 44 }}
         >
           {UI[lang].ctaView}
         </Button>
