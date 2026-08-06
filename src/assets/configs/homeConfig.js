@@ -66,7 +66,7 @@ const homeConfig = {
       date: "03/2026-Present",
       icon: <BiRocket />,
       tags: ["automation", "ai-pipelines", "web-dev", "digital-strategy", "entrepreneurship"],
-      link: "https://www.linkedin.com/in/muhammadminhaj229/",
+      link: "https://alif-growth.netlify.app/",
       linkText: "Checkout ↗",
     },
     {
