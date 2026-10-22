@@ -8,7 +8,7 @@ The personal software engineering, applied AI, and systems architecture portfoli
 
 ---
 
-## 🛠️ Stack & Libraries
+## Stack & Libraries
 
 - **Frontend:** React 18, Material UI (MUI), Emotion, JetBrains Mono font
 - **Analytics:** Google Analytics integration (`react-ga`)
@@ -16,7 +16,7 @@ The personal software engineering, applied AI, and systems architecture portfoli
 
 ---
 
-## 💻 Local Setup
+## Local Setup
 
 ```bash
 # 1. Clone repository
@@ -33,7 +33,7 @@ Runs at [http://localhost:3000](http://localhost:3000).
 
 ---
 
-## 🚀 How to Deploy to Netlify
+## How to Deploy to Netlify
 
 1. Link the repository to Netlify.
 2. Build command: `npm run build`
@@ -42,6 +42,6 @@ Runs at [http://localhost:3000](http://localhost:3000).
 
 ---
 
-## 👤 Author
+## Author
 **Mohammed Minhaj Mahmood**  
-Email: [hello.alifstudio@gmail.com](mailto:hello.alifstudio@gmail.com) | Website: [alif-growth.netlify.app](https://alif-growth.netlify.app)
+Email: [minhajmuhammad229@gmail.com](mailto:minhajmuhammad229@gmail.com) | Portfolio: [mohammed-minhaj.netlify.app](https://mohammed-minhaj.netlify.app/)
