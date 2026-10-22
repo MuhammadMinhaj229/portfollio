@@ -1,197 +1,247 @@
-import React from 'react';
-import { Paper, Typography, Box, Stack, Chip, Button, useMediaQuery } from '@mui/material';
-import { alpha, useTheme } from '@mui/material/styles';
+import React, { useState } from 'react';
 import {
-  Timeline as MuiTimeline,
-  TimelineItem,
-  TimelineSeparator,
-  TimelineDot,
-  TimelineConnector,
-  TimelineContent,
-  TimelineOppositeContent,
-} from '@mui/lab';
+  Box,
+  Typography,
+  Stack,
+  Chip,
+  Button,
+  Tabs,
+  Tab,
+  Paper,
+} from '@mui/material';
+import { alpha } from '@mui/material/styles';
 import { useLang } from '../../utils/i18n';
 
 /**
- * Clean, theme‑matched responsive timeline with fluid mobile breakpoint behavior
- * Props
- *  - items: Array<{ id, date, icon, title, company, description, tags?: string[], link?: string, linkText?: string }>
- *  - position: 'alternate' | 'left' | 'right'
+ * Dynamic, Interactive Experience Timeline
+ * Featuring category filtering, active status indicator lights, and modern glassmorphic cards.
  */
-const Timeline = ({ items = [], position = 'alternate' }) => {
+export default function Timeline({ items = [] }) {
   const [lang] = useLang();
-  const theme = useTheme();
-  const isMobile = useMediaQuery(theme.breakpoints.down('md'));
+  const [filter, setFilter] = useState('all');
 
-  const localizeDate = (d) => {
-    if (typeof d !== 'string') return d;
-    return lang === 'es' ? d.replace(/Present/i, 'Actualidad') : d;
-  };
+  const filterTabs = [
+    { value: 'all', label: lang === 'es' ? 'Toda la Trayectoria' : 'All Journey' },
+    { value: 'industry', label: lang === 'es' ? 'Industria y Prácticas' : 'Industry & Work' },
+    { value: 'leadership', label: lang === 'es' ? 'Liderazgo y Negocios' : 'Leadership' },
+    { value: 'education', label: lang === 'es' ? 'Educación' : 'Education' },
+  ];
 
-  const activePosition = isMobile ? 'right' : position;
+  const filteredItems = items.filter((item) => {
+    if (filter === 'all') return true;
+    return item.category === filter;
+  });
 
   return (
-    <MuiTimeline position={activePosition} sx={{
-      p: { xs: 0, md: 2 },
-      m: 0,
-      '& .MuiTimelineItem-root:before': { flex: 0, padding: 0 },
-    }}>
-      {items.map((item) => {
-        const { id, date, icon, title, company, description, tags = [], link, linkText } = item || {};
+    <Box sx={{ width: '100%' }}>
+      {/* Interactive Category Filter Tabs */}
+      <Box sx={{ mb: 4, display: 'flex', justifyContent: { xs: 'flex-start', sm: 'center' }, overflowX: 'auto' }}>
+        <Tabs
+          value={filter}
+          onChange={(e, val) => setFilter(val)}
+          variant="scrollable"
+          scrollButtons="auto"
+          sx={{
+            minHeight: 44,
+            bgcolor: (th) => alpha(th.palette.secondary.main, 0.06),
+            p: 0.5,
+            borderRadius: 3,
+            border: '1px solid',
+            borderColor: 'divider',
+            '& .MuiTabs-indicator': {
+              display: 'none',
+            },
+            '& .MuiTab-root': {
+              minHeight: 36,
+              borderRadius: 2.5,
+              textTransform: 'none',
+              fontWeight: 700,
+              fontSize: { xs: 13, sm: 14 },
+              px: { xs: 2, sm: 2.5 },
+              color: 'text.secondary',
+              transition: 'all 0.2s ease',
+              '&.Mui-selected': {
+                bgcolor: 'secondary.main',
+                color: '#ffffff',
+                boxShadow: '0 4px 14px rgba(6, 182, 212, 0.35)',
+              },
+            },
+          }}
+        >
+          {filterTabs.map((t) => (
+            <Tab key={t.value} value={t.value} label={t.label} />
+          ))}
+        </Tabs>
+      </Box>
 
-        return (
-          <TimelineItem key={id}>
-            {/* Date pill on desktop; hidden from opposite side on mobile to preserve width */}
-            <TimelineOppositeContent
-              sx={{
-                my: 'auto',
-                textAlign: 'right',
-                minWidth: { md: 140 },
-                display: { xs: 'none', md: 'block' }
-              }}
-            >
-              <Chip
-                label={localizeDate(date)}
-                size="small"
-                variant="outlined"
-                sx={(th) => ({
-                  borderColor: th.palette.divider,
-                  bgcolor: alpha(th.palette.secondary.main, 0.06),
-                  fontWeight: 600,
-                })}
-              />
-            </TimelineOppositeContent>
+      {/* Vertical Interactive Journey Cards */}
+      <Box sx={{ position: 'relative', pl: { xs: 2.5, md: 4 } }}>
+        {/* Continuous Animated Vertical Track Beam */}
+        <Box
+          sx={{
+            position: 'absolute',
+            top: 24,
+            bottom: 24,
+            left: { xs: 7, md: 15 },
+            width: 2,
+            background: (th) =>
+              `linear-gradient(180deg, ${th.palette.secondary.main} 0%, rgba(6, 182, 212, 0.15) 100%)`,
+          }}
+        />
 
-            {/* Axis + dot */}
-            <TimelineSeparator>
-              <TimelineDot
-                variant="outlined"
-                sx={(th) => ({
-                  borderColor: th.palette.secondary.main,
-                  backgroundColor: th.palette.background.paper,
-                  width: { xs: 38, md: 44 },
-                  height: { xs: 38, md: 44 },
-                  display: 'flex',
-                  alignItems: 'center',
-                  justifyContent: 'center',
-                  boxShadow: '0 2px 8px rgba(0,0,0,.06)'
-                })}
-              >
-                <Box sx={(th) => ({ fontSize: { xs: 18, md: 22 }, color: th.palette.secondary.main, display: 'flex' })}>{icon}</Box>
-              </TimelineDot>
-              <TimelineConnector sx={(th) => ({ backgroundColor: th.palette.divider, width: 2 })} />
-            </TimelineSeparator>
+        <Stack spacing={3.5}>
+          {filteredItems.map((item) => {
+            const { id, date, icon, title, company, description, tags = [], link, linkText, isCurrent } = item;
 
-            {/* Card content */}
-            <TimelineContent sx={{ py: 1.5, px: { xs: 1.5, md: 2.5 } }}>
-              <Paper
-                elevation={0}
-                sx={(th) => ({
-                  p: { xs: 2, md: 2.5 },
-                  borderRadius: 3,
-                  border: `1px solid ${th.palette.divider}`,
-                  backgroundColor: th.palette.background.paper,
-                  boxShadow: '0 6px 20px rgba(15,18,32,0.06), 0 1px 2px rgba(15,18,32,0.03)',
-                  transition: 'transform 0.25s cubic-bezier(0.16, 1, 0.3, 1), box-shadow 0.25s cubic-bezier(0.16, 1, 0.3, 1)',
-                  willChange: 'transform, box-shadow',
-                  '&:hover': {
-                    transform: 'translate3d(0, -4px, 0)',
-                    boxShadow: '0 12px 32px rgba(15,18,32,0.12), 0 4px 12px rgba(15,18,32,0.08)',
-                  },
-                })}
-              >
-                <Stack spacing={1}>
-                  {/* Date chip embedded directly inside card on mobile */}
-                  {isMobile && date && (
-                    <Box sx={{ alignSelf: 'flex-start' }}>
-                      <Chip
-                        label={localizeDate(date)}
-                        size="small"
-                        sx={(th) => ({
-                          borderColor: th.palette.divider,
-                          bgcolor: alpha(th.palette.secondary.main, 0.12),
-                          fontWeight: 700,
-                          fontSize: 12,
-                        })}
-                      />
+            return (
+              <Box key={id} sx={{ position: 'relative' }}>
+                {/* Glowing Node Marker */}
+                <Box
+                  sx={(th) => ({
+                    position: 'absolute',
+                    top: 24,
+                    left: { xs: -28, md: -34 },
+                    width: { xs: 24, md: 28 },
+                    height: { xs: 24, md: 28 },
+                    borderRadius: '50%',
+                    bgcolor: isCurrent ? th.palette.secondary.main : th.palette.background.paper,
+                    border: `2px solid ${th.palette.secondary.main}`,
+                    boxShadow: isCurrent ? '0 0 12px rgba(6, 182, 212, 0.6)' : '0 2px 6px rgba(0,0,0,0.1)',
+                    display: 'flex',
+                    alignItems: 'center',
+                    justifyContent: 'center',
+                    color: isCurrent ? '#ffffff' : th.palette.secondary.main,
+                    zIndex: 2,
+                    '& svg': { fontSize: { xs: 12, md: 14 } },
+                  })}
+                >
+                  {icon}
+                </Box>
+
+                {/* Role Card */}
+                <Paper
+                  elevation={0}
+                  sx={(th) => ({
+                    p: { xs: 2.5, sm: 3.5 },
+                    borderRadius: 3.5,
+                    border: '1px solid',
+                    borderColor: isCurrent ? alpha(th.palette.secondary.main, 0.4) : th.palette.divider,
+                    bgcolor: th.palette.background.paper,
+                    transition: 'all 0.25s cubic-bezier(0.16, 1, 0.3, 1)',
+                    willChange: 'transform, box-shadow, border-color',
+                    '&:hover': {
+                      transform: 'translate3d(0, -4px, 0)',
+                      borderColor: th.palette.secondary.main,
+                      boxShadow: '0 16px 36px rgba(0, 0, 0, 0.08), 0 0 20px rgba(6, 182, 212, 0.12)',
+                    },
+                  })}
+                >
+                  <Stack spacing={1.5}>
+                    {/* Header Row: Title, Company, Status & Date */}
+                    <Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', flexWrap: 'wrap', gap: 1 }}>
+                      <Box>
+                        <Typography variant="h6" sx={{ fontWeight: 800, fontSize: { xs: '1.1rem', sm: '1.25rem' } }}>
+                          {title}
+                        </Typography>
+                        <Typography variant="subtitle2" sx={{ color: 'secondary.main', fontWeight: 700, mt: 0.25 }}>
+                          {company}
+                        </Typography>
+                      </Box>
+
+                      {/* Status Badges */}
+                      <Stack direction="row" spacing={1} alignItems="center">
+                        {isCurrent && (
+                          <Chip
+                            size="small"
+                            label={
+                              <Box sx={{ display: 'flex', alignItems: 'center', gap: 0.75 }}>
+                                <Box
+                                  sx={{
+                                    width: 6,
+                                    height: 6,
+                                    borderRadius: '50%',
+                                    bgcolor: '#22c55e',
+                                    boxShadow: '0 0 6px #22c55e',
+                                  }}
+                                />
+                                <span>{lang === 'es' ? 'Rol Activo' : 'Active Role'}</span>
+                              </Box>
+                            }
+                            sx={{
+                              bgcolor: 'rgba(34, 197, 94, 0.12)',
+                              color: '#15803d',
+                              fontWeight: 700,
+                              fontSize: 11,
+                              border: '1px solid rgba(34, 197, 94, 0.3)',
+                            }}
+                          />
+                        )}
+                        <Chip
+                          size="small"
+                          label={date}
+                          sx={{
+                            bgcolor: (th) => alpha(th.palette.secondary.main, 0.08),
+                            fontWeight: 700,
+                            fontSize: 11,
+                          }}
+                        />
+                      </Stack>
                     </Box>
-                  )}
 
-                  <Typography variant="h6" sx={{ fontWeight: 800, letterSpacing: -0.2, fontSize: { xs: '1.05rem', md: '1.25rem' } }}>
-                    {title}
-                  </Typography>
-                  {company && (
-                    <Typography variant="subtitle2" sx={{ color: 'text.secondary', fontWeight: 600 }}>
-                      {company}
-                    </Typography>
-                  )}
-                  {description && (
-                    <Typography variant="body2" sx={{ color: 'text.secondary', lineHeight: 1.6 }}>
+                    {/* Description */}
+                    <Typography variant="body2" sx={{ color: 'text.secondary', lineHeight: 1.7, fontSize: { xs: 14, sm: 15 } }}>
                       {description}
                     </Typography>
-                  )}
 
-                  {/* Tags */}
-                  {Array.isArray(tags) && tags.length > 0 && (
-                    <Stack direction="row" spacing={0.75} useFlexGap flexWrap="wrap" sx={{ pt: 0.5 }}>
-                      {tags.map((t) => (
-                        <Chip
-                          key={t}
-                          size="small"
-                          label={t}
-                          sx={(th) => ({
-                            bgcolor: alpha(th.palette.secondary.main, 0.15),
-                            border: `1px solid ${alpha(th.palette.secondary.main, 0.3)}`,
-                            color: th.palette.primary.main,
-                            fontWeight: 700,
-                            fontSize: 11
-                          })}
-                        />
-                      ))}
-                    </Stack>
-                  )}
+                    {/* Tags */}
+                    {tags.length > 0 && (
+                      <Stack direction="row" spacing={0.75} useFlexGap flexWrap="wrap" sx={{ pt: 0.5 }}>
+                        {tags.map((t) => (
+                          <Chip
+                            key={t}
+                            size="small"
+                            label={t}
+                            sx={{
+                              bgcolor: 'rgba(15, 23, 42, 0.04)',
+                              border: '1px solid',
+                              borderColor: 'divider',
+                              fontSize: 11,
+                              fontWeight: 600,
+                            }}
+                          />
+                        ))}
+                      </Stack>
+                    )}
 
-                  {link && (
-                    <Box sx={{ pt: 2, textAlign: 'left' }}>
-                      <Button
-                        component="a"
-                        href={link}
-                        target="_blank"
-                        rel="noopener noreferrer"
-                        variant="outlined"
-                        color="secondary"
-                        sx={{
-                          fontWeight: 800,
-                          borderRadius: '10px',
-                          borderWidth: '1.5px',
-                          minHeight: 44,
-                          minWidth: 44,
-                          px: 3,
-                          py: 1,
-                          borderColor: 'secondary.main',
-                          color: 'text.primary',
-                          '&:hover': {
-                            bgcolor: 'rgba(6, 182, 212, 0.15)',
-                            borderColor: 'secondary.main',
-                            borderWidth: '1.5px'
-                          }
-                        }}
-                      >
-                        {linkText || "Checkout"}
-                      </Button>
-                    </Box>
-                  )}
-                </Stack>
-              </Paper>
-            </TimelineContent>
-          </TimelineItem>
-        );
-      })}
-    </MuiTimeline>
+                    {/* Action link */}
+                    {link && (
+                      <Box sx={{ pt: 1 }}>
+                        <Button
+                          component="a"
+                          href={link}
+                          target="_blank"
+                          rel="noopener noreferrer"
+                          variant="outlined"
+                          color="secondary"
+                          sx={{
+                            fontWeight: 800,
+                            borderRadius: 2,
+                            px: 2.5,
+                            py: 0.8,
+                            fontSize: 13,
+                          }}
+                        >
+                          {linkText || 'Visit Site ↗'}
+                        </Button>
+                      </Box>
+                    )}
+                  </Stack>
+                </Paper>
+              </Box>
+            );
+          })}
+        </Stack>
+      </Box>
+    </Box>
   );
-};
-
-export default Timeline;
-
-
-
+}

@@ -5,7 +5,6 @@ import {
   Card,
   CardActions,
   CardContent,
-  CardMedia,
   Chip,
   Container,
   Grid,
@@ -20,6 +19,7 @@ import {
 } from '@mui/material';
 import { Search as SearchIcon, OpenInNew as OpenInNewIcon } from '@mui/icons-material';
 import projectConfig from '../assets/configs/projectConfig';
+import ProjectIllustration from '../components/ProjectIllustration';
 import Seo from '../components/Seo';
 import { withUtm } from '../utils/withUtm';
 import { useLang } from '../utils/i18n';
@@ -27,27 +27,27 @@ import { useLang } from '../utils/i18n';
 const UI = {
   en: {
     seoTitle: 'Projects & Work | Mohammed Minhaj Mahmood',
-    seoDesc: 'Website development, data automation tools, and machine learning projects by Mohammed Minhaj Mahmood.',
-    overline: 'Selected Work & Projects',
-    title: 'Projects & Work',
+    seoDesc: 'Real-world software engineering, web applications, CRM tools, and machine learning platforms by Mohammed Minhaj Mahmood.',
+    overline: 'Selected Repositories & Systems',
+    title: 'Featured Work & Projects',
     desc:
-      'A collection of projects covering website development, data automation tools, business solutions, and practical AI applications.',
+      'Real-world software applications, full-stack web platforms, WhatsApp CRM tools, and machine learning systems deployed live with public GitHub repositories.',
     searchPlaceholder: 'Search projects...',
     sortRecent: 'Recent',
     sortAZ: 'A → Z',
-    ctaView: 'View Project',
+    ctaView: 'Live Demo ↗',
   },
   es: {
     seoTitle: 'Proyectos y Trabajo | Mohammed Minhaj Mahmood',
-    seoDesc: 'Desarrollo de sitios web, herramientas de automatización de datos y proyectos de aprendizaje automático por Mohammed Minhaj Mahmood.',
-    overline: 'Trabajo Destacado',
-    title: 'Proyectos y Trabajo',
+    seoDesc: 'Aplicaciones web, CRM y plataformas de machine learning por Mohammed Minhaj Mahmood.',
+    overline: 'Repositorios y Sistemas Destacados',
+    title: 'Trabajo y Proyectos',
     desc:
-      'Una colección de proyectos que abarca desarrollo web, herramientas de automatización de datos y aplicaciones de IA.',
+      'Aplicaciones de software reales, plataformas web, herramientas CRM y sistemas de machine learning desplegados con repositorios de GitHub.',
     searchPlaceholder: 'Buscar proyectos...',
     sortRecent: 'Recientes',
     sortAZ: 'A → Z',
-    ctaView: 'Ver Proyecto',
+    ctaView: 'Ver Demo ↗',
   },
 };
 
@@ -80,32 +80,48 @@ const ProjectCard = ({ project, lang = 'en' }) => {
       : project.category?.[lang] || project.category?.en;
 
   return (
-    <Card sx={{ height: '100%', display: 'flex', flexDirection: 'column' }}>
-      {/* Image placeholder 16:9 to prevent layout shift */}
-      <Box sx={{ position: 'relative', pt: '56.25%', overflow: 'hidden' }}>
-        <CardMedia
-          component="img"
-          image={project.image}
-          alt={project.title}
-          loading="lazy"
-          decoding="async"
-          sx={{
-            position: 'absolute',
-            inset: 0,
-            width: '100%',
-            height: '100%',
-            objectFit: 'cover',
-            filter: 'saturate(1.05) contrast(1.05)',
-          }}
-        />
+    <Card
+      sx={{
+        height: '100%',
+        display: 'flex',
+        flexDirection: 'column',
+        borderRadius: 3.5,
+        overflow: 'hidden',
+        border: '1px solid',
+        borderColor: 'divider',
+        transition: 'transform 0.25s cubic-bezier(0.16, 1, 0.3, 1), box-shadow 0.25s cubic-bezier(0.16, 1, 0.3, 1), border-color 0.25s ease',
+        '&:hover': {
+          transform: 'translate3d(0, -5px, 0)',
+          boxShadow: '0 16px 36px rgba(0, 0, 0, 0.1)',
+          borderColor: 'secondary.main',
+        }
+      }}
+    >
+      {/* Illustrated UI Preview Window (Replaces stock images) */}
+      <Box sx={{ position: 'relative', pt: '56.25%', overflow: 'hidden', borderBottom: '1px solid', borderColor: 'divider' }}>
+        <Box sx={{ position: 'absolute', inset: 0, width: '100%', height: '100%' }}>
+          <ProjectIllustration type={project.illustrationType} />
+        </Box>
       </Box>
 
       <CardContent sx={{ flexGrow: 1, display: 'flex', flexDirection: 'column', gap: 1.25, p: { xs: 2.5, md: 3 } }}>
         <Stack direction="row" alignItems="flex-start" justifyContent="space-between" spacing={1} useFlexGap flexWrap="wrap">
-          <Typography variant="h6" fontWeight={800} sx={{ letterSpacing: -0.2, fontSize: { xs: '1.1rem', md: '1.2rem' } }}>
+          <Typography variant="h6" fontWeight={800} sx={{ letterSpacing: -0.2, fontSize: { xs: '1.05rem', md: '1.15rem' } }}>
             {project.title}
           </Typography>
-          {categoryLabel && <Chip size="small" label={categoryLabel} sx={{ mt: { xs: 0.5, sm: 0 }, fontSize: 11, fontWeight: 700 }} />}
+          {categoryLabel && (
+            <Chip
+              size="small"
+              label={categoryLabel}
+              sx={{
+                fontSize: 11,
+                fontWeight: 700,
+                bgcolor: 'rgba(6, 182, 212, 0.12)',
+                color: 'secondary.main',
+                border: '1px solid rgba(6, 182, 212, 0.25)'
+              }}
+            />
+          )}
         </Stack>
         <Typography variant="body2" color="text.secondary" sx={{ lineHeight: 1.6 }}>
           {desc}
@@ -124,7 +140,7 @@ const ProjectCard = ({ project, lang = 'en' }) => {
           href={withUtm(project.links?.[0]?.url || '#', 'projects_page')}
           target="_blank"
           rel="noopener noreferrer"
-          sx={{ fontWeight: 800, px: 3, py: 1, minHeight: 44, minWidth: 44 }}
+          sx={{ fontWeight: 800, px: 2.5, py: 1, minHeight: 44, minWidth: 44, borderRadius: 2 }}
         >
           {UI[lang].ctaView}
         </Button>
@@ -165,7 +181,7 @@ export default function Projects() {
   }, [category, query, sort, lang]);
 
   const categoryChips = useMemo(() => {
-    const labels = new Set(['All']); // keep sentinel value; display text stays as-is
+    const labels = new Set(['All']);
     projectConfig.forEach((p) => {
       if (p.category) {
         const label =
@@ -192,7 +208,7 @@ export default function Projects() {
       >
         <Container maxWidth="lg">
           <Stack spacing={2.5}>
-            <Typography variant="overline" color="secondary.main" fontWeight={800} sx={{ fontSize: 13 }}>
+            <Typography variant="overline" color="secondary.main" fontWeight={800} sx={{ fontSize: 13, letterSpacing: 1.2 }}>
               {t.overline}
             </Typography>
             <Typography variant="h2" sx={{ fontWeight: 900, letterSpacing: -0.8, fontSize: { xs: '2.25rem', sm: '3rem', md: '3.5rem' } }}>
