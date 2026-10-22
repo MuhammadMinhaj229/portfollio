@@ -3,168 +3,93 @@ import React from 'react';
 
 const projectConfig = [
   {
-    id: "project-spotify",
-    title: "Spotify Music Streaming Platform",
-    illustrationType: "spotify",
-    category: { en: "Full-Stack Web", es: "Web Full-Stack" },
+    id: "project-1",
+    title: "DOHaD India Website Management & Deployment | PHFI",
+    category: { en: "Web Development & Management", es: "Desarrollo Web y Gestión" },
     description_i18n: {
-      en: "Full-stack Spotify-inspired music streaming web application built with MERN stack, real-time messaging, and an interactive audio player.",
-      es: "Aplicación de transmisión de música inspirada en Spotify creada con el stack MERN, mensajería en tiempo real y reproductor interactivo."
+      en: "Managed website content, handled deployment, and connected the official website to the organization's accounts. Set up GitHub, Vercel, MongoDB, and Cloudinary for smooth updates and management.",
+      es: "Gestión de contenido web, despliegue y conexión del sitio oficial a las cuentas de la organización. Configuración de GitHub, Vercel, MongoDB y Cloudinary."
     },
     links: [
-      { name: "Live Demo", url: "https://spotify-project-bc53.onrender.com", icon: <AiFillEye/> },
-      { name: "GitHub", url: "https://github.com/MuhammadMinhaj229/SPOTIFY-PROJECT", icon: <AiFillGithub/> }
+      { name: "demo", url: "https://www.linkedin.com/in/muhammadminhaj229/", icon: <AiFillEye/> },
+      { name: "repo", url: "https://github.com/MuhammadMinhaj229", icon: <AiFillGithub/> }
     ],
+    image: "https://images.unsplash.com/photo-1507238691740-187a5b1d37b8?auto=format&fit=crop&w=800&q=80",
     target: "_blank"
   },
   {
-    id: "project-safar-crm",
-    title: "Safar CRM — WhatsApp Multi-Agent Inbox",
-    illustrationType: "safar-crm",
-    category: { en: "Web Apps & CRM", es: "Aplicaciones Web y CRM" },
-    description_i18n: {
-      en: "Safar CRM: WhatsApp multi-agent inbox, visual flow automations, sales pipelines, and instant customer reply engine for growing businesses.",
-      es: "Safar CRM: Bandeja de entrada multiagente de WhatsApp, automatizaciones de flujos y pipelines de ventas."
-    },
-    links: [
-      { name: "Live Demo", url: "https://safar-crm-theta.vercel.app", icon: <AiFillEye/> },
-      { name: "GitHub", url: "https://github.com/MuhammadMinhaj229/safar-crm", icon: <AiFillGithub/> }
-    ],
-    target: "_blank"
-  },
-  {
-    id: "project-invofy",
-    title: "Invofy — 1-Tap Digital PDF Invoicing",
-    illustrationType: "invofy",
-    category: { en: "Web Apps & FinTech", es: "Aplicaciones Web y FinTech" },
-    description_i18n: {
-      en: "Invofy: 1-Tap digital PDF invoicing, cash vs. UPI collection tracking, and instant WhatsApp receipt delivery for retailers and service providers.",
-      es: "Facturación digital en PDF con un toque, seguimiento de cobros en efectivo vs UPI y envío de recibos por WhatsApp."
-    },
-    links: [
-      { name: "Live Demo", url: "https://invofy-kappa.vercel.app", icon: <AiFillEye/> },
-      { name: "GitHub", url: "https://github.com/MuhammadMinhaj229/invofy", icon: <AiFillGithub/> }
-    ],
-    target: "_blank"
-  },
-  {
-    id: "project-safar",
-    title: "SAFAR N MANZIL — Travel & Housing Hub",
-    illustrationType: "safar",
-    category: { en: "Web Platforms", es: "Plataformas Web" },
-    description_i18n: {
-      en: "SAFAR N MANZIL: Dedicated travel assistance, verified housing listings, and relocation platform for India and Gulf travelers.",
-      es: "Plataforma de asistencia de viajes, alojamiento verificado y reubicación para viajeros en India y el Golfo."
-    },
-    links: [
-      { name: "Live Demo", url: "https://safar-rouge.vercel.app", icon: <AiFillEye/> },
-      { name: "GitHub", url: "https://github.com/MuhammadMinhaj229/safar", icon: <AiFillGithub/> }
-    ],
-    target: "_blank"
-  },
-  {
-    id: "project-dohad",
-    title: "DOHaD India Web Management & Deployment | PHFI",
-    illustrationType: "dohad",
-    category: { en: "Web Platforms", es: "Plataformas Web" },
-    description_i18n: {
-      en: "Managed website content, handled deployment, and connected the official web platform to organization accounts using Next.js, Vercel, MongoDB, and Cloudinary.",
-      es: "Gestión de contenido, despliegue y conexión de la plataforma oficial con Next.js, Vercel, MongoDB y Cloudinary."
-    },
-    links: [
-      { name: "Live Portal", url: "https://www.linkedin.com/in/muhammadminhaj229/", icon: <AiFillEye/> },
-      { name: "GitHub", url: "https://github.com/MuhammadMinhaj229", icon: <AiFillGithub/> }
-    ],
-    target: "_blank"
-  },
-  {
-    id: "project-research-studio",
+    id: "project-2",
     title: "Research Data Automation Studio | PHFI",
-    illustrationType: "research-data-studio",
-    category: { en: "Data Automation", es: "Automatización de Datos" },
+    category: { en: "Data Automation & Tools", es: "Automatización de Datos y Herramientas" },
     description_i18n: {
-      en: "Developed a Python application to help research teams with automated data cleaning, filtering, quality checks, and interactive summary reporting.",
-      es: "Aplicación en Python para automatizar la limpieza, filtrado, control de calidad y reportes de datos de investigación."
+      en: "Developed a Python-based application to help researchers with data cleaning, filtering, quality checks, and visualization. Packaged for team use and deployed live.",
+      es: "Desarrollo de una aplicación en Python para limpieza, filtrado, control de calidad y visualización de datos de investigación."
     },
     links: [
-      { name: "Overview", url: "https://www.linkedin.com/in/muhammadminhaj229/", icon: <AiFillEye/> },
-      { name: "GitHub", url: "https://github.com/MuhammadMinhaj229", icon: <AiFillGithub/> }
+      { name: "demo", url: "https://www.linkedin.com/in/muhammadminhaj229/", icon: <AiFillEye/> },
+      { name: "repo", url: "https://github.com/MuhammadMinhaj229", icon: <AiFillGithub/> }
     ],
+    image: "https://images.unsplash.com/photo-1551288049-bebda4e38f71?auto=format&fit=crop&w=800&q=80",
     target: "_blank"
   },
   {
-    id: "project-aqi",
-    title: "Indian Air Quality Prediction Platform",
-    illustrationType: "aqi",
-    category: { en: "Machine Learning", es: "Aprendizaje Automático" },
+    id: "project-3",
+    title: "Indian Air Quality Prediction & Advisory",
+    category: { en: "Data Analytics & Dashboards", es: "Análisis de Datos y Tableros" },
     description_i18n: {
-      en: "Machine learning Air Quality Index (AQI) prediction platform for Indian cities with Colab models, FastAPI backend, and a responsive web UI.",
-      es: "Plataforma de predicción de AQI para ciudades de la India con modelos de Colab, backend en FastAPI y UI web reactiva."
+      en: "Built an interactive dashboard tracking real-time air pollution across 15 Indian cities, predicting Air Quality Index (AQI) values to share helpful health advisories.",
+      es: "Tablero interactivo para rastrear la contaminación del aire en tiempo real en 15 ciudades de la India y predecir el índice de calidad del aire (AQI)."
     },
     links: [
-      { name: "Live Demo", url: "https://indian-air-quality-prediction.vercel.app", icon: <AiFillEye/> },
-      { name: "GitHub", url: "https://github.com/MuhammadMinhaj229/Indian-Air-Quality-Prediction", icon: <AiFillGithub/> }
+      { name: "demo", url: "https://indian-air-quality-prediction.vercel.app", icon: <AiFillEye/> },
+      { name: "repo", url: "https://github.com/MuhammadMinhaj229/indian-air-quality-prediction", icon: <AiFillGithub/> }
     ],
+    image: "https://images.unsplash.com/photo-1534447677768-be436bb09401?auto=format&fit=crop&w=800&q=80",
     target: "_blank"
   },
   {
-    id: "project-terrain",
+    id: "project-4",
     title: "Vision-Based Terrain Classification",
-    illustrationType: "terrain-vision",
-    category: { en: "Machine Learning", es: "Aprendizaje Automático" },
+    category: { en: "Computer Vision & AI", es: "Visión por Computador e IA" },
     description_i18n: {
-      en: "Computer vision and deep learning terrain classification pipeline (Desert, Forest, Mountain, Plains) using MobileNetV2 with an interactive Streamlit inference app.",
-      es: "Pipeline de clasificación de terreno por visión artificial con aplicación interactiva en tiempo real en Streamlit."
+      en: "Led an academic team project to classify terrain types (Desert, Forest, Mountain, Plains) from images using MobileNetV2, designed to run smoothly on small devices like drones or rovers.",
+      es: "Proyecto de equipo académico para clasificar tipos de terreno a partir de imágenes usando MobileNetV2, diseñado para funcionar en dispositivos pequeños."
     },
     links: [
-      { name: "Live Demo", url: "https://vision-based-terrain-classification-bfzfgwhcu8npbf6lyipfyh.streamlit.app/", icon: <AiFillEye/> },
-      { name: "GitHub", url: "https://github.com/MuhammadMinhaj229/Vision-Based-Terrain-Classification", icon: <AiFillGithub/> }
+      { name: "demo", url: "https://vision-based-terrain-classification-bfzfgwhcu8npbf6lyipfyh.streamlit.app/", icon: <AiFillEye/> },
+      { name: "repo", url: "https://github.com/MuhammadMinhaj229/vision-based-terrain-classification", icon: <AiFillGithub/> }
     ],
+    image: "https://images.unsplash.com/photo-1508614589041-895b88991e3e?auto=format&fit=crop&w=800&q=80",
     target: "_blank"
   },
   {
-    id: "project-segmentation",
-    title: "Customer Segmentation Analytics",
-    illustrationType: "customer-segmentation",
-    category: { en: "Machine Learning", es: "Aprendizaje Automático" },
+    id: "project-5",
+    title: "Customer Segmentation & Churn Prediction",
+    category: { en: "Machine Learning & Data", es: "Aprendizaje Automático y Datos" },
     description_i18n: {
-      en: "Unsupervised machine learning customer segmentation: K-Means clustering, PCA dimensionality reduction, and an interactive Streamlit analytics app.",
-      es: "Segmentación de clientes con K-Means, reducción de dimensionalidad PCA y aplicación analítica interactiva en Streamlit."
+      en: "Analyzed customer purchasing habits to group similar customers together and built an AI model to predict when a customer might stop buying, helping businesses retain customers.",
+      es: "Análisis de hábitos de compra para agrupar clientes y modelo de IA para predecir cuándo un cliente podría dejar de comprar."
     },
     links: [
-      { name: "Live Demo", url: "https://customer-segmentation-efb7gqwwg2sqdzpymxxbz5.streamlit.app/", icon: <AiFillEye/> },
-      { name: "GitHub", url: "https://github.com/MuhammadMinhaj229/customer-segmentation", icon: <AiFillGithub/> }
+      { name: "demo", url: "https://customer-segmentation-efb7gqwwg2sqdzpymxxbz5.streamlit.app/", icon: <AiFillEye/> },
+      { name: "repo", url: "https://github.com/MuhammadMinhaj229/customer-segmentation", icon: <AiFillGithub/> }
     ],
+    image: "https://images.unsplash.com/photo-1460925895917-afdab827c52f?auto=format&fit=crop&w=800&q=80",
     target: "_blank"
   },
   {
-    id: "project-nlp",
-    title: "NLP Review Intelligence System",
-    illustrationType: "nlp-review",
-    category: { en: "Machine Learning", es: "Aprendizaje Automático" },
+    id: "project-6",
+    title: "NLP Review Intelligence & Aspect Mining",
+    category: { en: "Natural Language Processing", es: "Procesamiento de Lenguaje Natural" },
     description_i18n: {
-      en: "End-to-end NLP review analytics: DistilBERT sentiment classification and BERTopic clustering on 500K customer reviews with Streamlit.",
-      es: "Analítica de reseñas con DistilBERT y agrupamiento BERTopic en 500K reseñas de clientes con Streamlit."
+      en: "Built a sentiment and keyword analysis app to review customer feedback, identify recurring issues, and extract actionable insights for product improvement.",
+      es: "Herramienta de análisis de sentimientos y palabras clave para analizar comentarios de clientes y extraer información práctica."
     },
     links: [
-      { name: "Live Demo", url: "https://nlp-review-intelligence-l4vsrtkyi828h8s2dyjxhr.streamlit.app/", icon: <AiFillEye/> },
-      { name: "GitHub", url: "https://github.com/MuhammadMinhaj229/nlp-review-intelligence", icon: <AiFillGithub/> }
+      { name: "demo", url: "https://nlp-review-intelligence-l4vsrtkyi828h8s2dyjxhr.streamlit.app/", icon: <AiFillEye/> },
+      { name: "repo", url: "https://github.com/MuhammadMinhaj229/nlp-review-intelligence", icon: <AiFillGithub/> }
     ],
-    target: "_blank"
-  },
-  {
-    id: "project-repcount",
-    title: "RepCount — Gym Membership & Dues CRM",
-    illustrationType: "repcount",
-    category: { en: "Web Apps & CRM", es: "Aplicaciones Web y CRM" },
-    description_i18n: {
-      en: "RepCount: Mobile-first gym membership CRM, fee recovery, member attendance, and WhatsApp dues reminders for fitness centers.",
-      es: "RepCount: CRM para membresías de gimnasio, recuperación de cuotas, asistencia y recordatorios de pago por WhatsApp."
-    },
-    links: [
-      { name: "Live Demo", url: "https://e-repcount-gym-payment-manager.vercel.app", icon: <AiFillEye/> },
-      { name: "GitHub", url: "https://github.com/MuhammadMinhaj229/e-repcount-gym-payment-manager", icon: <AiFillGithub/> }
-    ],
+    image: "https://images.unsplash.com/photo-1526374965328-7f61d4dc18c5?auto=format&fit=crop&w=800&q=80",
     target: "_blank"
   }
 ];
