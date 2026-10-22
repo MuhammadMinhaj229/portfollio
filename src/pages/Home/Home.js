@@ -12,7 +12,7 @@ export default function Home() {
   const [lang] = useLang();
   const canonical = typeof window !== 'undefined' ? window.location.href : undefined;
 
-  const titles = homeConfig.titles_i18n?.[lang] || homeConfig.titles || ['Data & ML Specialist'];
+  const titles = homeConfig.titles_i18n?.[lang] || homeConfig.titles || ['Data & Business Automation Analyst'];
   const about = homeConfig.about_i18n?.[lang] || homeConfig.about || { start: '', exit: '' };
 
   const timelineItems = (homeConfig.workTimeline || []).map((it) => ({
@@ -26,17 +26,17 @@ export default function Home() {
     '@type': 'Person',
     name: 'Mohammed Minhaj Mahmood',
     url: canonical,
-    jobTitle: titles?.[0] || 'Data & ML Specialist',
+    jobTitle: titles?.[0] || 'Data & Business Automation Analyst',
   };
 
   const greetingNode = homeConfig.greeting_i18n?.[lang] || homeConfig.greeting;
-  const ExperienceLabel = 'Professional Experience & Leadership';
+  const ExperienceLabel = 'Work Experience & Timeline';
 
   return (
     <section>
       <Seo
-        title="Mohammed Minhaj Mahmood — Data & ML Specialist & Founder"
-        description="Portfolio of Mohammed Minhaj Mahmood: AI RAG architecture, SME business automation, web systems, and applied research."
+        title="Mohammed Minhaj Mahmood — Data & Business Automation Analyst"
+        description="Portfolio of Mohammed Minhaj Mahmood: Website management, data automation tools, AI testing, and practical digital solutions."
         canonical={canonical}
         jsonLd={jsonLd}
       />
@@ -72,5 +72,3 @@ export default function Home() {
     </section>
   );
 }
-
-

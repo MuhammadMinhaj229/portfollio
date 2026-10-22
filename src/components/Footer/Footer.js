@@ -8,10 +8,10 @@ export default function Footer() {
     <Box sx={{ bgcolor: 'primary.main', color: '#fff', mt: 8 }}>
       <Container maxWidth="lg" sx={{ py: 6, textAlign: 'center' }}>
         <Typography variant="h5" sx={{ fontWeight: 800, mb: 1.5 }}>
-          Let’s accelerate your digital growth & AI systems
+          Let's connect and build something great together
         </Typography>
         <Typography sx={{ opacity: 0.9, mb: 3.5, maxWidth: 600, mx: 'auto' }}>
-          From custom web architecture and business automation to applied machine learning — engineered for measurable ROI and high performance.
+          Whether you need a custom website, digital tools to automate your business, or help with data and AI testing — feel free to reach out.
         </Typography>
         <Stack direction={{ xs: 'column', sm: 'row' }} spacing={2} justifyContent="center" sx={{ mb: 4.5 }}>
           <Button
@@ -49,5 +49,3 @@ export default function Footer() {
     </Box>
   );
 }
-
-

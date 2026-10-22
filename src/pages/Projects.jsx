@@ -26,28 +26,28 @@ import { useLang } from '../utils/i18n';
 
 const UI = {
   en: {
-    seoTitle: 'Projects & Systems | Mohammed Minhaj Mahmood',
-    seoDesc: 'Professional Web Development deliveries, AI models, and real-world software systems by Mohammed Minhaj Mahmood.',
-    overline: 'Selected Work & Systems',
-    title: 'Projects & Architecture',
+    seoTitle: 'Projects & Work | Mohammed Minhaj Mahmood',
+    seoDesc: 'Website development, data automation tools, and machine learning projects by Mohammed Minhaj Mahmood.',
+    overline: 'Selected Work & Projects',
+    title: 'Projects & Work',
     desc:
-      'A curated showcase spanning full-stack client web systems, business automation pipelines, applied machine learning models, and MLOps infrastructure.',
+      'A collection of projects covering website development, data automation tools, business solutions, and practical AI applications.',
     searchPlaceholder: 'Search projects...',
     sortRecent: 'Recent',
     sortAZ: 'A → Z',
-    ctaView: 'View System',
+    ctaView: 'View Project',
   },
   es: {
-    seoTitle: 'Proyectos y Sistemas | Mohammed Minhaj Mahmood',
-    seoDesc: 'Sistemas web empresariales, modelos de IA y proyectos reales por Mohammed Minhaj Mahmood.',
+    seoTitle: 'Proyectos y Trabajo | Mohammed Minhaj Mahmood',
+    seoDesc: 'Desarrollo de sitios web, herramientas de automatización de datos y proyectos de aprendizaje automático por Mohammed Minhaj Mahmood.',
     overline: 'Trabajo Destacado',
-    title: 'Proyectos y Arquitectura',
+    title: 'Proyectos y Trabajo',
     desc:
-      'Una colección curada que abarca sistemas web, automatización empresarial, modelos de aprendizaje automático y canalizaciones MLOps.',
+      'Una colección de proyectos que abarca desarrollo web, herramientas de automatización de datos y aplicaciones de IA.',
     searchPlaceholder: 'Buscar proyectos...',
     sortRecent: 'Recientes',
     sortAZ: 'A → Z',
-    ctaView: 'Ver Sistema',
+    ctaView: 'Ver Proyecto',
   },
 };
 
@@ -264,6 +264,3 @@ export default function Projects() {
     </>
   );
 }
-
-
-

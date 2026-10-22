@@ -69,8 +69,8 @@ export default function Contact() {
   return (
     <section>
       <Seo
-        title="Contact Mohammed Minhaj Mahmood | Data & ML Specialist"
-        description="Get in touch with Mohammed Minhaj Mahmood for AI applied consulting, SME business automation, web systems, or research engineering."
+        title="Contact Mohammed Minhaj Mahmood | Portfolio"
+        description="Get in touch with Mohammed Minhaj Mahmood for website development, business automation, or data and AI projects."
       />
       <Container maxWidth="lg" sx={{ py: { xs: 4, sm: 6, md: 8 }, px: { xs: 2, sm: 3 }, overflowX: 'hidden' }}>
         <Box sx={{ textAlign: 'center', mb: { xs: 4, md: 6 }, px: { xs: 0.5, sm: 0 } }}>
@@ -78,7 +78,7 @@ export default function Contact() {
             Get In Touch
           </Typography>
           <Typography variant="body1" sx={{ color: 'text.secondary', maxWidth: 680, mx: 'auto', fontWeight: 400, fontSize: { xs: 15, sm: 17, md: 18 }, lineHeight: 1.6 }}>
-            Interested in AI consulting, custom business automation, modern web architecture, or machine learning engineering? Reach out directly below.
+            Whether you are looking for help with website development, data automation tools, or AI feature testing, I would love to hear from you. Reach out through any channel below or send a direct message.
           </Typography>
         </Box>
 

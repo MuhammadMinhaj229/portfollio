@@ -1,10 +1,10 @@
-# Mohammed Minhaj Mahmood — Systems Architecture & Engineering Portfolio
+# Mohammed Minhaj Mahmood — Personal Portfolio & Projects
 
 [![Live Portfolio](https://img.shields.io/badge/Live_Portfolio-mohammed--minhaj.netlify.app-06B6D4?style=for-the-badge&logo=netlify&logoColor=white)](https://mohammed-minhaj.netlify.app/)
 [![React](https://img.shields.io/badge/Framework-React_%2B_MUI-61DAFB?style=flat-square&logo=react&logoColor=black)](https://react.dev)
 [![Deployment](https://img.shields.io/badge/Hosting-Netlify-00C7B7?style=flat-square&logo=netlify&logoColor=white)](https://netlify.com)
 
-The personal software engineering, applied AI, and systems architecture portfolio of **Mohammed Minhaj Mahmood**. Highlights professional milestones, technical research, certifications, and live production client systems.
+The personal web portfolio of **Mohammed Minhaj Mahmood** — Data & Business Automation Analyst, Web Developer, and Founder at Alif Growth Media. Showcases work across website management (PHFI), AI feature testing (Sanad AI), client web platforms, and data automation tools.
 
 ---
 
@@ -44,4 +44,4 @@ Runs at [http://localhost:3000](http://localhost:3000).
 
 ## Author
 **Mohammed Minhaj Mahmood**  
-Email: [minhajmuhammad229@gmail.com](mailto:minhajmuhammad229@gmail.com) | Portfolio: [mohammed-minhaj.netlify.app](https://mohammed-minhaj.netlify.app/)
+Email: [minhajmuhammad229@gmail.com](mailto:minhajmuhammad229@gmail.com) | WhatsApp: [+91 9908597337](https://api.whatsapp.com/send/?phone=919908597337) | LinkedIn: [muhammadminhaj229](https://www.linkedin.com/in/muhammadminhaj229/) | Portfolio: [mohammed-minhaj.netlify.app](https://mohammed-minhaj.netlify.app/)

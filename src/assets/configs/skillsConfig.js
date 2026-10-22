@@ -1,11 +1,12 @@
 import {
   SiPython,
-  SiPostgresql,
-  SiDocker,
   SiReact,
-  SiJavascript
+  SiTypescript,
+  SiStreamlit,
+  SiVercel,
+  SiMongodb
 } from "react-icons/si";
-import { FaGitAlt, FaBrain, FaCss3Alt, FaHtml5 } from "react-icons/fa";
+import { FaGitAlt, FaBrain, FaHtml5 } from "react-icons/fa";
 import React from "react";
 import StorageIcon from "@mui/icons-material/Storage";
 import QueryStatsIcon from "@mui/icons-material/QueryStats";
@@ -17,30 +18,25 @@ const ICON_SIZE = 50;
 
 const skillsConfig = {
   mainSkills: [
-    { id: "skills-main-python", className: "skill-icon", icon: <SiPython size={ICON_SIZE} />, text: "Python & R" },
-    { id: "skills-main-postgres", className: "skill-icon", icon: <SiPostgresql size={ICON_SIZE} />, text: "PostgreSQL" },
-    { id: "skills-main-ml", className: "skill-icon", icon: <FaBrain size={ICON_SIZE} />, text: "Scikit-Learn & XGBoost" },
-    { id: "skills-main-react", className: "skill-icon", icon: <SiReact size={ICON_SIZE} />, text: "React & Next.js" },
-    { id: "skills-main-docker", className: "skill-icon", icon: <SiDocker size={ICON_SIZE} />, text: "Docker & FastAPI" },
-    { id: "skills-main-git", className: "skill-icon", icon: <FaGitAlt size={ICON_SIZE} />, text: "Git & GitHub MLOps" }
+    { id: "skills-main-python", className: "skill-icon", icon: <SiPython size={ICON_SIZE} />, text: "Python & SQL" },
+    { id: "skills-main-ts-js", className: "skill-icon", icon: <SiTypescript size={ICON_SIZE} />, text: "TypeScript & JavaScript" },
+    { id: "skills-main-react-next", className: "skill-icon", icon: <SiReact size={ICON_SIZE} />, text: "React & Next.js" },
+    { id: "skills-main-data", className: "skill-icon", icon: <StorageIcon sx={{ fontSize: ICON_SIZE }} />, text: "Data Analysis & Pandas" },
+    { id: "skills-main-ml", className: "skill-icon", icon: <FaBrain size={ICON_SIZE} />, text: "Machine Learning (Scikit-Learn)" },
+    { id: "skills-main-streamlit", className: "skill-icon", icon: <SiStreamlit size={ICON_SIZE} />, text: "Streamlit App Development" },
+    { id: "skills-main-git", className: "skill-icon", icon: <FaGitAlt size={ICON_SIZE} />, text: "Git & Version Control" },
+    { id: "skills-main-vercel", className: "skill-icon", icon: <SiVercel size={ICON_SIZE} />, text: "Vercel & Web Deployment" }
   ],
   complementarySkills: [
-    { id: "skills-comp-sql", className: "skill-icon", icon: <StorageIcon sx={{ fontSize: ICON_SIZE }} />, text: "SQL / Relational DBs" },
-    { id: "skills-comp-shap", className: "skill-icon", icon: <InsightsIcon sx={{ fontSize: ICON_SIZE }} />, text: "SHAP Explainable AI" },
-    { id: "skills-comp-stats", className: "skill-icon", icon: <QueryStatsIcon sx={{ fontSize: ICON_SIZE }} />, text: "CausalML & A/B Testing" },
-    { id: "skills-comp-cloud", className: "skill-icon", icon: <CloudIcon sx={{ fontSize: ICON_SIZE }} />, text: "AWS & Cloud Systems" },
-    { id: "skills-comp-js", className: "skill-icon", icon: <SiJavascript size={ICON_SIZE} />, text: "JavaScript & ES6" },
-    { id: "skills-comp-css", className: "skill-icon", icon: <FaCss3Alt size={ICON_SIZE} />, text: "Tailwind & Vanilla CSS" },
-    { id: "skills-comp-html", className: "skill-icon", icon: <FaHtml5 size={ICON_SIZE} />, text: "HTML5 Semantic" },
-    { id: "skills-comp-bi", className: "skill-icon", icon: <QueryStatsIcon sx={{ fontSize: ICON_SIZE }} />, text: "Power BI & Tableau" },
+    { id: "skills-comp-quality", className: "skill-icon", icon: <QueryStatsIcon sx={{ fontSize: ICON_SIZE }} />, text: "Data Cleaning & Quality Checks" },
+    { id: "skills-comp-bi", className: "skill-icon", icon: <InsightsIcon sx={{ fontSize: ICON_SIZE }} />, text: "Power BI & Dashboards" },
+    { id: "skills-comp-mongodb", className: "skill-icon", icon: <SiMongodb size={ICON_SIZE} />, text: "MongoDB & Relational Databases" },
+    { id: "skills-comp-cloud", className: "skill-icon", icon: <CloudIcon sx={{ fontSize: ICON_SIZE }} />, text: "Cloudinary & Media Assets" },
+    { id: "skills-comp-vision", className: "skill-icon", icon: <TerminalIcon sx={{ fontSize: ICON_SIZE }} />, text: "MobileNetV2 & Image Classification" },
     { id: "skills-comp-sap", className: "skill-icon", icon: <StorageIcon sx={{ fontSize: ICON_SIZE }} />, text: "SAP Datasphere" },
-    { id: "skills-comp-auto", className: "skill-icon", icon: <TerminalIcon sx={{ fontSize: ICON_SIZE }} />, text: "SME Automation Engine" }
+    { id: "skills-comp-auto", className: "skill-icon", icon: <TerminalIcon sx={{ fontSize: ICON_SIZE }} />, text: "Business Workflow Automation" },
+    { id: "skills-comp-html", className: "skill-icon", icon: <FaHtml5 size={ICON_SIZE} />, text: "HTML5 & Modern CSS" }
   ]
 };
 
 export default skillsConfig;
-
-
-
-
-
