@@ -1,47 +1,71 @@
-# Mohammed Minhaj Mahmood — Personal Portfolio & Projects
+# Mohammed Minhaj Mahmood — Portfolio
 
-[![Live Portfolio](https://img.shields.io/badge/Live_Portfolio-mohammed--minhaj.netlify.app-06B6D4?style=for-the-badge&logo=netlify&logoColor=white)](https://mohammed-minhaj.netlify.app/)
-[![React](https://img.shields.io/badge/Framework-React_%2B_MUI-61DAFB?style=flat-square&logo=react&logoColor=black)](https://react.dev)
-[![Deployment](https://img.shields.io/badge/Hosting-Netlify-00C7B7?style=flat-square&logo=netlify&logoColor=white)](https://netlify.com)
+> Data & Business Automation Analyst · Full-Stack & AI Automation Engineer  
+> Hyderabad, India · [minhajmuhammad229@gmail.com](mailto:minhajmuhammad229@gmail.com) · [+91 9908597337](tel:+919908597337)
 
-The personal web portfolio of **Mohammed Minhaj Mahmood** — Data & Business Automation Analyst, Web Developer, and Founder at Alif Growth Media. Showcases work across website management (PHFI), AI feature testing (Sanad AI), client web platforms, and data automation tools.
-
----
-
-## Stack & Libraries
-
-- **Frontend:** React 18, Material UI (MUI), Emotion, JetBrains Mono font
-- **Analytics:** Google Analytics integration (`react-ga`)
-- **Hosting:** Netlify (with custom routing & client-side history rewrites)
+A modern, high-performance, interactive developer portfolio engineered with **React 19**, **Vite**, **Tailwind CSS**, **GSAP**, and **Three.js**.
 
 ---
 
-## Local Setup
+## Highlights
+
+- **Interactive Canvas Mesh**: Custom particle physics mesh reacting dynamically to cursor speed and position.
+- **Cinematic Micro-Interactions**: Lenis smooth scrolling, split-text typography animations, dynamic border glow, and flowing menus.
+- **Curated Projects**: Direct showcasing of production research automation, air quality AI, terrain classification, and data pipelines.
+- **Verified Achievements**: Quantitative impact cards across PHFI research, edge AI models, and Alif Growth Media.
+- **Mobile Responsive**: Tested and optimized across 320px mobile screens up to 4K displays with zero layout overflow.
+- **Seamless Direct Contact**: Serverless email delivery via FormSubmit with 1-click WhatsApp messaging.
+
+---
+
+## Tech Stack
+
+- **Core**: React 19, Vite 8, JavaScript (ESNext)
+- **Styling**: Tailwind CSS, Class Variance Authority, Tailwind Merge
+- **Animations**: GSAP, ScrollTrigger, Lenis Smooth Scroll
+- **3D & Graphics**: Three.js, React Three Fiber, React Three Drei
+- **Icons**: Phosphor Icons, Lucide Icons
+- **Deployment**: Vercel (Production Vite configuration)
+
+---
+
+## Getting Started
+
+### Prerequisites
+
+- Node.js 18+ (Node 20+ recommended)
+- npm or pnpm
+
+### Installation
 
 ```bash
-# 1. Clone repository
 git clone https://github.com/MuhammadMinhaj229/portfollio.git
 cd portfollio
-
-# 2. Install dependencies
 npm install
-
-# 3. Start local development server
-npm start
 ```
-Runs at [http://localhost:3000](http://localhost:3000).
+
+### Local Development
+
+```bash
+npm run dev
+```
+
+### Production Build & Preview
+
+```bash
+npm run build
+npm run preview
+```
 
 ---
 
-## How to Deploy to Netlify
+## Connect & Collaborate
 
-1. Link the repository to Netlify.
-2. Build command: `npm run build`
-3. Publish directory: `build`
-4. Deployed automatically with `netlify.toml` client-side redirect rules (`/* /index.html 200`).
+- **GitHub**: [@MuhammadMinhaj229](https://github.com/MuhammadMinhaj229)
+- **LinkedIn**: [Mohammed Minhaj Mahmood](https://www.linkedin.com/in/muhammadminhaj229/)
+- **WhatsApp**: [+91 9908597337](https://wa.me/919908597337)
+- **Email**: [minhajmuhammad229@gmail.com](mailto:minhajmuhammad229@gmail.com)
 
 ---
 
-## Author
-**Mohammed Minhaj Mahmood**  
-Email: [minhajmuhammad229@gmail.com](mailto:minhajmuhammad229@gmail.com) | WhatsApp: [+91 9908597337](https://api.whatsapp.com/send/?phone=919908597337) | LinkedIn: [muhammadminhaj229](https://www.linkedin.com/in/muhammadminhaj229/) | Portfolio: [mohammed-minhaj.netlify.app](https://mohammed-minhaj.netlify.app/)
+Licensed under the MIT License.
