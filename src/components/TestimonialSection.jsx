@@ -166,12 +166,18 @@ export default function TestimonialSection() {
       });
       if (res.ok) {
         const data = await res.json();
-        if (data.assistedReview) {
-          setFormData(prev => ({ ...prev, review: data.assistedReview }));
+        const assistedReview = data.assistedReview || data.review;
+        if (assistedReview) {
+          setFormData(prev => ({ ...prev, review: assistedReview }));
+        } else {
+          setFormError('Could not generate a draft. Please edit your notes and try again.');
         }
+      } else {
+        const data = await readJsonResponse(res);
+        setFormError(data.error || 'AI assistance is temporarily unavailable.');
       }
     } catch {
-      // Ignore assist error
+      setFormError('Network error. AI assistance is temporarily unavailable.');
     } finally {
       setIsAssisting(false);
     }

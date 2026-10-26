@@ -4,6 +4,7 @@ const COUNTER_KEY = 'resume:views';
 
 export default async function handler(req, res) {
   res.setHeader('Cache-Control', 'no-store, max-age=0');
+  res.setHeader('X-Content-Type-Options', 'nosniff');
 
   try {
     const redis = getRedisClient();
@@ -19,11 +20,9 @@ export default async function handler(req, res) {
       return res.status(200).json({ value });
     }
 
-    res.setHeader('Allow', ['GET', 'POST']);
+    res.setHeader('Allow', 'GET, POST');
     return res.status(405).json({ error: 'Method Not Allowed' });
-  } catch (error) {
-    return res.status(500).json({
-      error: error instanceof Error ? error.message : 'Resume counter failed',
-    });
+  } catch {
+    return res.status(503).json({ error: 'Resume counter is temporarily unavailable.' });
   }
 }

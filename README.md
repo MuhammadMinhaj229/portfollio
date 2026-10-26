@@ -1,71 +1,42 @@
 # Mohammed Minhaj Mahmood — Portfolio
 
-> Data & Business Automation Analyst · Full-Stack & AI Automation Engineer  
-> Hyderabad, India · [minhajmuhammad229@gmail.com](mailto:minhajmuhammad229@gmail.com) · [+91 9908597337](tel:+919908597337)
+React 19 + Vite portfolio with interactive visuals, project case studies, contact links, and Netlify Functions for reviews, AI-assisted review drafts, and resume-view counting.
 
-A modern, high-performance, interactive developer portfolio engineered with **React 19**, **Vite**, **Tailwind CSS**, **GSAP**, and **Three.js**.
+## Netlify deployment
 
----
+- **Build command:** `npm run build`
+- **Publish directory:** `dist`
+- **Functions directory:** `netlify/functions`
+- **Node runtime:** 22
+- **Routing:** `netlify.toml` maps `/api/*` to Netlify Functions and falls back to `index.html` for client-side routes.
 
-## Highlights
+Connect `MuhammadMinhaj229/portfollio` to Netlify and use these settings. Keep the base directory empty unless you intentionally build from a subdirectory.
 
-- **Interactive Canvas Mesh**: Custom particle physics mesh reacting dynamically to cursor speed and position.
-- **Cinematic Micro-Interactions**: Lenis smooth scrolling, split-text typography animations, dynamic border glow, and flowing menus.
-- **Curated Projects**: Direct showcasing of production research automation, air quality AI, terrain classification, and data pipelines.
-- **Verified Achievements**: Quantitative impact cards across PHFI research, edge AI models, and Alif Growth Media.
-- **Mobile Responsive**: Tested and optimized across 320px mobile screens up to 4K displays with zero layout overflow.
-- **Seamless Direct Contact**: Serverless email delivery via FormSubmit with 1-click WhatsApp messaging.
+### Environment variables
 
----
+Configure these in Netlify → Site configuration → Environment variables:
 
-## Tech Stack
+- `UPSTASH_REDIS_REST_URL` — Upstash Redis REST endpoint.
+- `UPSTASH_REDIS_REST_TOKEN` — Upstash Redis REST token.
+- `GEMINI_API_KEY` — Google Gemini API key for optional review assistance.
+- `GEMINI_MODEL` — optional model override; defaults to `gemini-2.5-flash`.
 
-- **Core**: React 19, Vite 8, JavaScript (ESNext)
-- **Styling**: Tailwind CSS, Class Variance Authority, Tailwind Merge
-- **Animations**: GSAP, ScrollTrigger, Lenis Smooth Scroll
-- **3D & Graphics**: Three.js, React Three Fiber, React Three Drei
-- **Icons**: Phosphor Icons, Lucide Icons
-- **Deployment**: Vercel (Production Vite configuration)
+Never commit secret values or expose provider keys in client code. Static content loads without optional services; reviews and resume counting need Redis, and AI assistance also needs Gemini.
 
----
-
-## Getting Started
-
-### Prerequisites
-
-- Node.js 18+ (Node 20+ recommended)
-- npm or pnpm
-
-### Installation
+### Local development and validation
 
 ```bash
-git clone https://github.com/MuhammadMinhaj229/portfollio.git
-cd portfollio
-npm install
-```
-
-### Local Development
-
-```bash
+npm ci
 npm run dev
-```
-
-### Production Build & Preview
-
-```bash
+npm run lint
 npm run build
-npm run preview
 ```
 
----
+After deployment, verify the home page, direct refreshes, resume download, contact form, and `/api/resume-views`, `/api/reviews`, and `/api/review-assist`. The contact form uses FormSubmit and may require first-time recipient confirmation.
 
-## Connect & Collaborate
+## Security and operations
 
-- **GitHub**: [@MuhammadMinhaj229](https://github.com/MuhammadMinhaj229)
-- **LinkedIn**: [Mohammed Minhaj Mahmood](https://www.linkedin.com/in/muhammadminhaj229/)
-- **WhatsApp**: [+91 9908597337](https://wa.me/919908597337)
-- **Email**: [minhajmuhammad229@gmail.com](mailto:minhajmuhammad229@gmail.com)
-
----
-
-Licensed under the MIT License.
+- Server errors return generic messages instead of provider/runtime details.
+- Review fields are bounded and submission attempts are rate-limited via Redis per client IP.
+- Rate limiting complements, rather than replaces, managed bot protection/WAF controls.
+- Public user-generated review content should be moderated before being presented as endorsed testimonials.
