@@ -5,10 +5,7 @@ export default async function handler(event) {
   if (blocked) return blocked;
   try {
     const redis = getRedisClient();
-    if (event.httpMethod === 'GET') {
-      const value = await redis.get(COUNTER_KEY);
-      return jsonResponse(200, { value: typeof value === 'number' ? value : Number(value) || 0 });
-    }
+    if (event.httpMethod === 'GET') { const value = await redis.get(COUNTER_KEY); return jsonResponse(200, { value: typeof value === 'number' ? value : Number(value) || 0 }); }
     return jsonResponse(200, { value: await redis.incr(COUNTER_KEY) });
   } catch (error) { return safeErrorResponse(error, 'Resume counter is temporarily unavailable.'); }
 }
