@@ -1,118 +1,49 @@
-const REVIEW_MIN_LENGTH = 60;
-const REVIEW_MAX_LENGTH = 200;
-const AI_TARGET_MIN_LENGTH = 170;
-const GEMINI_MODEL = process.env.GEMINI_MODEL || 'gemini-2.5-flash';
-
-function cleanReview(value) {
-  return String(value || '').replace(/^["'`]+|["'`]+$/g, '').replace(/\s+/g, ' ').trim();
+const MIN_LENGTH = 60;
+const MAX_LENGTH = 200;
+const TARGET_LENGTH = 170;
+const MODEL = process.env.GEMINI_MODEL || 'gemini-2.5-flash';
+function clean(value) { return String(value || '').replace(/^["'`]+|["'`]+$/g, '').replace(/\s+/g, ' ').trim(); }
+function response(status, body) {
+  return new Response(JSON.stringify(body), { status, headers: { 'Content-Type': 'application/json; charset=utf-8', 'Cache-Control': 'no-store', 'X-Content-Type-Options': 'nosniff' } });
 }
-
-function fitReview(value, occupation = '') {
-  let result = cleanReview(value).slice(0, REVIEW_MAX_LENGTH);
-  if (result.length < AI_TARGET_MIN_LENGTH) {
-    const additions = [
-      ` The work shows care and attention to detail${occupation ? ` for a ${cleanReview(occupation).slice(0, 50)}` : ''}.`,
-      ' The result is thoughtful, clear, and useful.',
-    ];
-    for (const addition of additions) {
-      if (result.length >= AI_TARGET_MIN_LENGTH || (result + addition).length > REVIEW_MAX_LENGTH) break;
-      result += addition;
-    }
-  }
-  if (result.length > REVIEW_MAX_LENGTH) {
-    const end = result.lastIndexOf(' ', REVIEW_MAX_LENGTH);
-    result = result.slice(0, end > REVIEW_MIN_LENGTH ? end : REVIEW_MAX_LENGTH).trim();
-  }
-  return result;
+function fit(value) {
+  const text = clean(value);
+  if (text.length <= MAX_LENGTH) return text;
+  const end = text.lastIndexOf(' ', MAX_LENGTH);
+  return text.slice(0, end > MIN_LENGTH ? end : MAX_LENGTH).trim();
 }
-
-async function generateReview(prompt) {
-  const apiKey = process.env.GEMINI_API_KEY;
-  if (!apiKey) {
-    const error = new Error('AI review assistance is not configured.');
-    error.statusCode = 503;
-    throw error;
-  }
-
-  const response = await fetch(
-    `https://generativelanguage.googleapis.com/v1beta/models/${encodeURIComponent(GEMINI_MODEL)}:generateContent?key=${encodeURIComponent(apiKey)}`,
-    {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({
-        contents: [{ role: 'user', parts: [{ text: prompt }] }],
-        generationConfig: { temperature: 0.45, maxOutputTokens: 120 },
-      }),
-      signal: AbortSignal.timeout(15_000),
-    }
-  );
-
-  const data = await response.json().catch(() => ({}));
-  if (!response.ok) {
-    const error = new Error('AI provider request failed.');
-    error.statusCode = response.status === 429 ? 429 : 502;
-    throw error;
-  }
-
-  return cleanReview(data?.candidates?.[0]?.content?.parts?.map((part) => part.text || '').join(' '));
+async function generate(prompt) {
+  const key = process.env.GEMINI_API_KEY;
+  if (!key) { const error = new Error('AI review assistance is not configured.'); error.statusCode = 503; throw error; }
+  const url = `https://generativelanguage.googleapis.com/v1beta/models/${encodeURIComponent(MODEL)}:generateContent?key=${encodeURIComponent(key)}`;
+  const result = await fetch(url, { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ contents: [{ role: 'user', parts: [{ text: prompt }] }], generationConfig: { temperature: 0.45, maxOutputTokens: 120 } }), signal: AbortSignal.timeout(15000) });
+  const data = await result.json().catch(() => ({}));
+  if (!result.ok) { const error = new Error('AI provider request failed.'); error.statusCode = result.status === 429 ? 429 : 502; throw error; }
+  return clean(data?.candidates?.[0]?.content?.parts?.map(part => part.text || '').join(' '));
 }
-
 export default async function handler(event) {
-  if (event.httpMethod !== 'POST') {
-    return new Response(JSON.stringify({ error: 'Method Not Allowed' }), {
-      status: 405,
-      headers: { 'Content-Type': 'application/json; charset=utf-8', Allow: 'POST', 'Cache-Control': 'no-store' },
-    });
-  }
-
+  if (event.httpMethod !== 'POST') return response(405, { error: 'Method Not Allowed' });
+  if ((event.body || '').length > 12000) return response(413, { error: 'Request body is too large.' });
+  let body;
+  try { body = JSON.parse(event.body || '{}'); } catch { return response(400, { error: 'Request body must be valid JSON.' }); }
+  const username = clean(body.username).slice(0, 80);
+  const occupation = clean(body.occupation).slice(0, 100);
+  const draft = clean(body.review).slice(0, 1000);
+  if (!draft && !occupation) return response(400, { error: 'Add a draft review or occupation first.' });
   try {
-    if ((event.body || '').length > 12_000) {
-      return new Response(JSON.stringify({ error: 'Request body is too large.' }), {
-        status: 413, headers: { 'Content-Type': 'application/json; charset=utf-8', 'Cache-Control': 'no-store' },
-      });
-    }
-    let body;
-    try { body = JSON.parse(event.body || '{}'); } catch {
-      return new Response(JSON.stringify({ error: 'Request body must be valid JSON.' }), {
-        status: 400, headers: { 'Content-Type': 'application/json; charset=utf-8', 'Cache-Control': 'no-store' },
-      });
-    }
-
-    const username = cleanReview(body.username).slice(0, 80);
-    const occupation = cleanReview(body.occupation).slice(0, 100);
-    const draft = cleanReview(body.review).slice(0, 1000);
-    if (!draft && !occupation) {
-      return new Response(JSON.stringify({ error: 'Add a draft review or occupation first.' }), {
-        status: 400, headers: { 'Content-Type': 'application/json; charset=utf-8', 'Cache-Control': 'no-store' },
-      });
-    }
-
     const prompt = [
-      'Rewrite or generate a portfolio review using only the supplied user-provided facts.',
-      `Return only review text with ${AI_TARGET_MIN_LENGTH}-${REVIEW_MAX_LENGTH} characters, as one natural and professional paragraph.`,
-      'Do not fabricate a personal experience or claim the author is a real customer; phrase this as a draft for the user to review and edit.',
+      'Rewrite or generate a portfolio review draft using only the supplied facts.',
+      `Return a natural professional paragraph of ${TARGET_LENGTH}-${MAX_LENGTH} characters.`,
+      'Do not fabricate personal experience or claim the author is an actual customer. This is a draft for the user to review and edit.',
       `Reviewer name: ${username || 'Not provided'}`,
       `Reviewer occupation: ${occupation || 'Not provided'}`,
-      `Draft: ${draft || 'Generate a neutral review draft based on the occupation, without claiming specific experience.'}`,
+      `Draft: ${draft || 'Generate a neutral draft from the occupation without claiming specific experience.'}`,
     ].join('\n');
-
-    let review = fitReview(await generateReview(prompt), occupation);
-    if (review.length < REVIEW_MIN_LENGTH) {
-      return new Response(JSON.stringify({ error: 'AI returned an unusable draft. Please edit your notes and retry.' }), {
-        status: 502, headers: { 'Content-Type': 'application/json; charset=utf-8', 'Cache-Control': 'no-store' },
-      });
-    }
-
-    return new Response(JSON.stringify({ review, assistedReview: review }), {
-      status: 200,
-      headers: { 'Content-Type': 'application/json; charset=utf-8', 'Cache-Control': 'no-store', 'X-Content-Type-Options': 'nosniff' },
-    });
+    const review = fit(await generate(prompt));
+    if (review.length < MIN_LENGTH) return response(502, { error: 'AI returned an unusable draft. Please edit your notes and retry.' });
+    return response(200, { review, assistedReview: review });
   } catch (error) {
-    const statusCode = Number.isInteger(error?.statusCode) ? error.statusCode : 500;
-    const message = statusCode < 500 ? error.message : 'AI review assistance is temporarily unavailable.';
-    return new Response(JSON.stringify({ error: message }), {
-      status: statusCode,
-      headers: { 'Content-Type': 'application/json; charset=utf-8', 'Cache-Control': 'no-store', 'X-Content-Type-Options': 'nosniff' },
-    });
+    const status = Number.isInteger(error?.statusCode) ? error.statusCode : 500;
+    return response(status, { error: status < 500 ? error.message : 'AI review assistance is temporarily unavailable.' });
   }
 }
