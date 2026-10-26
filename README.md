@@ -1,6 +1,6 @@
 # Mohammed Minhaj Mahmood — Portfolio
 
-A React 19 + Vite portfolio with interactive visuals, project case studies, contact links, and Netlify Functions for reviews, AI-assisted review drafts, and resume-view counting.
+React 19 + Vite portfolio with interactive visuals, project case studies, contact links, and Netlify Functions for reviews, AI-assisted review drafts, and resume-view counting.
 
 ## Netlify deployment
 
@@ -21,7 +21,7 @@ Configure these in Netlify → Site configuration → Environment variables:
 - `GEMINI_API_KEY` — Google Gemini API key for optional review assistance.
 - `GEMINI_MODEL` — optional model override; defaults to `gemini-2.5-flash`.
 
-Keep secret values in Netlify settings; never commit a `.env` file or expose provider keys in client-side code. Static content loads without optional services; reviews and resume counting need Redis, and AI assistance also needs Gemini.
+Never commit secret values or expose provider keys in client code. Static content loads without optional services; reviews and resume counting need Redis, and AI assistance also needs Gemini.
 
 ### Local development and validation
 
@@ -32,11 +32,11 @@ npm run lint
 npm run build
 ```
 
-After deployment, verify the home page, direct refreshes, resume download, contact form, and `/api/resume-views`, `/api/reviews`, and `/api/review-assist`. The contact form uses FormSubmit, which may require first-time recipient confirmation.
+After deployment, verify the home page, direct refreshes, resume download, contact form, and `/api/resume-views`, `/api/reviews`, and `/api/review-assist`. The contact form uses FormSubmit and may require first-time recipient confirmation.
 
 ## Security and operations
 
-- Server errors return generic messages rather than runtime/provider details.
+- Server errors return generic messages instead of provider/runtime details.
 - Review fields are bounded and submission attempts are rate-limited via Redis per client IP.
 - Rate limiting complements, rather than replaces, managed bot protection/WAF controls.
 - Public user-generated review content should be moderated before being presented as endorsed testimonials.
