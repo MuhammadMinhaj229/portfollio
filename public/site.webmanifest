@@ -1,0 +1,18 @@
+{
+  "name": "Mohammed Minhaj Mahmood | Data & Business Automation Analyst",
+  "short_name": "Minhaj",
+  "description": "Portfolio of Mohammed Minhaj Mahmood, showcasing data analysis, AI and business automation, and full-stack web development.",
+  "start_url": "/",
+  "scope": "/",
+  "display": "standalone",
+  "background_color": "#0b0812",
+  "theme_color": "#0b0812",
+  "icons": [
+    {
+      "src": "/favicon.svg?v=4",
+      "sizes": "any",
+      "type": "image/svg+xml",
+      "purpose": "any maskable"
+    }
+  ]
+}
