@@ -1,23 +1,15 @@
 import { Redis } from '@upstash/redis';
-
 let client;
 export function getRedisClient() {
   if (client) return client;
   const url = process.env.UPSTASH_REDIS_REST_URL;
   const token = process.env.UPSTASH_REDIS_REST_TOKEN;
-  if (!url || !token) {
-    const error = new Error('Storage is not configured.');
-    error.statusCode = 503;
-    throw error;
-  }
+  if (!url || !token) { const error = new Error('Storage is not configured.'); error.statusCode = 503; throw error; }
   client = new Redis({ url, token });
   return client;
 }
 export function jsonResponse(statusCode, body, extraHeaders = {}) {
-  return new Response(JSON.stringify(body), {
-    status: statusCode,
-    headers: { 'Content-Type': 'application/json; charset=utf-8', 'Cache-Control': 'no-store, max-age=0', 'X-Content-Type-Options': 'nosniff', ...extraHeaders },
-  });
+  return new Response(JSON.stringify(body), { status: statusCode, headers: { 'Content-Type': 'application/json; charset=utf-8', 'Cache-Control': 'no-store, max-age=0', 'X-Content-Type-Options': 'nosniff', ...extraHeaders } });
 }
 export function allowMethod(method, allowed) {
   if (method === 'OPTIONS') return new Response(null, { status: 204, headers: { Allow: allowed.join(', '), 'Cache-Control': 'no-store' } });
