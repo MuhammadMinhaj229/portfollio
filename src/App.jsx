@@ -756,6 +756,17 @@ function App() {
               </div>
               
             </div>
+
+            {/* Footer Authority & Rights */}
+            <div className="mt-14 sm:mt-20 pt-8 border-t border-white/10 flex flex-col sm:flex-row items-center justify-between gap-4 text-xs sm:text-sm text-gray-400">
+              <p>© {new Date().getFullYear()} Mohammed Minhaj Mahmood. All rights reserved.</p>
+              <div className="flex items-center gap-6">
+                <a href="https://github.com/MuhammadMinhaj229" target="_blank" rel="noreferrer" className="hover:text-white transition-colors">GitHub</a>
+                <a href="https://www.linkedin.com/in/muhammadminhaj229/" target="_blank" rel="noreferrer" className="hover:text-white transition-colors">LinkedIn</a>
+                <a href="https://wa.me/919908597337" target="_blank" rel="noreferrer" className="hover:text-white transition-colors">WhatsApp</a>
+                <a href="mailto:minhajmuhammad229@gmail.com" className="hover:text-white transition-colors">Email</a>
+              </div>
+            </div>
           </div>
         </div>
       </section>

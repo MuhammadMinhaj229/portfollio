@@ -1,7 +1,22 @@
 {
-  "name": "portfolio",
+  "name": "mohammed-minhaj-portfolio",
   "private": true,
-  "version": "0.0.0",
+  "version": "1.0.0",
+  "description": "Portfolio of Mohammed Minhaj Mahmood — Data & Business Automation Analyst, Full-Stack & AI Automation Engineer",
+  "author": {
+    "name": "Mohammed Minhaj Mahmood",
+    "email": "minhajmuhammad229@gmail.com",
+    "url": "https://github.com/MuhammadMinhaj229"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/MuhammadMinhaj229/portfollio.git"
+  },
+  "bugs": {
+    "url": "https://github.com/MuhammadMinhaj229/portfollio/issues"
+  },
+  "homepage": "https://github.com/MuhammadMinhaj229/portfollio#readme",
+  "license": "MIT",
   "type": "module",
   "scripts": {
     "dev": "vite",
