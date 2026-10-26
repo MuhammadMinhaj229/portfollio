@@ -118,3 +118,133 @@
     height: 100%;
   }
 }
+
+/* Responsive foundations: prevent accidental overflow without hiding usable content. */
+html {
+  width: 100%;
+  max-width: 100%;
+  overflow-x: clip;
+  scroll-padding-top: 5rem;
+}
+body, #root {
+  width: 100%;
+  max-width: 100%;
+  min-width: 0;
+}
+#root {
+  overflow-x: clip;
+}
+button, input, textarea, select {
+  font: inherit;
+}
+a, button, input, textarea, select {
+  -webkit-tap-highlight-color: transparent;
+}
+a, button {
+  touch-action: manipulation;
+}
+img, video, canvas, svg {
+  max-width: 100%;
+}
+pre, code {
+  overflow-wrap: anywhere;
+}
+:where(p, h1, h2, h3, h4, h5, h6, a, button, label, span) {
+  overflow-wrap: anywhere;
+}
+:where(input, textarea, select, button) {
+  min-width: 0;
+}
+:where(input, textarea, select) {
+  max-width: 100%;
+}
+:where(button, [role="button"], a.button) {
+  min-height: 44px;
+}
+section[id] {
+  scroll-margin-top: 5rem;
+}
+@media (max-width: 768px) {
+  html {
+    font-size: 16px !important;
+    scroll-padding-top: 4.5rem;
+  }
+  body {
+    width: 100%;
+    overflow-x: clip;
+    font-size: 1rem;
+  }
+  main, section, header, footer {
+    min-width: 0;
+    max-width: 100%;
+  }
+  h1 {
+    font-size: clamp(2.15rem, 10vw, 4rem);
+    line-height: 1.04;
+    letter-spacing: -0.045em;
+  }
+  h2 {
+    font-size: clamp(1.8rem, 7.2vw, 3rem);
+    line-height: 1.1;
+    letter-spacing: -0.035em;
+  }
+  p {
+    overflow-wrap: break-word;
+  }
+  button, input, textarea, select {
+    font-size: 16px;
+  }
+  input, textarea, select {
+    width: 100%;
+  }
+  /* Keep long contact addresses and project URLs inside their cards. */
+  a[href^="mailto:"], a[href^="tel:"], a[href*="wa.me"] {
+    overflow-wrap: anywhere;
+  }
+  /* Modals remain usable above the on-screen keyboard. */
+  [role="dialog"], .modal, [data-modal="true"] {
+    max-height: calc(100dvh - 1.5rem);
+    overflow-y: auto;
+    overscroll-behavior: contain;
+  }
+  /* Keep horizontal carousels usable without expanding the document width. */
+  .snap-x, [data-horizontal-scroll="true"] {
+    max-width: 100%;
+    overscroll-behavior-x: contain;
+    -webkit-overflow-scrolling: touch;
+  }
+}
+@media (max-width: 480px) {
+  .sm-scope .staggered-menu-header {
+    padding: 1rem !important;
+  }
+  .sm-scope .sm-logo span {
+    font-size: 1.35rem !important;
+  }
+  .sm-scope .sm-toggle {
+    font-size: 1.15rem !important;
+  }
+  /* Reduce oversized mobile gutters while retaining comfortable spacing. */
+  .px-12 {
+    padding-left: 1rem;
+    padding-right: 1rem;
+  }
+  .px-10 {
+    padding-left: 1rem;
+    padding-right: 1rem;
+  }
+  .gap-10 {
+    row-gap: 1.5rem;
+  }
+  .rounded-3xl {
+    border-radius: 1.25rem;
+  }
+}
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after {
+    scroll-behavior: auto !important;
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
+}
